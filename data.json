@@ -1,7 +1,7 @@
 {
-  "updatedAt": "2026-04-03T19:21:07.331Z",
+  "updatedAt": "2026-04-03T19:24:05.194Z",
   "total": 1084,
-  "total24h": 597,
+  "total24h": 596,
   "agentCount": 49,
   "agents": [
     {
@@ -44,7 +44,7 @@
       "addr": "0x1f6b0b803477d672662af5142067f86a5a6d4446",
       "name": "DegenerateTrader",
       "count": 72,
-      "count24h": 48
+      "count24h": 47
     },
     {
       "addr": "0xacd85f0be2bf5b47cea13bdcfa89e8d36fa2786d",
