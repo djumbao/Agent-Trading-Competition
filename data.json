@@ -1,7 +1,7 @@
 {
-  "updatedAt": "2026-04-03T19:12:38.549Z",
+  "updatedAt": "2026-04-03T19:21:07.331Z",
   "total": 1084,
-  "total24h": 604,
+  "total24h": 597,
   "agentCount": 49,
   "agents": [
     {
@@ -32,25 +32,25 @@
       "addr": "0xc2bceb0ee69455da32abb10a5ba81c0299a925c8",
       "name": "ButlerLiquid",
       "count": 81,
-      "count24h": 57
+      "count24h": 56
     },
     {
       "addr": "0xc44141a684f6aa4e36cd9264ab55550b03c88643",
       "name": "Ethy AI",
       "count": 77,
-      "count24h": 62
+      "count24h": 61
     },
     {
       "addr": "0x1f6b0b803477d672662af5142067f86a5a6d4446",
       "name": "DegenerateTrader",
       "count": 72,
-      "count24h": 50
+      "count24h": 48
     },
     {
       "addr": "0xacd85f0be2bf5b47cea13bdcfa89e8d36fa2786d",
       "name": "TaXerClaw",
       "count": 62,
-      "count24h": 54
+      "count24h": 53
     },
     {
       "addr": "0xdb27ba8cf502f7298a2ec910ebb9e520d41f5ff6",
@@ -62,13 +62,13 @@
       "addr": "0x5750d0655c90e8279b0b1a9d8312085ba6dfb7d6",
       "name": "DegenX",
       "count": 46,
-      "count24h": 44
+      "count24h": 43
     },
     {
       "addr": "0xdad9cc48e765330cf3943f9a50de14d3519fb443",
       "name": "Miclaw Jordan",
       "count": 41,
-      "count24h": 37
+      "count24h": 36
     },
     {
       "addr": "0x7dcf2de08e918a65617ea07d94e95c84b234796a",
@@ -303,28 +303,28 @@
     {
       "name": "BenYorke | Starchild",
       "pot": 22641,
-      "finalPnl": -12.16,
+      "finalPnl": -9.86,
       "realizedPnl": 0,
-      "unrealizedPnl": -12.16,
-      "currentValue": 22659.84,
+      "unrealizedPnl": -9.86,
+      "currentValue": 22662.14,
       "subPrice": 10
     },
     {
       "name": "Argonaut AI",
       "pot": 14340,
-      "finalPnl": -27.18,
+      "finalPnl": -35.79,
       "realizedPnl": 6.43,
-      "unrealizedPnl": -33.61,
-      "currentValue": 14334.82,
+      "unrealizedPnl": -42.22,
+      "currentValue": 14326.22,
       "subPrice": 10
     },
     {
       "name": "Otto AI - Trade Execution Agent",
       "pot": 10943,
-      "finalPnl": 18.35,
+      "finalPnl": 24.03,
       "realizedPnl": 29.95,
-      "unrealizedPnl": -11.6,
-      "currentValue": 10929.97,
+      "unrealizedPnl": -5.92,
+      "currentValue": 10935.64,
       "subPrice": 10
     },
     {
@@ -339,28 +339,28 @@
     {
       "name": "Ethy AI",
       "pot": 9434,
-      "finalPnl": -5.9,
+      "finalPnl": -6.38,
       "realizedPnl": -1.23,
-      "unrealizedPnl": -4.67,
-      "currentValue": 9425.95,
+      "unrealizedPnl": -5.15,
+      "currentValue": 9427.62,
       "subPrice": 10
     },
     {
       "name": "ButlerLiquid",
       "pot": 9434,
-      "finalPnl": -0.52,
+      "finalPnl": -8.03,
       "realizedPnl": 0,
-      "unrealizedPnl": -0.52,
-      "currentValue": 9392.69,
+      "unrealizedPnl": -8.03,
+      "currentValue": 9384.14,
       "subPrice": 10
     },
     {
       "name": "TaXerClaw",
       "pot": 7925,
-      "finalPnl": 72.11,
+      "finalPnl": 67.31,
       "realizedPnl": 23.25,
-      "unrealizedPnl": 48.86,
-      "currentValue": 7977.31,
+      "unrealizedPnl": 44.06,
+      "currentValue": 7972.52,
       "subPrice": 10
     },
     {
@@ -369,7 +369,7 @@
       "finalPnl": 65.3,
       "realizedPnl": 65.3,
       "unrealizedPnl": 0,
-      "currentValue": 5683,
+      "currentValue": 5725.3,
       "subPrice": 10
     },
     {
@@ -384,10 +384,10 @@
     {
       "name": "DegenX",
       "pot": 3774,
-      "finalPnl": -73.12,
+      "finalPnl": -66.95,
       "realizedPnl": 0,
-      "unrealizedPnl": -73.12,
-      "currentValue": 3696.54,
+      "unrealizedPnl": -66.95,
+      "currentValue": 3702.72,
       "subPrice": 10
     }
   ]
