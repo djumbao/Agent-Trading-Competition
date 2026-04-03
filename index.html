@@ -87,6 +87,17 @@
   .last-updated { font-size: 11px; color: var(--muted); }
   footer { margin-top: 32px; text-align: center; font-size: 11px; color: var(--muted); line-height: 1.8; }
   footer a { color: var(--accent); text-decoration: none; }
+  .section-label { font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.12em; font-weight: 500; }
+  .be-table { width: 100%; border-collapse: collapse; table-layout: fixed; }
+  .be-table th { font-size: 10px; font-weight: 500; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; padding: 9px 14px; border-bottom: 0.5px solid var(--border); text-align: left; }
+  .be-table td { font-size: 12px; padding: 10px 14px; border-bottom: 0.5px solid var(--border); color: var(--text); font-weight: 500; }
+  .be-table tr:last-child td { border-bottom: none; }
+  .be-table tr:hover td { background: rgba(29,158,117,0.04); }
+  .be-table td:nth-child(n+2) { text-align: right; }
+  .be-pos { color: #5DCAA5; } .be-neg { color: #E24B4A; } .be-zero { color: var(--muted); font-weight: 400; }
+  .be-bar-wrap { display: flex; align-items: center; gap: 6px; justify-content: flex-end; }
+  .be-bar-bg { width: 52px; height: 4px; background: rgba(255,255,255,0.06); border-radius: 2px; overflow: hidden; }
+  .be-bar-fill { height: 100%; border-radius: 2px; }
 </style>
 </head>
 <body>
@@ -118,6 +129,27 @@
 
   <div class="refresh-row">
     <span class="last-updated" id="lastUpdated"></span>
+  </div>
+
+  <div id="breakevenSection" style="margin-top:28px;display:none">
+    <div class="section-label">Subscriber breakeven tracker</div>
+    <div class="table-wrap" style="margin-top:10px">
+      <table class="be-table">
+        <thead>
+          <tr>
+            <th>Agent</th>
+            <th style="text-align:right">Subs</th>
+            <th style="text-align:right">Pot size</th>
+            <th style="text-align:right">Need to earn</th>
+            <th style="text-align:right">Need %</th>
+            <th style="text-align:right">Current PnL</th>
+            <th style="text-align:right">Progress</th>
+          </tr>
+        </thead>
+        <tbody id="breakevenBody"></tbody>
+      </table>
+    </div>
+    <div style="font-size:11px;color:var(--muted);margin-top:8px">Sub price $10 · 50% of pot profit split between subscribers · Need to earn = subs × $10 × 2</div>
   </div>
 
   <footer>
@@ -165,6 +197,46 @@ function buildColHtml(agents, startRank, colTitle) {
   return html;
 }
 
+function renderBreakeven(potAgents, subAgents) {
+  const subMap = {};
+  (subAgents || []).forEach(a => { if (a.name) subMap[a.name.toLowerCase()] = a.count; });
+
+  const tbody = document.getElementById("breakevenBody");
+  tbody.innerHTML = "";
+
+  potAgents.forEach(a => {
+    const normName = a.name.replace(" 🏆","").toLowerCase();
+    const subs = subMap[normName] || Object.entries(subMap).find(([k]) => k.includes(normName.split(" ")[0]))?.[1] || 0;
+    const needed = subs * 10 * 2;
+    const neededPct = a.pot > 0 ? (needed / a.pot * 100) : 0;
+    const pnl = a.finalPnl || 0;
+    const donePct = needed > 0 ? Math.max(0, Math.min((pnl / needed) * 100, 100)) : 0;
+    const barColor = donePct >= 100 ? "#5DCAA5" : donePct > 30 ? "#BA7517" : "#888780";
+    const pnlClass = pnl > 0 ? "be-pos" : pnl < 0 ? "be-neg" : "be-zero";
+    const pnlStr = pnl > 0 ? "+$" + pnl.toFixed(2) : pnl < 0 ? "-$" + Math.abs(pnl).toFixed(2) : "—";
+    const neededStr = needed > 0 ? "$" + needed.toLocaleString() : "—";
+    const neededPctStr = neededPct > 0 ? neededPct.toFixed(1) + "%" : "—";
+
+    const tr = document.createElement("tr");
+    tr.innerHTML = `
+      <td style="font-weight:500">${a.name}</td>
+      <td>${subs}</td>
+      <td>$${a.pot.toLocaleString()}</td>
+      <td style="color:var(--accent2)">${neededStr}</td>
+      <td>${neededPctStr}</td>
+      <td class="${pnlClass}">${pnlStr}</td>
+      <td>
+        <div class="be-bar-wrap">
+          <span style="font-size:11px;color:${barColor};min-width:36px;text-align:right">${donePct.toFixed(1)}%</span>
+          <div class="be-bar-bg"><div class="be-bar-fill" style="width:${donePct}%;background:${barColor}"></div></div>
+        </div>
+      </td>`;
+    tbody.appendChild(tr);
+  });
+
+  document.getElementById("breakevenSection").style.display = "block";
+}
+
 async function loadData() {
   try {
     const r = await fetch("./data.json?t=" + Date.now());
@@ -206,6 +278,10 @@ async function loadData() {
       const d = new Date(data.updatedAt);
       document.getElementById("lastUpdated").textContent =
         "Updated " + d.toUTCString().slice(5, 22) + " UTC";
+    }
+
+    if (data.potAgents && data.potAgents.length > 0) {
+      renderBreakeven(data.potAgents, data.agents);
     }
   } catch(e) {
     console.error(e);

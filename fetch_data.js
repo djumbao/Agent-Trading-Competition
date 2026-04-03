@@ -109,12 +109,33 @@ async function main() {
       count24h: counts24h[addr] || 0,
     }));
 
+  console.log("Fetching pot-agents data...");
+  let potAgents = [];
+  try {
+    const potData = await fetchJson("https://degen.virtuals.io/api/pot-agents");
+    if (potData.success && potData.data) {
+      potAgents = potData.data.map(a => ({
+        name: a.currentSeason?.copyTradeAgentName || a.name,
+        pot: a.currentSeason?.startingCapital || 0,
+        finalPnl: a.currentSeason?.finalPnl || 0,
+        realizedPnl: a.currentSeason?.realizedPnl || 0,
+        unrealizedPnl: a.currentSeason?.unrealizedPnl || 0,
+        currentValue: a.currentSeason?.currentValue || 0,
+        subPrice: 10,
+      }));
+      console.log(`Fetched ${potAgents.length} pot agents`);
+    }
+  } catch(e) {
+    console.error("Failed to fetch pot-agents:", e.message);
+  }
+
   const result = {
     updatedAt: new Date().toISOString(),
     total,
     total24h,
     agentCount: sorted.length,
     agents: sorted,
+    potAgents,
   };
 
   fs.writeFileSync("data.json", JSON.stringify(result, null, 2));
