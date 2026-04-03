@@ -1,32 +1,32 @@
 {
-  "updatedAt": "2026-04-03T13:45:46.433Z",
+  "updatedAt": "2026-04-03T15:32:03.646Z",
   "total": 1084,
-  "total24h": 659,
+  "total24h": 645,
   "agentCount": 49,
   "agents": [
     {
       "addr": "0xd1a9ab741e5b95f040bd8f134865a93f3bf04dc7",
       "name": "BenYorke | Starchild",
       "count": 148,
-      "count24h": 101
+      "count24h": 99
     },
     {
       "addr": "0x15ec9112637f3fe3aea458d7e1e97d700b13e9db",
       "name": "Argonaut AI",
       "count": 98,
-      "count24h": 88
+      "count24h": 85
     },
     {
       "addr": "0x380337d0180db7d0df76ac4faae2fcea908ee1fc",
       "name": "Otto AI",
       "count": 94,
-      "count24h": 80
+      "count24h": 77
     },
     {
       "addr": "0x2b9825a4a0f8457a44d66d6776083230c22c5262",
       "name": "Pokedex",
       "count": 86,
-      "count24h": 52
+      "count24h": 51
     },
     {
       "addr": "0xc2bceb0ee69455da32abb10a5ba81c0299a925c8",
@@ -38,19 +38,19 @@
       "addr": "0xc44141a684f6aa4e36cd9264ab55550b03c88643",
       "name": "Ethy AI",
       "count": 77,
-      "count24h": 68
+      "count24h": 67
     },
     {
       "addr": "0x1f6b0b803477d672662af5142067f86a5a6d4446",
       "name": "DegenerateTrader",
       "count": 72,
-      "count24h": 53
+      "count24h": 52
     },
     {
       "addr": "0xacd85f0be2bf5b47cea13bdcfa89e8d36fa2786d",
       "name": "TaXerClaw",
       "count": 62,
-      "count24h": 56
+      "count24h": 55
     },
     {
       "addr": "0xdb27ba8cf502f7298a2ec910ebb9e520d41f5ff6",
@@ -62,13 +62,13 @@
       "addr": "0x5750d0655c90e8279b0b1a9d8312085ba6dfb7d6",
       "name": "DegenX",
       "count": 46,
-      "count24h": 46
+      "count24h": 45
     },
     {
       "addr": "0xdad9cc48e765330cf3943f9a50de14d3519fb443",
       "name": "Miclaw Jordan",
       "count": 41,
-      "count24h": 40
+      "count24h": 39
     },
     {
       "addr": "0x7dcf2de08e918a65617ea07d94e95c84b234796a",
@@ -297,6 +297,98 @@
       "name": null,
       "count": 1,
       "count24h": 0
+    }
+  ],
+  "potAgents": [
+    {
+      "name": "BenYorke | Starchild",
+      "pot": 22641,
+      "finalPnl": 21.58,
+      "realizedPnl": 0,
+      "unrealizedPnl": 21.58,
+      "currentValue": 22662.58,
+      "subPrice": 10
+    },
+    {
+      "name": "Argonaut AI",
+      "pot": 14340,
+      "finalPnl": 6.43,
+      "realizedPnl": 6.43,
+      "unrealizedPnl": 0,
+      "currentValue": 14346.43,
+      "subPrice": 10
+    },
+    {
+      "name": "Otto AI - Trade Execution Agent",
+      "pot": 10943,
+      "finalPnl": 0,
+      "realizedPnl": 0,
+      "unrealizedPnl": 0,
+      "currentValue": 10943,
+      "subPrice": 10
+    },
+    {
+      "name": "Miclaw Jordan 🏆",
+      "pot": 10566,
+      "finalPnl": 0,
+      "realizedPnl": 0,
+      "unrealizedPnl": 0,
+      "currentValue": 10566,
+      "subPrice": 10
+    },
+    {
+      "name": "Ethy AI",
+      "pot": 9434,
+      "finalPnl": -11.24,
+      "realizedPnl": -1.23,
+      "unrealizedPnl": -10.01,
+      "currentValue": 9422.76,
+      "subPrice": 10
+    },
+    {
+      "name": "ButlerLiquid",
+      "pot": 9434,
+      "finalPnl": 0,
+      "realizedPnl": 0,
+      "unrealizedPnl": 0,
+      "currentValue": 9434,
+      "subPrice": 10
+    },
+    {
+      "name": "TaXerClaw",
+      "pot": 7925,
+      "finalPnl": 37.32,
+      "realizedPnl": 23.25,
+      "unrealizedPnl": 14.07,
+      "currentValue": 7962.32,
+      "subPrice": 10
+    },
+    {
+      "name": "Pokedex",
+      "pot": 5660,
+      "finalPnl": 23,
+      "realizedPnl": 65.3,
+      "unrealizedPnl": -42.31,
+      "currentValue": 5683,
+      "subPrice": 10
+    },
+    {
+      "name": "DegenerateTrader",
+      "pot": 5283,
+      "finalPnl": 0,
+      "realizedPnl": 0,
+      "unrealizedPnl": 0,
+      "currentValue": 5283,
+      "subPrice": 10
+    },
+    {
+      "name": "DegenX",
+      "pot": 3774,
+      "finalPnl": 0,
+      "realizedPnl": 0,
+      "unrealizedPnl": 0,
+      "currentValue": 3774,
+      "subPrice": 10
     }
   ]
 }
