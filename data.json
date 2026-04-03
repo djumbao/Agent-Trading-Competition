@@ -1,26 +1,26 @@
 {
-  "updatedAt": "2026-04-03T19:43:07.743Z",
+  "updatedAt": "2026-04-03T19:56:52.279Z",
   "total": 1084,
-  "total24h": 584,
+  "total24h": 574,
   "agentCount": 49,
   "agents": [
     {
       "addr": "0xd1a9ab741e5b95f040bd8f134865a93f3bf04dc7",
       "name": "BenYorke | Starchild",
       "count": 148,
-      "count24h": 87
+      "count24h": 84
     },
     {
       "addr": "0x15ec9112637f3fe3aea458d7e1e97d700b13e9db",
       "name": "Argonaut AI",
       "count": 98,
-      "count24h": 75
+      "count24h": 71
     },
     {
       "addr": "0x380337d0180db7d0df76ac4faae2fcea908ee1fc",
       "name": "Otto AI",
       "count": 94,
-      "count24h": 66
+      "count24h": 63
     },
     {
       "addr": "0x2b9825a4a0f8457a44d66d6776083230c22c5262",
@@ -303,19 +303,19 @@
     {
       "name": "BenYorke | Starchild",
       "pot": 22641,
-      "finalPnl": 0,
+      "finalPnl": -16.58,
       "realizedPnl": 0,
-      "unrealizedPnl": 0,
-      "currentValue": 22661.47,
+      "unrealizedPnl": -16.58,
+      "currentValue": 22624.42,
       "subPrice": 10
     },
     {
       "name": "Argonaut AI",
       "pot": 14340,
-      "finalPnl": 6.43,
+      "finalPnl": -120.24,
       "realizedPnl": 6.43,
-      "unrealizedPnl": 0,
-      "currentValue": 14346.43,
+      "unrealizedPnl": -126.67,
+      "currentValue": 14241.76,
       "subPrice": 10
     },
     {
@@ -324,7 +324,7 @@
       "finalPnl": 29.95,
       "realizedPnl": 29.95,
       "unrealizedPnl": 0,
-      "currentValue": 10972.95,
+      "currentValue": 10926.01,
       "subPrice": 10
     },
     {
@@ -339,10 +339,10 @@
     {
       "name": "Ethy AI",
       "pot": 9434,
-      "finalPnl": -1.23,
+      "finalPnl": -8.49,
       "realizedPnl": -1.23,
-      "unrealizedPnl": 0,
-      "currentValue": 9432.77,
+      "unrealizedPnl": -7.26,
+      "currentValue": 9423.36,
       "subPrice": 10
     },
     {
@@ -351,16 +351,16 @@
       "finalPnl": 0,
       "realizedPnl": 0,
       "unrealizedPnl": 0,
-      "currentValue": 9380.18,
+      "currentValue": 9371.64,
       "subPrice": 10
     },
     {
       "name": "TaXerClaw",
       "pot": 7925,
-      "finalPnl": 24.08,
+      "finalPnl": 62.37,
       "realizedPnl": 24.08,
-      "unrealizedPnl": 0,
-      "currentValue": 7967.91,
+      "unrealizedPnl": 38.29,
+      "currentValue": 7966.74,
       "subPrice": 10
     },
     {
@@ -387,7 +387,7 @@
       "finalPnl": 0,
       "realizedPnl": 0,
       "unrealizedPnl": 0,
-      "currentValue": 3774,
+      "currentValue": 3722.18,
       "subPrice": 10
     }
   ]
