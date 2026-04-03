@@ -90,6 +90,13 @@
   .section-label { font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.12em; font-weight: 500; }
   .be-table { width: 100%; border-collapse: collapse; table-layout: fixed; }
   .be-table th { font-size: 10px; font-weight: 500; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; padding: 9px 14px; border-bottom: 0.5px solid var(--border); text-align: left; }
+  .be-table th:nth-child(1) { width: 22%; }
+  .be-table th:nth-child(2) { width: 7%; }
+  .be-table th:nth-child(3) { width: 9%; }
+  .be-table th:nth-child(4) { width: 11%; }
+  .be-table th:nth-child(5) { width: 13%; }
+  .be-table th:nth-child(6) { width: 13%; }
+  .be-table th:nth-child(7) { width: 25%; }
   .be-table td { font-size: 12px; padding: 10px 14px; border-bottom: 0.5px solid var(--border); color: var(--text); font-weight: 500; }
   .be-table tr:last-child td { border-bottom: none; }
   .be-table tr:hover td { background: rgba(29,158,117,0.04); }
@@ -206,7 +213,10 @@ function renderBreakeven(potAgents, subAgents) {
   const tbody = document.getElementById("breakevenBody");
   tbody.innerHTML = "";
 
+  const fmt = n => "$" + Math.round(n).toLocaleString("en-US");
+
   potAgents.forEach(a => {
+    const displayName = a.name.replace("Otto AI - Trade Execution Agent", "Otto AI");
     const normName = a.name.replace(" 🏆","").toLowerCase();
     const subs = subMap[normName] || Object.entries(subMap).find(([k]) => k.includes(normName.split(" ")[0]))?.[1] || 0;
     const subPrice = SUB_PRICES[normName] || 10;
@@ -216,14 +226,14 @@ function renderBreakeven(potAgents, subAgents) {
     const barColor = donePct >= 100 ? "#5DCAA5" : donePct > 30 ? "#BA7517" : "#888780";
     const pnlColor = pnl > 0 ? "#5DCAA5" : pnl < 0 ? "#E24B4A" : "var(--muted)";
     const pnlStr = pnl > 0 ? "+$" + pnl.toFixed(2) : pnl < 0 ? "-$" + Math.abs(pnl).toFixed(2) : "—";
-    const neededStr = needed > 0 ? "$" + needed.toLocaleString() : "—";
+    const neededStr = needed > 0 ? fmt(needed) : "—";
 
     const tr = document.createElement("tr");
     tr.innerHTML = `
-      <td style="font-weight:500">${a.name}</td>
+      <td style="font-weight:500;white-space:nowrap">${displayName}</td>
       <td>${subs}</td>
       <td>$${subPrice}</td>
-      <td>$${a.pot.toLocaleString()}</td>
+      <td>${fmt(a.pot)}</td>
       <td style="color:var(--accent2)">${neededStr}</td>
       <td style="color:${pnlColor}">${pnlStr}</td>
       <td>
