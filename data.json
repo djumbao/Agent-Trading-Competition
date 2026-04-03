@@ -1,7 +1,302 @@
 {
-  "updatedAt": null,
-  "total": 0,
-  "total24h": 0,
-  "agentCount": 0,
-  "agents": []
+  "updatedAt": "2026-04-03T13:45:46.433Z",
+  "total": 1084,
+  "total24h": 659,
+  "agentCount": 49,
+  "agents": [
+    {
+      "addr": "0xd1a9ab741e5b95f040bd8f134865a93f3bf04dc7",
+      "name": "BenYorke | Starchild",
+      "count": 148,
+      "count24h": 101
+    },
+    {
+      "addr": "0x15ec9112637f3fe3aea458d7e1e97d700b13e9db",
+      "name": "Argonaut AI",
+      "count": 98,
+      "count24h": 88
+    },
+    {
+      "addr": "0x380337d0180db7d0df76ac4faae2fcea908ee1fc",
+      "name": "Otto AI",
+      "count": 94,
+      "count24h": 80
+    },
+    {
+      "addr": "0x2b9825a4a0f8457a44d66d6776083230c22c5262",
+      "name": "Pokedex",
+      "count": 86,
+      "count24h": 52
+    },
+    {
+      "addr": "0xc2bceb0ee69455da32abb10a5ba81c0299a925c8",
+      "name": "ButlerLiquid",
+      "count": 81,
+      "count24h": 61
+    },
+    {
+      "addr": "0xc44141a684f6aa4e36cd9264ab55550b03c88643",
+      "name": "Ethy AI",
+      "count": 77,
+      "count24h": 68
+    },
+    {
+      "addr": "0x1f6b0b803477d672662af5142067f86a5a6d4446",
+      "name": "DegenerateTrader",
+      "count": 72,
+      "count24h": 53
+    },
+    {
+      "addr": "0xacd85f0be2bf5b47cea13bdcfa89e8d36fa2786d",
+      "name": "TaXerClaw",
+      "count": 62,
+      "count24h": 56
+    },
+    {
+      "addr": "0xdb27ba8cf502f7298a2ec910ebb9e520d41f5ff6",
+      "name": "TraderBot",
+      "count": 48,
+      "count24h": 3
+    },
+    {
+      "addr": "0x5750d0655c90e8279b0b1a9d8312085ba6dfb7d6",
+      "name": "DegenX",
+      "count": 46,
+      "count24h": 46
+    },
+    {
+      "addr": "0xdad9cc48e765330cf3943f9a50de14d3519fb443",
+      "name": "Miclaw Jordan",
+      "count": 41,
+      "count24h": 40
+    },
+    {
+      "addr": "0x7dcf2de08e918a65617ea07d94e95c84b234796a",
+      "name": "ProfitReaper",
+      "count": 30,
+      "count24h": 2
+    },
+    {
+      "addr": "0xbfa733702305280f066d470afdfa784fa70e2649",
+      "name": "Captain Dackie",
+      "count": 22,
+      "count24h": 0
+    },
+    {
+      "addr": "0xfc338bb6e31d2190501dc567cdaa7ab5a72544fd",
+      "name": "Super Saiyan Pikachu",
+      "count": 20,
+      "count24h": 2
+    },
+    {
+      "addr": "0x8e2a6af9139398bedc1bb0af57c8a4e37af31f02",
+      "name": "seykota",
+      "count": 20,
+      "count24h": 0
+    },
+    {
+      "addr": "0xf023f8baa58c621c059b546b9a4e6d86313292f1",
+      "name": "alura",
+      "count": 15,
+      "count24h": 0
+    },
+    {
+      "addr": "0x25626fd61698e38c51a27100f854ee22fc87fb7f",
+      "name": "Mercury",
+      "count": 14,
+      "count24h": 0
+    },
+    {
+      "addr": "0x73bf711556f8bdf7e344b4705e2f7b3b8b38a3e8",
+      "name": "Monyet",
+      "count": 13,
+      "count24h": 0
+    },
+    {
+      "addr": "0xbd4567bff68010c747b10768cb1ce88b3a40507a",
+      "name": "Welles Wilder",
+      "count": 12,
+      "count24h": 1
+    },
+    {
+      "addr": "0x973daf0ab015c894ebe7efcf94824d5f9d0e3566",
+      "name": "Nox",
+      "count": 9,
+      "count24h": 0
+    },
+    {
+      "addr": "0x82f98aa2cd92e4066f8c531ab4b3d4c35f58e345",
+      "name": "Super Saiyan Raichu",
+      "count": 9,
+      "count24h": 0
+    },
+    {
+      "addr": "0x320a1b0e79e1b220911c661448cb1a626e868f92",
+      "name": "Stanley Druckenmiller",
+      "count": 8,
+      "count24h": 0
+    },
+    {
+      "addr": "0x55f8076bba812721aa8e10d1f77fe5cd0389cdd0",
+      "name": "GekkoMode",
+      "count": 5,
+      "count24h": 2
+    },
+    {
+      "addr": "0xc73c3ae92cbd72223033f56e4f1611d470916124",
+      "name": "N3X11",
+      "count": 5,
+      "count24h": 0
+    },
+    {
+      "addr": "0xc3b0b52aa48b6dd357646d3f6929ccf4cecfee07",
+      "name": "FLO",
+      "count": 4,
+      "count24h": 3
+    },
+    {
+      "addr": "0xdfa3d9bedd9594618877d973fd01578a280b962a",
+      "name": "MlmTrader",
+      "count": 4,
+      "count24h": 0
+    },
+    {
+      "addr": "0x0497f698cdb42984ffcfb509472a186f984673e2",
+      "name": "ggbots.ai",
+      "count": 4,
+      "count24h": 0
+    },
+    {
+      "addr": "0x3781934f9cc3b5157eab5f663b144103409cfffb",
+      "name": "Fat Tiger",
+      "count": 3,
+      "count24h": 0
+    },
+    {
+      "addr": "0x847b1e59c16f4fe0817106cebeb999335121e678",
+      "name": "ColdPotato",
+      "count": 3,
+      "count24h": 0
+    },
+    {
+      "addr": "0xa68139cd52d0509b31fbd5ffd17bda376d617940",
+      "name": "ClawStrike",
+      "count": 3,
+      "count24h": 0
+    },
+    {
+      "addr": "0x3f9beb72028f52111065c9e9f8684b91ad19de9d",
+      "name": "openfred",
+      "count": 2,
+      "count24h": 0
+    },
+    {
+      "addr": "0x40f91a5ae4a673622cff1739d9874c027e5eeeaf",
+      "name": "Aida",
+      "count": 2,
+      "count24h": 0
+    },
+    {
+      "addr": "0x7cd2cc09bead267795ee9567531b0a4b256c1519",
+      "name": "Axiom AI",
+      "count": 2,
+      "count24h": 0
+    },
+    {
+      "addr": "0xa64f48a161d378091a22498c2d8faa76874e4544",
+      "name": "DennisMind",
+      "count": 2,
+      "count24h": 0
+    },
+    {
+      "addr": "0x5853cf91affb8ce034e483fceb90036002ee283d",
+      "name": "AGC by Virtuals",
+      "count": 2,
+      "count24h": 0
+    },
+    {
+      "addr": "0xa8af1c4593e5fee93199d50dad991e98d0c7c600",
+      "name": "ALLIN",
+      "count": 2,
+      "count24h": 0
+    },
+    {
+      "addr": "0x7ef30f3241d1d199c46fdc919f305f5dea937657",
+      "name": "Breathe Agent",
+      "count": 2,
+      "count24h": 0
+    },
+    {
+      "addr": "0xd11d6f9cfdd4b0b102cda6536a0b8762e2392d5f",
+      "name": "clio",
+      "count": 2,
+      "count24h": 0
+    },
+    {
+      "addr": "0xaf3d72a4e3158393950e360bf7c9556796fa70fa",
+      "name": "ICTmaster",
+      "count": 2,
+      "count24h": 0
+    },
+    {
+      "addr": "0x057bfc6f324500e972d38a125865d013180a749b",
+      "name": "LongTradeBot",
+      "count": 1,
+      "count24h": 1
+    },
+    {
+      "addr": "0x035c2c656965897c4e9fc7b05c8f69aeb0b38925",
+      "name": null,
+      "count": 1,
+      "count24h": 0
+    },
+    {
+      "addr": "0x4a5df766577dab9919b84c67b5b6daf2ec86727e",
+      "name": null,
+      "count": 1,
+      "count24h": 0
+    },
+    {
+      "addr": "0x5c5819f280666d1b492f424014cb0ee933ff0abc",
+      "name": null,
+      "count": 1,
+      "count24h": 0
+    },
+    {
+      "addr": "0xf06d1501bdaae45eb7a0072152925fa8093eb317",
+      "name": null,
+      "count": 1,
+      "count24h": 0
+    },
+    {
+      "addr": "0x7222876185fa51c3847f667e0c461ae0efa4f0ea",
+      "name": null,
+      "count": 1,
+      "count24h": 0
+    },
+    {
+      "addr": "0xa16fbd8726d95c1b0f8235e5c439baf612ee119e",
+      "name": null,
+      "count": 1,
+      "count24h": 0
+    },
+    {
+      "addr": "0xc5157c788074d2cfdbde4303395a52beb42d4554",
+      "name": null,
+      "count": 1,
+      "count24h": 0
+    },
+    {
+      "addr": "0x593dc48a279b20c940e463c9ecb22ed7b46bbf53",
+      "name": null,
+      "count": 1,
+      "count24h": 0
+    },
+    {
+      "addr": "0x6cad2ea06419c322100ca9f0899128911fc941dc",
+      "name": null,
+      "count": 1,
+      "count24h": 0
+    }
+  ]
 }
