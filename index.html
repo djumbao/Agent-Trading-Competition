@@ -293,7 +293,7 @@ async function refreshPnl() {
 
 async function loadData() {
   try {
-    const r = await fetch("./data.json?t=" + Date.now());
+    const r = await fetch("https://raw.githubusercontent.com/djumbao/Agent-Trading-Competition/main/data.json?t=" + Date.now());
     const data = await r.json();
 
     if (!data.agents || data.agents.length === 0) {
