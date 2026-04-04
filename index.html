@@ -158,6 +158,13 @@
   .breakeven-info { background: rgba(29,158,117,0.06); border: 0.5px solid rgba(29,158,117,0.2); border-radius: 10px; padding: 12px 16px; margin-bottom: 12px; font-size: 12px; color: var(--muted); line-height: 1.7; }
   .breakeven-info strong { color: var(--accent2); }
   .last-ago { font-size: 11px; color: var(--muted); margin-left: 10px; }
+
+  .tabs { display: flex; gap: 4px; margin-bottom: 24px; border-bottom: 0.5px solid var(--border); padding-bottom: 0; }
+  .tab-btn { background: none; border: none; color: var(--muted); font-size: 13px; font-family: 'DM Sans', sans-serif; padding: 8px 16px; cursor: pointer; border-bottom: 2px solid transparent; margin-bottom: -1px; transition: all 0.15s; font-weight: 500; }
+  .tab-btn:hover { color: var(--text); }
+  .tab-btn.active { color: var(--accent); border-bottom-color: var(--accent); }
+  .tab-panel { display: none; }
+  .tab-panel.active { display: block; }
 </style>
 <script defer src="/_vercel/insights/script.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
@@ -182,6 +189,12 @@
     <div class="stat-box"><div class="stat-label">+24h growth</div><div class="stat-val green" id="growth24h"><span class="skeleton sk-val">&nbsp;</span></div></div>
   </div>
 
+  <div class="tabs">
+    <button class="tab-btn active" onclick="switchTab('s2', this)">Season 2 — Live competition</button>
+    <button class="tab-btn" onclick="switchTab('s1', this)">Season 1 — Pot performance</button>
+  </div>
+
+  <div id="tab-s2" class="tab-panel active">
   <div id="mainContent">
     <div class="two-col">
       <div class="table-wrap"><div class="loading"><div class="loading-spinner"></div><div class="loading-text">Fetching on-chain data from Base...</div></div></div>
@@ -193,6 +206,8 @@
     <span class="last-updated" id="lastUpdated"></span>
   </div>
 
+  </div><!-- /tab-s2 -->
+  <div id="tab-s1" class="tab-panel">
   <div id="equitySection" style="margin-top:28px;display:none">
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
       <div class="section-label">Equity curve — Season 2</div>
@@ -243,6 +258,8 @@
     <div style="font-size:11px;color:var(--muted);margin-top:8px">50% of pot profit split between subscribers · Need to earn = subs × sub price × 2 · Sub prices vary per agent</div>
   </div>
 
+  </div><!-- /tab-s1 -->
+  <div id="tab-s2-metrics" class="tab-panel active">
   <div id="metricsSection" style="margin-top:28px;display:none">
     <div class="section-label">Agent performance metrics — Season 2</div>
     <div class="table-wrap" style="margin-top:10px;overflow-x:auto">
@@ -271,6 +288,7 @@
     <button id="metricsLoadMore" onclick="_metricsShown+=20;renderMetricsTable()" style="display:none;width:100%;margin-top:10px;padding:10px;background:none;border:0.5px solid rgba(29,158,117,0.3);color:#1D9E8A;border-radius:10px;font-size:13px;cursor:pointer;font-family:'DM Sans',sans-serif;">Load more</button>
   </div>
 
+  </div><!-- /tab-s2-metrics -->
   <footer>
     Made by <a href="https://x.com/DDjumba" target="_blank">@Djumba</a>
   </footer>
@@ -279,6 +297,27 @@
 <script>
 const SEASON_END = new Date("2026-04-10T00:00:00Z");
 const RANK_CLASS = { 1: "gold", 2: "silver", 3: "bronze" };
+
+function switchTab(tab, btn) {
+  // Update buttons
+  document.querySelectorAll(".tab-btn").forEach(b => b.classList.remove("active"));
+  btn.classList.add("active");
+
+  // Show/hide panels
+  const s2panels = [document.getElementById("tab-s2"), document.getElementById("tab-s2-metrics")];
+  const s1panel = document.getElementById("tab-s1");
+
+  if (tab === "s2") {
+    s2panels.forEach(p => p && p.classList.add("active"));
+    s1panel && s1panel.classList.remove("active");
+  } else {
+    s2panels.forEach(p => p && p.classList.remove("active"));
+    s1panel && s1panel.classList.add("active");
+    // Load equity when switching to s1
+    if (!_equityLoaded) { loadEquity(); _equityLoaded = true; }
+  }
+}
+let _equityLoaded = false;
 
 function startCountdown() {
   function update() {
@@ -677,7 +716,6 @@ async function loadData() {
 
 startCountdown();
 loadData();
-loadEquity();
 
 // "X seconds ago" counter
 let _lastPnlRefresh = Date.now();
