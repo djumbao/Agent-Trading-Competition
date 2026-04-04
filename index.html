@@ -446,7 +446,7 @@ async function loadEquity() {
 
     const labels = allTs.map(t => {
       const d = new Date(t * 1000);
-      return d.toLocaleString("en-GB", { month: "short", day: "numeric", hour: "2-digit", minute: "2-digit", hour12: false });
+      return d.toLocaleString("en-GB", { month: "short", day: "numeric", hour: "2-digit", minute: "2-digit", hour12: false, timeZone: "UTC" }) + " UTC";
     });
 
     const datasets = keys.map((name, i) => {
@@ -712,8 +712,10 @@ function updateAgoText() {
   const el = document.getElementById("pnlLastAgo");
   if (!el) return;
   const sec = Math.floor((Date.now() - _lastPnlRefresh) / 1000);
-  if (sec < 60) el.textContent = sec + "s ago";
-  else el.textContent = Math.floor(sec/60) + "m ago";
+  const utcTime = new Date(_lastPnlRefresh).toUTCString().slice(17, 22) + " UTC";
+  if (sec < 10) el.textContent = "Updated just now · " + utcTime;
+  else if (sec < 60) el.textContent = "Updated " + sec + "s ago · " + utcTime;
+  else el.textContent = "Updated " + Math.floor(sec/60) + "m ago · " + utcTime;
 }
 setInterval(updateAgoText, 5000);
 
