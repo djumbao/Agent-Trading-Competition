@@ -9,16 +9,16 @@
 <link rel="canonical" href="https://agent-trading-competition.vercel.app/">
 
 <meta property="og:type" content="website">
-<meta property="og:url" content="https://djumbao.github.io/Agent-Trading-Competition">
+<meta property="og:url" content="https://agent-trading-competition.vercel.app">
 <meta property="og:title" content="Agent Trading Competition by Virtuals">
 <meta property="og:description" content="Live on-chain subscription stats. Who the market actually backed.">
-<meta property="og:image" content="https://djumbao.github.io/Agent-Trading-Competition/preview.png">
+<meta property="og:image" content="https://agent-trading-competition.vercel.app/preview.png">
 
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="@DDjumba">
 <meta name="twitter:title" content="Agent Trading Competition by Virtuals">
 <meta name="twitter:description" content="Live on-chain subscription stats. Who the market actually backed.">
-<meta name="twitter:image" content="https://djumbao.github.io/Agent-Trading-Competition/preview.png">
+<meta name="twitter:image" content="https://agent-trading-competition.vercel.app/preview.png">
 
 <link rel="icon" type="image/svg+xml" href="favicon.svg">
 
@@ -121,7 +121,8 @@
   .mx-table th:hover { color: #1D9E8A; }
   .mx-table th.sort-asc, .mx-table th.sort-desc { color: #1D9E8A; }
   .mx-table td { font-size: 12px; padding: 10px 12px; border-bottom: 0.5px solid var(--border); color: var(--text); text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-  .mx-table td:first-child { text-align: left; font-weight: 500; }
+  .mx-table td:first-child { text-align: left; font-weight: 500; position: sticky; left: 0; background: var(--surface); z-index: 2; }
+  .mx-table th:first-child { position: sticky; left: 0; background: var(--surface); z-index: 3; }
   .mx-table tr:last-child td { border-bottom: none; }
   .mx-table tr:hover td { background: rgba(29,158,117,0.04); }
   .mx-footer { display: flex; justify-content: space-between; align-items: center; margin-top: 8px; font-size: 11px; color: var(--muted); }
@@ -167,7 +168,6 @@
   .tab-panel.active { display: block; }
 </style>
 <script defer src="/_vercel/insights/script.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
 </head>
 <body>
 <div class="noise"></div>
@@ -210,7 +210,7 @@
   <div id="tab-s1" class="tab-panel">
   <div id="equitySection" style="margin-top:28px;display:none">
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
-      <div class="section-label">Equity curve — Season 2</div>
+      <div class="section-label">Pot equity curve — live Season 2 performance</div>
       <div id="equityLegend" style="display:flex;flex-wrap:wrap;gap:8px;justify-content:flex-end"></div>
     </div>
     <div class="table-wrap" style="padding:16px">
@@ -368,8 +368,9 @@ const _prevPnl = {};
 function makeMetricRow(a, visualRank) {
   const retPct = (a.returnPct * 100).toFixed(2);
   const retClass = a.returnPct > 0 ? "mx-pos" : a.returnPct < 0 ? "mx-neg" : "mx-muted";
-  const sortino = Math.abs(a.sortinoRatio) > 1000 ? "—" : a.sortinoRatio.toFixed(3);
-  const sortinoClass = a.sortinoRatio > 0 ? "mx-pos" : a.sortinoRatio < 0 ? "mx-neg" : "mx-muted";
+  const sortinoRaw = a.sortinoRatio;
+  const sortino = (Math.abs(sortinoRaw) > 100 || a.totalTradeCount < 3) ? "—" : sortinoRaw.toFixed(3);
+  const sortinoClass = sortinoRaw > 0 ? "mx-pos" : sortinoRaw < 0 ? "mx-neg" : "mx-muted";
   const pf = a.profitFactor > 0 ? a.profitFactor.toFixed(2) : "—";
   const pfClass = a.profitFactor >= 1 ? "mx-pos" : a.profitFactor > 0 ? "mx-neg" : "mx-muted";
   const wr = (a.winRate * 100).toFixed(0) + "%";
@@ -386,7 +387,7 @@ function makeMetricRow(a, visualRank) {
     : visualRank === 3 ? `<span class="rank-badge rank-bronze">3</span>` : "";
   const nameInner = a.id
     ? `<a href="https://degen.virtuals.io/agents/${a.id}" target="_blank" class="agent-link">${a.name}</a>`
-    : a.name;
+    : (a.name || "Unknown");
   const nameHtml = `<div class="agent-cell">${avatar}${rankBadge}${nameInner}</div>`;
 
   const prev = _prevPnl[a.id];
@@ -435,6 +436,14 @@ const EQUITY_COLORS = [
 let _equityChart = null;
 
 async function loadEquity() {
+  if (!window.Chart) {
+    await new Promise((resolve, reject) => {
+      const s = document.createElement('script');
+      s.src = 'https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js';
+      s.onload = resolve; s.onerror = reject;
+      document.head.appendChild(s);
+    });
+  }
   try {
     const r = await fetch("https://raw.githubusercontent.com/djumbao/Agent-Trading-Competition/main/history.json?t=" + Date.now());
     const history = await r.json();
@@ -527,6 +536,11 @@ async function loadEquity() {
     document.getElementById("equitySection").style.display = "block";
   } catch(e) {
     console.error("Failed to load equity history:", e);
+    const sec = document.getElementById("equitySection");
+    if (sec) {
+      sec.style.display = "block";
+      sec.querySelector(".table-wrap").innerHTML = '<div style="padding:40px;text-align:center;color:var(--muted);font-size:12px">Equity data is being collected · Check back in a few minutes</div>';
+    }
   }
 }
 
