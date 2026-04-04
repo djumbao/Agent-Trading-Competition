@@ -105,6 +105,14 @@
   .be-bar-wrap { display: flex; align-items: center; gap: 6px; justify-content: flex-end; }
   .be-bar-bg { width: 52px; height: 4px; background: rgba(255,255,255,0.06); border-radius: 2px; overflow: hidden; }
   .be-bar-fill { height: 100%; border-radius: 2px; }
+  .mx-table { width: 100%; border-collapse: collapse; table-layout: fixed; }
+  .mx-table th { font-size: 10px; font-weight: 500; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; padding: 9px 14px; border-bottom: 0.5px solid var(--border); text-align: right; }
+  .mx-table th:first-child { text-align: left; width: 20%; }
+  .mx-table td { font-size: 12px; padding: 10px 14px; border-bottom: 0.5px solid var(--border); color: var(--text); text-align: right; font-variant-numeric: tabular-nums; }
+  .mx-table td:first-child { text-align: left; font-weight: 500; }
+  .mx-table tr:last-child td { border-bottom: none; }
+  .mx-table tr:hover td { background: rgba(29,158,117,0.04); }
+  .mx-pos { color: #5DCAA5; } .mx-neg { color: #E24B4A; } .mx-muted { color: var(--muted); }
   .tooltip-wrap { position: relative; display: inline-flex; align-items: center; cursor: pointer; }
   .tooltip-icon { display: inline-flex; align-items: center; justify-content: center; width: 13px; height: 13px; border-radius: 50%; border: 1px solid var(--muted); color: var(--muted); font-size: 9px; font-style: normal; line-height: 1; }
   .tooltip-box { display: none; position: absolute; top: 120%; right: 0; background: #0c1a17; border: 0.5px solid rgba(29,158,117,0.4); border-radius: 8px; padding: 10px 12px; font-size: 11px; color: #e8faf5; width: 240px; line-height: 1.6; z-index: 100; font-weight: 400; text-transform: none; letter-spacing: 0; text-align: left; box-shadow: 0 4px 20px rgba(0,0,0,0.4); }
@@ -177,6 +185,30 @@
     <div style="font-size:11px;color:var(--muted);margin-top:8px">50% of pot profit split between subscribers · Need to earn = subs × sub price × 2 · Sub prices vary per agent</div>
   </div>
 
+  <div id="metricsSection" style="margin-top:28px;display:none">
+    <div class="section-label">Agent performance metrics — Season 2</div>
+    <div class="table-wrap" style="margin-top:10px;overflow-x:auto">
+      <table class="mx-table">
+        <thead>
+          <tr>
+            <th>Agent</th>
+            <th>Rank</th>
+            <th>Return %</th>
+            <th>Sortino</th>
+            <th>Profit factor</th>
+            <th>Win rate</th>
+            <th>W / L</th>
+            <th>Trades</th>
+            <th>Volume</th>
+            <th>Realized PnL</th>
+          </tr>
+        </thead>
+        <tbody id="metricsBody"></tbody>
+      </table>
+    </div>
+    <div style="font-size:11px;color:var(--muted);margin-top:8px">Source: degen.virtuals.io leaderboard · Updates every 10 min</div>
+  </div>
+
   <footer>
     Made by <a href="https://x.com/DDjumba" target="_blank">@Djumba</a>
   </footer>
@@ -220,6 +252,44 @@ function buildColHtml(agents, startRank, colTitle) {
     </div>`;
   });
   return html;
+}
+
+function renderMetrics(leaderboard) {
+  if (!leaderboard || leaderboard.length === 0) return;
+  const tbody = document.getElementById("metricsBody");
+  tbody.innerHTML = "";
+
+  const sorted = [...leaderboard].sort((a, b) => (a.rank || 999) - (b.rank || 999));
+
+  sorted.forEach(a => {
+    const retPct = (a.returnPct * 100).toFixed(2);
+    const retClass = a.returnPct > 0 ? "mx-pos" : a.returnPct < 0 ? "mx-neg" : "mx-muted";
+    const sortino = isFinite(a.sortinoRatio) ? a.sortinoRatio.toFixed(3) : "—";
+    const sortinoClass = a.sortinoRatio > 0 ? "mx-pos" : a.sortinoRatio < 0 ? "mx-neg" : "mx-muted";
+    const pf = a.profitFactor > 0 ? a.profitFactor.toFixed(2) : "—";
+    const pfClass = a.profitFactor >= 1 ? "mx-pos" : a.profitFactor > 0 ? "mx-neg" : "mx-muted";
+    const wr = (a.winRate * 100).toFixed(0) + "%";
+    const wrClass = a.winRate >= 0.5 ? "mx-pos" : "mx-neg";
+    const pnlClass = a.totalRealizedPnl > 0 ? "mx-pos" : a.totalRealizedPnl < 0 ? "mx-neg" : "mx-muted";
+    const pnlStr = a.totalRealizedPnl > 0 ? "+$" + a.totalRealizedPnl.toFixed(2) : a.totalRealizedPnl < 0 ? "-$" + Math.abs(a.totalRealizedPnl).toFixed(2) : "—";
+    const vol = "$" + Math.round(a.totalTradeVolume).toLocaleString("en-US");
+
+    const tr = document.createElement("tr");
+    tr.innerHTML = `
+      <td>${a.name}</td>
+      <td>${a.rank || "—"}</td>
+      <td class="${retClass}">${retPct}%</td>
+      <td class="${sortinoClass}">${sortino}</td>
+      <td class="${pfClass}">${pf}</td>
+      <td class="${wrClass}">${wr}</td>
+      <td class="mx-muted">${a.winCount}/${a.lossCount}</td>
+      <td>${a.totalTradeCount}</td>
+      <td class="mx-muted">${vol}</td>
+      <td class="${pnlClass}">${pnlStr}</td>`;
+    tbody.appendChild(tr);
+  });
+
+  document.getElementById("metricsSection").style.display = "block";
 }
 
 function renderBreakeven(potAgents, subAgents) {
@@ -329,6 +399,9 @@ async function loadData() {
     if (data.potAgents && data.potAgents.length > 0) {
       window._lastSubAgents = data.agents || [];
       renderBreakeven(data.potAgents, data.agents);
+    }
+    if (data.leaderboard && data.leaderboard.length > 0) {
+      renderMetrics(data.leaderboard);
     }
   } catch(e) {
     console.error(e);

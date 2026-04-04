@@ -129,6 +129,42 @@ async function main() {
     console.error("Failed to fetch pot-agents:", e.message);
   }
 
+  console.log("Fetching leaderboard metrics...");
+  let leaderboard = [];
+  try {
+    let offset = 0;
+    const limit = 100;
+    while (true) {
+      const lbData = await fetchJson(`https://degen.virtuals.io/api/leaderboard?limit=${limit}&offset=${offset}`);
+      if (!lbData.success || !lbData.data || lbData.data.length === 0) break;
+      lbData.data.forEach(a => {
+        leaderboard.push({
+          id: a.id,
+          name: a.name,
+          rank: a.performance?.rank || null,
+          compositeScore: a.performance?.compositeScore || 0,
+          sortinoRatio: a.performance?.sortinoRatio || 0,
+          returnPct: a.performance?.returnPct || 0,
+          profitFactor: a.performance?.profitFactor || 0,
+          winRate: a.performance?.winRate || 0,
+          winCount: a.performance?.winCount || 0,
+          lossCount: a.performance?.lossCount || 0,
+          totalTradeCount: a.performance?.totalTradeCount || 0,
+          totalTradeVolume: a.performance?.totalTradeVolume || 0,
+          totalRealizedPnl: a.performance?.totalRealizedPnl || 0,
+          subscriptionPrice: a.subscriptionPrice || 10,
+          tokenSymbol: a.tokenSymbol || "",
+        });
+      });
+      if (!lbData.pagination?.hasMore) break;
+      offset += limit;
+      await new Promise(r => setTimeout(r, 200));
+    }
+    console.log(`Fetched ${leaderboard.length} leaderboard entries`);
+  } catch(e) {
+    console.error("Failed to fetch leaderboard:", e.message);
+  }
+
   const result = {
     updatedAt: new Date().toISOString(),
     total,
@@ -136,6 +172,7 @@ async function main() {
     agentCount: sorted.length,
     agents: sorted,
     potAgents,
+    leaderboard,
   };
 
   fs.writeFileSync("data.json", JSON.stringify(result, null, 2));
