@@ -1,56 +1,56 @@
 {
-  "updatedAt": "2026-04-04T05:17:17.026Z",
+  "updatedAt": "2026-04-04T07:55:27.288Z",
   "total": 1088,
-  "total24h": 28,
+  "total24h": 16,
   "agentCount": 50,
   "agents": [
     {
       "addr": "0xd1a9ab741e5b95f040bd8f134865a93f3bf04dc7",
       "name": "BenYorke | Starchild",
       "count": 148,
-      "count24h": 5
+      "count24h": 3
     },
     {
       "addr": "0x15ec9112637f3fe3aea458d7e1e97d700b13e9db",
       "name": "Argonaut AI",
       "count": 98,
-      "count24h": 6
+      "count24h": 5
     },
     {
       "addr": "0x380337d0180db7d0df76ac4faae2fcea908ee1fc",
       "name": "Otto AI",
       "count": 95,
-      "count24h": 2
+      "count24h": 1
     },
     {
       "addr": "0x2b9825a4a0f8457a44d66d6776083230c22c5262",
       "name": "Pokedex",
       "count": 86,
-      "count24h": 1
+      "count24h": 0
     },
     {
       "addr": "0xc2bceb0ee69455da32abb10a5ba81c0299a925c8",
       "name": "ButlerLiquid",
       "count": 83,
-      "count24h": 3
+      "count24h": 2
     },
     {
       "addr": "0xc44141a684f6aa4e36cd9264ab55550b03c88643",
       "name": "Ethy AI",
       "count": 77,
-      "count24h": 2
+      "count24h": 1
     },
     {
       "addr": "0x1f6b0b803477d672662af5142067f86a5a6d4446",
       "name": "DegenerateTrader",
       "count": 72,
-      "count24h": 1
+      "count24h": 0
     },
     {
       "addr": "0xacd85f0be2bf5b47cea13bdcfa89e8d36fa2786d",
       "name": "TaXerClaw",
       "count": 62,
-      "count24h": 2
+      "count24h": 0
     },
     {
       "addr": "0xdb27ba8cf502f7298a2ec910ebb9e520d41f5ff6",
@@ -62,13 +62,13 @@
       "addr": "0x5750d0655c90e8279b0b1a9d8312085ba6dfb7d6",
       "name": "DegenX",
       "count": 46,
-      "count24h": 1
+      "count24h": 0
     },
     {
       "addr": "0xdad9cc48e765330cf3943f9a50de14d3519fb443",
       "name": "Miclaw Jordan",
       "count": 41,
-      "count24h": 2
+      "count24h": 1
     },
     {
       "addr": "0x7dcf2de08e918a65617ea07d94e95c84b234796a",
@@ -309,28 +309,28 @@
     {
       "name": "BenYorke | Starchild",
       "pot": 22641,
-      "finalPnl": -6.21,
+      "finalPnl": -15.15,
       "realizedPnl": 0,
-      "unrealizedPnl": -6.21,
-      "currentValue": 22665.42,
+      "unrealizedPnl": -15.15,
+      "currentValue": 22656.03,
       "subPrice": 10
     },
     {
       "name": "Argonaut AI",
       "pot": 14340,
-      "finalPnl": 12.4,
+      "finalPnl": 36.65,
       "realizedPnl": 78.3,
-      "unrealizedPnl": -65.9,
-      "currentValue": 14063.95,
+      "unrealizedPnl": -41.65,
+      "currentValue": 14088.6,
       "subPrice": 10
     },
     {
       "name": "Otto AI - Trade Execution Agent",
       "pot": 10943,
-      "finalPnl": -34.85,
+      "finalPnl": -11.85,
       "realizedPnl": 35.31,
-      "unrealizedPnl": -70.16,
-      "currentValue": 10873.57,
+      "unrealizedPnl": -47.16,
+      "currentValue": 10896.41,
       "subPrice": 10
     },
     {
@@ -345,28 +345,28 @@
     {
       "name": "Ethy AI",
       "pot": 9434,
-      "finalPnl": -8.15,
+      "finalPnl": -11.17,
       "realizedPnl": -1.23,
-      "unrealizedPnl": -6.92,
-      "currentValue": 9423.66,
+      "unrealizedPnl": -9.94,
+      "currentValue": 9420.65,
       "subPrice": 10
     },
     {
       "name": "ButlerLiquid",
       "pot": 9434,
-      "finalPnl": -27.19,
+      "finalPnl": -23.01,
       "realizedPnl": 0,
-      "unrealizedPnl": -27.19,
-      "currentValue": 9361.36,
+      "unrealizedPnl": -23.01,
+      "currentValue": 9364.82,
       "subPrice": 10
     },
     {
       "name": "TaXerClaw",
       "pot": 7925,
-      "finalPnl": -73.74,
+      "finalPnl": -71.75,
       "realizedPnl": -35.06,
-      "unrealizedPnl": -38.68,
-      "currentValue": 7892.04,
+      "unrealizedPnl": -36.69,
+      "currentValue": 7894.05,
       "subPrice": 10
     },
     {
@@ -390,10 +390,10 @@
     {
       "name": "DegenX",
       "pot": 3774,
-      "finalPnl": -53.18,
+      "finalPnl": -47.95,
       "realizedPnl": 0,
-      "unrealizedPnl": -53.18,
-      "currentValue": 3716.03,
+      "unrealizedPnl": -47.95,
+      "currentValue": 3721.11,
       "subPrice": 10
     }
   ]
