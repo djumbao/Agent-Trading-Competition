@@ -106,19 +106,33 @@
   .be-bar-bg { width: 52px; height: 4px; background: rgba(255,255,255,0.06); border-radius: 2px; overflow: hidden; }
   .be-bar-fill { height: 100%; border-radius: 2px; }
   .mx-table { width: 100%; border-collapse: collapse; table-layout: fixed; }
-  .mx-table th { font-size: 10px; font-weight: 500; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; padding: 9px 14px; border-bottom: 0.5px solid var(--border); text-align: right; }
-  .mx-table th:first-child { text-align: left; width: 20%; }
-  .mx-table td { font-size: 12px; padding: 10px 14px; border-bottom: 0.5px solid var(--border); color: var(--text); text-align: right; font-variant-numeric: tabular-nums; }
+  .mx-table th { font-size: 10px; font-weight: 500; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; padding: 9px 12px; border-bottom: 0.5px solid var(--border); text-align: right; white-space: nowrap; cursor: pointer; user-select: none; }
+  .mx-table th:first-child { text-align: left; width: 18%; }
+  .mx-table th:nth-child(2) { width: 7%; }
+  .mx-table th:nth-child(3) { width: 9%; }
+  .mx-table th:nth-child(4) { width: 9%; }
+  .mx-table th:nth-child(5) { width: 11%; }
+  .mx-table th:nth-child(6) { width: 9%; }
+  .mx-table th:nth-child(7) { width: 7%; }
+  .mx-table th:nth-child(8) { width: 7%; }
+  .mx-table th:nth-child(9) { width: 11%; }
+  .mx-table th:nth-child(10) { width: 12%; }
+  .mx-table th:hover { color: #1D9E8A; }
+  .mx-table th.sort-asc, .mx-table th.sort-desc { color: #1D9E8A; }
+  .mx-table td { font-size: 12px; padding: 10px 12px; border-bottom: 0.5px solid var(--border); color: var(--text); text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
   .mx-table td:first-child { text-align: left; font-weight: 500; }
   .mx-table tr:last-child td { border-bottom: none; }
   .mx-table tr:hover td { background: rgba(29,158,117,0.04); }
+  .mx-footer { display: flex; justify-content: space-between; align-items: center; margin-top: 8px; font-size: 11px; color: var(--muted); }
   .mx-pos { color: #5DCAA5; } .mx-neg { color: #E24B4A; } .mx-muted { color: var(--muted); }
+  .sort-icon { font-size: 9px; opacity: 0.5; margin-left: 3px; }
   .tooltip-wrap { position: relative; display: inline-flex; align-items: center; cursor: pointer; }
   .tooltip-icon { display: inline-flex; align-items: center; justify-content: center; width: 13px; height: 13px; border-radius: 50%; border: 1px solid var(--muted); color: var(--muted); font-size: 9px; font-style: normal; line-height: 1; }
   .tooltip-box { display: none; position: absolute; top: 120%; right: 0; background: #0c1a17; border: 0.5px solid rgba(29,158,117,0.4); border-radius: 8px; padding: 10px 12px; font-size: 11px; color: #e8faf5; width: 240px; line-height: 1.6; z-index: 100; font-weight: 400; text-transform: none; letter-spacing: 0; text-align: left; box-shadow: 0 4px 20px rgba(0,0,0,0.4); }
   .tooltip-wrap:hover .tooltip-box { display: block; }
 </style>
 <script defer src="/_vercel/insights/script.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
 </head>
 <body>
 <div class="noise"></div>
@@ -149,6 +163,19 @@
 
   <div class="refresh-row">
     <span class="last-updated" id="lastUpdated"></span>
+  </div>
+
+  <div id="equitySection" style="margin-top:28px;display:none">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
+      <div class="section-label">Equity curve — Season 2</div>
+      <div id="equityLegend" style="display:flex;flex-wrap:wrap;gap:8px;justify-content:flex-end"></div>
+    </div>
+    <div class="table-wrap" style="padding:16px">
+      <div style="position:relative;height:300px">
+        <canvas id="equityChart"></canvas>
+      </div>
+    </div>
+    <div style="font-size:11px;color:var(--muted);margin-top:8px">PnL snapshots every 10 min · Season 2 only</div>
   </div>
 
   <div id="breakevenSection" style="margin-top:28px;display:none">
@@ -190,23 +217,27 @@
     <div class="table-wrap" style="margin-top:10px;overflow-x:auto">
       <table class="mx-table">
         <thead>
-          <tr>
-            <th>Agent</th>
-            <th>Rank</th>
-            <th>Return %</th>
-            <th>Sortino</th>
-            <th>Profit factor</th>
-            <th>Win rate</th>
-            <th>W / L</th>
-            <th>Trades</th>
-            <th>Volume</th>
-            <th>Realized PnL</th>
+          <tr id="metricsHead">
+            <th data-col="name" data-type="str" style="text-align:left;cursor:pointer">Agent <span class="sort-icon">↕</span></th>
+            <th data-col="rank" data-type="num" style="cursor:pointer">Rank <span class="sort-icon">↕</span></th>
+            <th data-col="returnPct" data-type="num" style="cursor:pointer">Return % <span class="sort-icon">↕</span></th>
+            <th data-col="sortinoRatio" data-type="num" style="cursor:pointer">Sortino <span class="sort-icon">↕</span></th>
+            <th data-col="profitFactor" data-type="num" style="cursor:pointer">Profit factor <span class="sort-icon">↕</span></th>
+            <th data-col="winRate" data-type="num" style="cursor:pointer">Win rate <span class="sort-icon">↕</span></th>
+            <th data-col="winCount" data-type="num" style="cursor:pointer">W / L <span class="sort-icon">↕</span></th>
+            <th data-col="totalTradeCount" data-type="num" style="cursor:pointer">Trades <span class="sort-icon">↕</span></th>
+            <th data-col="totalTradeVolume" data-type="num" style="cursor:pointer">Volume <span class="sort-icon">↕</span></th>
+            <th data-col="totalRealizedPnl" data-type="num" style="cursor:pointer">Realized PnL <span class="sort-icon">↕</span></th>
           </tr>
         </thead>
         <tbody id="metricsBody"></tbody>
       </table>
     </div>
-    <div style="font-size:11px;color:var(--muted);margin-top:8px">Source: degen.virtuals.io leaderboard · Updates every 10 min</div>
+    <div class="mx-footer">
+      <span>Source: degen.virtuals.io leaderboard · Click column to sort</span>
+      <span id="metricsUpdated"></span>
+    </div>
+    <button id="metricsLoadMore" onclick="_metricsShown+=20;renderMetricsTable()" style="display:none;width:100%;margin-top:10px;padding:10px;background:none;border:0.5px solid rgba(29,158,117,0.3);color:#1D9E8A;border-radius:10px;font-size:13px;cursor:pointer;font-family:'DM Sans',sans-serif;">Load more</button>
   </div>
 
   <footer>
@@ -254,42 +285,193 @@ function buildColHtml(agents, startRank, colTitle) {
   return html;
 }
 
-function renderMetrics(leaderboard) {
-  if (!leaderboard || leaderboard.length === 0) return;
+let _metricsAll = [];
+let _metricsSortCol = "rank";
+let _metricsSortDir = 1;
+let _metricsShown = 20;
+
+function getSortedMetrics() {
+  return [..._metricsAll].sort((a, b) => {
+    let va = a[_metricsSortCol], vb = b[_metricsSortCol];
+    if (_metricsSortCol === "name") return _metricsSortDir * String(va).localeCompare(String(vb));
+    va = Number(va) || 0; vb = Number(vb) || 0;
+    return _metricsSortDir * (va - vb);
+  });
+}
+
+function makeMetricRow(a) {
+  const retPct = (a.returnPct * 100).toFixed(2);
+  const retClass = a.returnPct > 0 ? "mx-pos" : a.returnPct < 0 ? "mx-neg" : "mx-muted";
+  const sortino = Math.abs(a.sortinoRatio) > 1000 ? "—" : a.sortinoRatio.toFixed(3);
+  const sortinoClass = a.sortinoRatio > 0 ? "mx-pos" : a.sortinoRatio < 0 ? "mx-neg" : "mx-muted";
+  const pf = a.profitFactor > 0 ? a.profitFactor.toFixed(2) : "—";
+  const pfClass = a.profitFactor >= 1 ? "mx-pos" : a.profitFactor > 0 ? "mx-neg" : "mx-muted";
+  const wr = (a.winRate * 100).toFixed(0) + "%";
+  const wrClass = a.winRate >= 0.5 ? "mx-pos" : "mx-neg";
+  const pnlClass = a.totalRealizedPnl > 0 ? "mx-pos" : a.totalRealizedPnl < 0 ? "mx-neg" : "mx-muted";
+  const pnlStr = a.totalRealizedPnl > 0 ? "+$" + a.totalRealizedPnl.toFixed(2) : a.totalRealizedPnl < 0 ? "-$" + Math.abs(a.totalRealizedPnl).toFixed(2) : "—";
+  const vol = "$" + Math.round(a.totalTradeVolume).toLocaleString("en-US");
+  const tr = document.createElement("tr");
+  tr.innerHTML = `
+    <td>${a.name}</td>
+    <td>${a.rank || "—"}</td>
+    <td class="${retClass}">${retPct}%</td>
+    <td class="${sortinoClass}">${sortino}</td>
+    <td class="${pfClass}">${pf}</td>
+    <td class="${wrClass}">${wr}</td>
+    <td class="mx-muted">${a.winCount}/${a.lossCount}</td>
+    <td>${a.totalTradeCount}</td>
+    <td class="mx-muted">${vol}</td>
+    <td class="${pnlClass}">${pnlStr}</td>`;
+  return tr;
+}
+
+function renderMetricsTable() {
+  const sorted = getSortedMetrics();
   const tbody = document.getElementById("metricsBody");
   tbody.innerHTML = "";
+  sorted.slice(0, _metricsShown).forEach(a => tbody.appendChild(makeMetricRow(a)));
 
-  const sorted = [...leaderboard].sort((a, b) => (a.rank || 999) - (b.rank || 999));
+  const btn = document.getElementById("metricsLoadMore");
+  if (_metricsShown < sorted.length) {
+    btn.style.display = "block";
+    btn.textContent = `Load more (${sorted.length - _metricsShown} remaining)`;
+  } else {
+    btn.style.display = "none";
+  }
+}
 
-  sorted.forEach(a => {
-    const retPct = (a.returnPct * 100).toFixed(2);
-    const retClass = a.returnPct > 0 ? "mx-pos" : a.returnPct < 0 ? "mx-neg" : "mx-muted";
-    const sortino = isFinite(a.sortinoRatio) ? a.sortinoRatio.toFixed(3) : "—";
-    const sortinoClass = a.sortinoRatio > 0 ? "mx-pos" : a.sortinoRatio < 0 ? "mx-neg" : "mx-muted";
-    const pf = a.profitFactor > 0 ? a.profitFactor.toFixed(2) : "—";
-    const pfClass = a.profitFactor >= 1 ? "mx-pos" : a.profitFactor > 0 ? "mx-neg" : "mx-muted";
-    const wr = (a.winRate * 100).toFixed(0) + "%";
-    const wrClass = a.winRate >= 0.5 ? "mx-pos" : "mx-neg";
-    const pnlClass = a.totalRealizedPnl > 0 ? "mx-pos" : a.totalRealizedPnl < 0 ? "mx-neg" : "mx-muted";
-    const pnlStr = a.totalRealizedPnl > 0 ? "+$" + a.totalRealizedPnl.toFixed(2) : a.totalRealizedPnl < 0 ? "-$" + Math.abs(a.totalRealizedPnl).toFixed(2) : "—";
-    const vol = "$" + Math.round(a.totalTradeVolume).toLocaleString("en-US");
+const EQUITY_COLORS = [
+  "#1D9E8A","#5DCAA5","#a8f0e0","#f5c842","#E24B4A",
+  "#fc8c4a","#7c5cfc","#fc5c7d","#4ade80","#60a5fa",
+];
 
-    const tr = document.createElement("tr");
-    tr.innerHTML = `
-      <td>${a.name}</td>
-      <td>${a.rank || "—"}</td>
-      <td class="${retClass}">${retPct}%</td>
-      <td class="${sortinoClass}">${sortino}</td>
-      <td class="${pfClass}">${pf}</td>
-      <td class="${wrClass}">${wr}</td>
-      <td class="mx-muted">${a.winCount}/${a.lossCount}</td>
-      <td>${a.totalTradeCount}</td>
-      <td class="mx-muted">${vol}</td>
-      <td class="${pnlClass}">${pnlStr}</td>`;
-    tbody.appendChild(tr);
+let _equityChart = null;
+
+async function loadEquity() {
+  try {
+    const r = await fetch("https://raw.githubusercontent.com/djumbao/Agent-Trading-Competition/main/history.json?t=" + Date.now());
+    const history = await r.json();
+    const keys = Object.keys(history);
+    if (keys.length === 0) return;
+
+    const allTs = [...new Set(keys.flatMap(k => history[k].map(p => p.t)))].sort((a,b) => a-b);
+    if (allTs.length < 2) return;
+
+    const labels = allTs.map(t => {
+      const d = new Date(t * 1000);
+      return d.toLocaleString("en-GB", { month: "short", day: "numeric", hour: "2-digit", minute: "2-digit", hour12: false });
+    });
+
+    const datasets = keys.map((name, i) => {
+      const pts = history[name];
+      const ptMap = Object.fromEntries(pts.map(p => [p.t, p.pnl]));
+      let last = 0;
+      const data = allTs.map(t => {
+        if (ptMap[t] !== undefined) last = ptMap[t];
+        return last;
+      });
+      const color = EQUITY_COLORS[i % EQUITY_COLORS.length];
+      return {
+        label: name,
+        data,
+        borderColor: color,
+        backgroundColor: color + "18",
+        borderWidth: 1.5,
+        pointRadius: 0,
+        tension: 0.3,
+        fill: false,
+        hidden: i >= 5,
+      };
+    });
+
+    const ctx = document.getElementById("equityChart").getContext("2d");
+    if (_equityChart) _equityChart.destroy();
+    _equityChart = new Chart(ctx, {
+      type: "line",
+      data: { labels, datasets },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        interaction: { mode: "index", intersect: false },
+        plugins: {
+          legend: { display: false },
+          tooltip: {
+            backgroundColor: "#0c1a17",
+            borderColor: "rgba(29,158,117,0.3)",
+            borderWidth: 1,
+            titleColor: "#e8faf5",
+            bodyColor: "#5DCAA5",
+            callbacks: {
+              label: ctx => ` ${ctx.dataset.label}: ${ctx.parsed.y >= 0 ? "+" : ""}$${ctx.parsed.y.toFixed(2)}`
+            }
+          }
+        },
+        scales: {
+          x: {
+            ticks: { color: "#4d7a6e", font: { size: 10 }, maxTicksLimit: 8 },
+            grid: { color: "rgba(29,158,117,0.07)" },
+          },
+          y: {
+            ticks: { color: "#4d7a6e", font: { size: 10 }, callback: v => (v >= 0 ? "+" : "") + "$" + v.toFixed(0) },
+            grid: { color: "rgba(29,158,117,0.07)" },
+          }
+        }
+      }
+    });
+
+    // Build legend
+    const legend = document.getElementById("equityLegend");
+    legend.innerHTML = "";
+    datasets.forEach((ds, i) => {
+      const pill = document.createElement("span");
+      pill.style.cssText = `display:inline-flex;align-items:center;gap:5px;font-size:11px;cursor:pointer;padding:3px 8px;border-radius:20px;border:0.5px solid ${ds.borderColor}40;color:${ds.hidden ? "#4d7a6e" : ds.borderColor};background:${ds.hidden ? "transparent" : ds.borderColor + "15"}`;
+      pill.innerHTML = `<span style="width:8px;height:2px;background:${ds.borderColor};border-radius:1px;display:inline-block"></span>${ds.label}`;
+      pill.addEventListener("click", () => {
+        const meta = _equityChart.getDatasetMeta(i);
+        meta.hidden = !meta.hidden;
+        const hidden = meta.hidden;
+        pill.style.color = hidden ? "#4d7a6e" : ds.borderColor;
+        pill.style.background = hidden ? "transparent" : ds.borderColor + "15";
+        _equityChart.update();
+      });
+      legend.appendChild(pill);
+    });
+
+    document.getElementById("equitySection").style.display = "block";
+  } catch(e) {
+    console.error("Failed to load equity history:", e);
+  }
+}
+
+function renderMetrics(leaderboard) {
+  if (!leaderboard || leaderboard.length === 0) return;
+  _metricsAll = leaderboard;
+  _metricsShown = 20;
+  renderMetricsTable();
+
+  document.querySelectorAll("#metricsHead th").forEach(th => {
+    th.addEventListener("click", () => {
+      const col = th.dataset.col;
+      if (_metricsSortCol === col) {
+        _metricsSortDir *= -1;
+      } else {
+        _metricsSortCol = col;
+        _metricsSortDir = col === "rank" ? 1 : -1;
+      }
+      _metricsShown = 20;
+      document.querySelectorAll("#metricsHead th").forEach(t => {
+        t.classList.remove("sort-asc", "sort-desc");
+        t.querySelector(".sort-icon").textContent = "↕";
+      });
+      th.classList.add(_metricsSortDir === 1 ? "sort-asc" : "sort-desc");
+      th.querySelector(".sort-icon").textContent = _metricsSortDir === 1 ? "↑" : "↓";
+      renderMetricsTable();
+    });
   });
 
   document.getElementById("metricsSection").style.display = "block";
+  document.getElementById("metricsUpdated").textContent = "Updated " + new Date().toUTCString().slice(5, 22) + " UTC";
 }
 
 function renderBreakeven(potAgents, subAgents) {
@@ -414,6 +596,7 @@ async function loadData() {
 
 startCountdown();
 loadData();
+loadEquity();
 </script>
 </body>
 </html>

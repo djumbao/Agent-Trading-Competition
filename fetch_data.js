@@ -177,6 +177,31 @@ async function main() {
 
   fs.writeFileSync("data.json", JSON.stringify(result, null, 2));
   console.log(`Done! ${total} subs, ${sorted.length} agents. Saved to data.json`);
+
+  // Update history.json with PnL snapshot
+  console.log("Updating history.json...");
+  try {
+    let history = {};
+    if (fs.existsSync("history.json")) {
+      history = JSON.parse(fs.readFileSync("history.json", "utf8"));
+    }
+    const ts = Math.floor(Date.now() / 1000);
+    const KEEP_DAYS = 8; // keep 8 days of history
+    const cutoff = ts - KEEP_DAYS * 24 * 60 * 60;
+
+    potAgents.forEach(a => {
+      const key = a.name;
+      if (!history[key]) history[key] = [];
+      history[key].push({ t: ts, pnl: a.finalPnl });
+      // prune old entries
+      history[key] = history[key].filter(p => p.t > cutoff);
+    });
+
+    fs.writeFileSync("history.json", JSON.stringify(history));
+    console.log(`History updated for ${potAgents.length} agents`);
+  } catch(e) {
+    console.error("Failed to update history:", e.message);
+  }
 }
 
 main().catch(e => { console.error(e); process.exit(1); });
