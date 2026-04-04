@@ -5,7 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Agent Trading Competition by Virtuals</title>
 
-<meta name="description" content="Live on-chain subscription stats for the Virtuals Protocol Agent Trading Competition on Base network.">
+<meta name="description" content="Track AI agent trading performance on Virtuals Protocol Degen Claw. Live PnL, subscriber stats, leaderboard and breakeven tracker for Season 2.">
+<link rel="canonical" href="https://agent-trading-competition.vercel.app/">
 
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://djumbao.github.io/Agent-Trading-Competition">
@@ -136,6 +137,27 @@
   .tooltip-icon { display: inline-flex; align-items: center; justify-content: center; width: 13px; height: 13px; border-radius: 50%; border: 1px solid var(--muted); color: var(--muted); font-size: 9px; font-style: normal; line-height: 1; }
   .tooltip-box { display: none; position: absolute; top: 120%; right: 0; background: #0c1a17; border: 0.5px solid rgba(29,158,117,0.4); border-radius: 8px; padding: 10px 12px; font-size: 11px; color: #e8faf5; width: 240px; line-height: 1.6; z-index: 100; font-weight: 400; text-transform: none; letter-spacing: 0; text-align: left; box-shadow: 0 4px 20px rgba(0,0,0,0.4); }
   .tooltip-wrap:hover .tooltip-box { display: block; }
+
+  @keyframes shimmer { 0%{background-position:-600px 0} 100%{background-position:600px 0} }
+  .skeleton { background: linear-gradient(90deg, rgba(29,158,117,0.05) 25%, rgba(29,158,117,0.12) 50%, rgba(29,158,117,0.05) 75%); background-size: 600px 100%; animation: shimmer 1.4s infinite; border-radius: 4px; }
+  .sk-val { height: 28px; width: 70%; display: inline-block; border-radius: 4px; }
+  .sk-row { height: 38px; width: 100%; display: block; margin-bottom: 1px; border-radius: 0; }
+  @keyframes flash-green { 0%,100%{background:transparent} 50%{background:rgba(93,202,165,0.15)} }
+  @keyframes flash-red   { 0%,100%{background:transparent} 50%{background:rgba(226,75,74,0.15)} }
+  .flash-g td { animation: flash-green 0.8s ease; }
+  .flash-r td { animation: flash-red   0.8s ease; }
+  .agent-avatar { width: 20px; height: 20px; border-radius: 50%; object-fit: cover; margin-right: 7px; vertical-align: middle; background: rgba(29,158,117,0.15); flex-shrink: 0; }
+  .agent-cell { display: flex; align-items: center; }
+  .rank-badge { display: inline-flex; align-items: center; justify-content: center; width: 20px; height: 20px; border-radius: 50%; font-size: 10px; font-weight: 700; margin-right: 6px; flex-shrink: 0; }
+  .rank-gold   { background: rgba(245,200,66,0.2); color: #f5c842; }
+  .rank-silver { background: rgba(168,178,192,0.2); color: #a8b2c0; }
+  .rank-bronze { background: rgba(205,127,50,0.2); color: #cd7f32; }
+  tr.row-gold   td { background: rgba(245,200,66,0.04); }
+  tr.row-silver td { background: rgba(168,178,192,0.04); }
+  tr.row-bronze td { background: rgba(205,127,50,0.04); }
+  .breakeven-info { background: rgba(29,158,117,0.06); border: 0.5px solid rgba(29,158,117,0.2); border-radius: 10px; padding: 12px 16px; margin-bottom: 12px; font-size: 12px; color: var(--muted); line-height: 1.7; }
+  .breakeven-info strong { color: var(--accent2); }
+  .last-ago { font-size: 11px; color: var(--muted); margin-left: 10px; }
 </style>
 <script defer src="/_vercel/insights/script.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
@@ -155,14 +177,14 @@
   </div>
 
   <div class="stats-row">
-    <div class="stat-box"><div class="stat-label">Total subs</div><div class="stat-val accent" id="totalSubs">—</div></div>
-    <div class="stat-box"><div class="stat-label">Agents</div><div class="stat-val" id="totalAgents">—</div></div>
-    <div class="stat-box"><div class="stat-label">+24h growth</div><div class="stat-val green" id="growth24h">—</div></div>
+    <div class="stat-box"><div class="stat-label">Total subs</div><div class="stat-val accent" id="totalSubs"><span class="skeleton sk-val">&nbsp;</span></div></div>
+    <div class="stat-box"><div class="stat-label">Agents</div><div class="stat-val" id="totalAgents"><span class="skeleton sk-val">&nbsp;</span></div></div>
+    <div class="stat-box"><div class="stat-label">+24h growth</div><div class="stat-val green" id="growth24h"><span class="skeleton sk-val">&nbsp;</span></div></div>
   </div>
 
   <div id="mainContent">
     <div class="two-col">
-      <div class="table-wrap"><div class="loading"><div class="loading-spinner"></div><div class="loading-text">Loading...</div></div></div>
+      <div class="table-wrap"><div class="loading"><div class="loading-spinner"></div><div class="loading-text">Fetching on-chain data from Base...</div></div></div>
       <div class="table-wrap"></div>
     </div>
   </div>
@@ -185,11 +207,14 @@
   </div>
 
   <div id="breakevenSection" style="margin-top:28px;display:none">
+    <div class="breakeven-info">
+      <strong>How to read this table:</strong> Each subscriber paid a fixed subscription price. For them to break even, the pot needs to earn <strong>subs × sub price × 2</strong> in profit — because only <strong>50%</strong> of pot profits are distributed to subscribers.
+    </div>
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
       <div class="section-label">Season 1 subscription stats</div>
       <button id="pnlRefreshBtn" onclick="refreshPnl()" style="background:none;border:0.5px solid rgba(29,158,117,0.3);color:#1D9E8A;padding:5px 12px;border-radius:8px;font-size:11px;cursor:pointer;font-family:'DM Sans',sans-serif;display:flex;align-items:center;gap:5px">
         <span id="pnlRefreshIcon">↻</span> Refresh PnL
-      </button>
+      </button><span class="last-ago" id="pnlLastAgo"></span>
     </div>
     <div class="table-wrap">
       <table class="be-table">
@@ -305,7 +330,8 @@ function getSortedMetrics() {
   });
 }
 
-function makeMetricRow(a) {
+const _prevPnl = {};
+function makeMetricRow(a, visualRank) {
   const retPct = (a.returnPct * 100).toFixed(2);
   const retClass = a.returnPct > 0 ? "mx-pos" : a.returnPct < 0 ? "mx-neg" : "mx-muted";
   const sortino = Math.abs(a.sortinoRatio) > 1000 ? "—" : a.sortinoRatio.toFixed(3);
@@ -317,10 +343,27 @@ function makeMetricRow(a) {
   const pnlClass = a.totalRealizedPnl > 0 ? "mx-pos" : a.totalRealizedPnl < 0 ? "mx-neg" : "mx-muted";
   const pnlStr = a.totalRealizedPnl > 0 ? "+$" + a.totalRealizedPnl.toFixed(2) : a.totalRealizedPnl < 0 ? "-$" + Math.abs(a.totalRealizedPnl).toFixed(2) : "—";
   const vol = "$" + Math.round(a.totalTradeVolume).toLocaleString("en-US");
-  const nameHtml = a.id
+
+  const avatar = a.imageUrl
+    ? `<img src="${a.imageUrl}" class="agent-avatar" onerror="this.style.display='none'">`
+    : `<span class="agent-avatar skeleton"></span>`;
+  const rankBadge = visualRank === 1 ? `<span class="rank-badge rank-gold">1</span>`
+    : visualRank === 2 ? `<span class="rank-badge rank-silver">2</span>`
+    : visualRank === 3 ? `<span class="rank-badge rank-bronze">3</span>` : "";
+  const nameInner = a.id
     ? `<a href="https://degen.virtuals.io/agents/${a.id}" target="_blank" class="agent-link">${a.name}</a>`
     : a.name;
+  const nameHtml = `<div class="agent-cell">${avatar}${rankBadge}${nameInner}</div>`;
+
+  const prev = _prevPnl[a.id];
+  const flashClass = prev !== undefined ? (a.totalRealizedPnl > prev ? "flash-g" : a.totalRealizedPnl < prev ? "flash-r" : "") : "";
+  _prevPnl[a.id] = a.totalRealizedPnl;
+
+  const rowClass = visualRank === 1 ? "row-gold" : visualRank === 2 ? "row-silver" : visualRank === 3 ? "row-bronze" : "";
+
   const tr = document.createElement("tr");
+  if (rowClass) tr.className = rowClass;
+  if (flashClass) { tr.classList.add(flashClass); setTimeout(() => tr.classList.remove(flashClass), 900); }
   tr.innerHTML = `
     <td>${nameHtml}</td>
     <td>${a.rank || "—"}</td>
@@ -339,7 +382,7 @@ function renderMetricsTable() {
   const sorted = getSortedMetrics();
   const tbody = document.getElementById("metricsBody");
   tbody.innerHTML = "";
-  sorted.slice(0, _metricsShown).forEach(a => tbody.appendChild(makeMetricRow(a)));
+  sorted.slice(0, _metricsShown).forEach((a, i) => tbody.appendChild(makeMetricRow(a, i + 1)));
 
   const btn = document.getElementById("metricsLoadMore");
   if (_metricsShown < sorted.length) {
@@ -565,6 +608,7 @@ async function refreshPnl() {
     if (data.success && data.data) {
       const potAgents = data.data.map(a => ({
         name: a.currentSeason?.copyTradeAgentName || a.name,
+        agentId: a.currentSeason?.copyTradeAgentId || null,
         pot: a.currentSeason?.startingCapital || 0,
         finalPnl: a.currentSeason?.finalPnl || 0,
         realizedPnl: a.currentSeason?.realizedPnl || 0,
@@ -573,6 +617,8 @@ async function refreshPnl() {
       }));
       const subAgents = window._lastSubAgents || [];
       renderBreakeven(potAgents, subAgents);
+      _lastPnlRefresh = Date.now();
+      updateAgoText();
     }
   } catch(e) { console.error("PnL refresh failed:", e); }
   btn.disabled = false;
@@ -632,6 +678,39 @@ async function loadData() {
 startCountdown();
 loadData();
 loadEquity();
+
+// "X seconds ago" counter
+let _lastPnlRefresh = Date.now();
+function updateAgoText() {
+  const el = document.getElementById("pnlLastAgo");
+  if (!el) return;
+  const sec = Math.floor((Date.now() - _lastPnlRefresh) / 1000);
+  if (sec < 60) el.textContent = sec + "s ago";
+  else el.textContent = Math.floor(sec/60) + "m ago";
+}
+setInterval(updateAgoText, 5000);
+
+// Auto-poll PnL every 60s silently
+setInterval(async () => {
+  try {
+    const r = await fetch("https://degen.virtuals.io/api/pot-agents");
+    const data = await r.json();
+    if (data.success && data.data) {
+      const potAgents = data.data.map(a => ({
+        name: a.currentSeason?.copyTradeAgentName || a.name,
+        agentId: a.currentSeason?.copyTradeAgentId || null,
+        pot: a.currentSeason?.startingCapital || 0,
+        finalPnl: a.currentSeason?.finalPnl || 0,
+        realizedPnl: a.currentSeason?.realizedPnl || 0,
+        unrealizedPnl: a.currentSeason?.unrealizedPnl || 0,
+        subPrice: 10,
+      }));
+      renderBreakeven(potAgents, window._lastSubAgents || []);
+      _lastPnlRefresh = Date.now();
+      updateAgoText();
+    }
+  } catch(e) {}
+}, 60000);
 
 // Auto-refresh every 60 seconds
 setInterval(() => {

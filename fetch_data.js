@@ -155,6 +155,7 @@ async function main() {
           totalRealizedPnl: a.performance?.totalRealizedPnl || 0,
           subscriptionPrice: a.subscriptionPrice || 10,
           tokenSymbol: a.tokenSymbol || "",
+          imageUrl: a.imageUrl || "",
         });
       });
       if (!lbData.pagination?.hasMore) break;
