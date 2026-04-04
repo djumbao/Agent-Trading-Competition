@@ -116,6 +116,7 @@ async function main() {
     if (potData.success && potData.data) {
       potAgents = potData.data.map(a => ({
         name: a.currentSeason?.copyTradeAgentName || a.name,
+        agentId: a.currentSeason?.copyTradeAgentId || null,
         pot: a.currentSeason?.startingCapital || 0,
         finalPnl: a.currentSeason?.finalPnl || 0,
         realizedPnl: a.currentSeason?.realizedPnl || 0,

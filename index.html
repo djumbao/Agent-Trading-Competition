@@ -126,6 +126,12 @@
   .mx-footer { display: flex; justify-content: space-between; align-items: center; margin-top: 8px; font-size: 11px; color: var(--muted); }
   .mx-pos { color: #5DCAA5; } .mx-neg { color: #E24B4A; } .mx-muted { color: var(--muted); }
   .sort-icon { font-size: 9px; opacity: 0.5; margin-left: 3px; }
+  .live-dot { width: 6px; height: 6px; border-radius: 50%; background: #5DCAA5; display: inline-block; margin-right: 5px; animation: pulse 2s infinite; }
+  .agent-link { color: inherit; text-decoration: none; }
+  .agent-link:hover { color: #1D9E8A; text-decoration: underline; }
+  .be-table th { cursor: pointer; user-select: none; }
+  .be-table th:hover { color: #1D9E8A; }
+  .be-table th.sort-asc, .be-table th.sort-desc { color: #1D9E8A; }
   .tooltip-wrap { position: relative; display: inline-flex; align-items: center; cursor: pointer; }
   .tooltip-icon { display: inline-flex; align-items: center; justify-content: center; width: 13px; height: 13px; border-radius: 50%; border: 1px solid var(--muted); color: var(--muted); font-size: 9px; font-style: normal; line-height: 1; }
   .tooltip-box { display: none; position: absolute; top: 120%; right: 0; background: #0c1a17; border: 0.5px solid rgba(29,158,117,0.4); border-radius: 8px; padding: 10px 12px; font-size: 11px; color: #e8faf5; width: 240px; line-height: 1.6; z-index: 100; font-weight: 400; text-transform: none; letter-spacing: 0; text-align: left; box-shadow: 0 4px 20px rgba(0,0,0,0.4); }
@@ -140,7 +146,7 @@
 <div class="glow2"></div>
 <div class="wrap">
 
-  <div class="logo"><div class="logo-dot"></div>Live on-chain data · Base network</div>
+  <div class="logo"><div class="logo-dot"></div>Live on-chain data · Base network <span id="liveIndicator" style="margin-left:10px;display:none"><span class="live-dot"></span><span style="font-size:10px;color:#5DCAA5">live</span></span></div>
   <h1>Agent Trading Competition<br>by <a href="https://x.com/virtuals_io" target="_blank" style="color:var(--accent);text-decoration:none;border-bottom:2px solid var(--accent);padding-bottom:2px;">Virtuals</a></h1>
 
   <div class="season-badge">
@@ -188,22 +194,22 @@
     <div class="table-wrap">
       <table class="be-table">
         <thead>
-          <tr>
-            <th>Agent</th>
-            <th style="text-align:right">Subs</th>
-            <th style="text-align:right">Sub price</th>
-            <th style="text-align:right">Pot size</th>
-            <th style="text-align:right">
+          <tr id="beHead">
+            <th data-col="name" data-type="str" style="text-align:left">Agent <span class="sort-icon">↕</span></th>
+            <th data-col="subs" data-type="num" style="text-align:right">Subs <span class="sort-icon">↕</span></th>
+            <th data-col="subPrice" data-type="num" style="text-align:right">Sub price <span class="sort-icon">↕</span></th>
+            <th data-col="pot" data-type="num" style="text-align:right">Pot size <span class="sort-icon">↕</span></th>
+            <th data-col="needed" data-type="num" style="text-align:right">
               <span style="display:inline-flex;align-items:center;gap:4px;justify-content:flex-end">
-                Need to earn
+                Need to earn <span class="sort-icon">↕</span>
                 <span class="tooltip-wrap">
                   <span class="tooltip-icon">i</span>
                   <span class="tooltip-box">Amount the pot needs to earn so subscribers break even. Formula: subs × sub price × 2 (because only 50% of profits go to subscribers)</span>
                 </span>
               </span>
             </th>
-            <th style="text-align:right">Current PnL</th>
-            <th style="text-align:right">Progress</th>
+            <th data-col="pnl" data-type="num" style="text-align:right">Current PnL <span class="sort-icon">↕</span></th>
+            <th data-col="donePct" data-type="num" style="text-align:right">Progress <span class="sort-icon">↕</span></th>
           </tr>
         </thead>
         <tbody id="breakevenBody"></tbody>
@@ -311,9 +317,12 @@ function makeMetricRow(a) {
   const pnlClass = a.totalRealizedPnl > 0 ? "mx-pos" : a.totalRealizedPnl < 0 ? "mx-neg" : "mx-muted";
   const pnlStr = a.totalRealizedPnl > 0 ? "+$" + a.totalRealizedPnl.toFixed(2) : a.totalRealizedPnl < 0 ? "-$" + Math.abs(a.totalRealizedPnl).toFixed(2) : "—";
   const vol = "$" + Math.round(a.totalTradeVolume).toLocaleString("en-US");
+  const nameHtml = a.id
+    ? `<a href="https://degen.virtuals.io/agents/${a.id}" target="_blank" class="agent-link">${a.name}</a>`
+    : a.name;
   const tr = document.createElement("tr");
   tr.innerHTML = `
-    <td>${a.name}</td>
+    <td>${nameHtml}</td>
     <td>${a.rank || "—"}</td>
     <td class="${retClass}">${retPct}%</td>
     <td class="${sortinoClass}">${sortino}</td>
@@ -474,18 +483,49 @@ function renderMetrics(leaderboard) {
   document.getElementById("metricsUpdated").textContent = "Updated " + new Date().toUTCString().slice(5, 22) + " UTC";
 }
 
+let _beData = [];
+let _beSortCol = "subs";
+let _beSortDir = -1;
+
+function renderBeTable() {
+  const sorted = [..._beData].sort((a, b) => {
+    let va = a[_beSortCol], vb = b[_beSortCol];
+    if (_beSortCol === "name") return _beSortDir * String(va).localeCompare(String(vb));
+    return _beSortDir * ((Number(va) || 0) - (Number(vb) || 0));
+  });
+  const fmt = n => "$" + Math.round(n).toLocaleString("en-US");
+  const tbody = document.getElementById("breakevenBody");
+  tbody.innerHTML = "";
+  sorted.forEach(a => {
+    const barColor = a.donePct >= 100 ? "#5DCAA5" : a.donePct > 30 ? "#BA7517" : "#888780";
+    const pnlColor = a.pnl > 0 ? "#5DCAA5" : a.pnl < 0 ? "#E24B4A" : "var(--muted)";
+    const pnlStr = a.pnl > 0 ? "+$" + a.pnl.toFixed(2) : a.pnl < 0 ? "-$" + Math.abs(a.pnl).toFixed(2) : "—";
+    const nameHtml = a.agentId
+      ? `<a href="https://degen.virtuals.io/agents/${a.agentId}" target="_blank" class="agent-link">${a.displayName}</a>`
+      : a.displayName;
+    const tr = document.createElement("tr");
+    tr.innerHTML = `
+      <td style="font-weight:500;white-space:nowrap">${nameHtml}</td>
+      <td>${a.subs}</td>
+      <td>$${a.subPrice}</td>
+      <td>${fmt(a.pot)}</td>
+      <td style="color:var(--accent2)">${a.needed > 0 ? fmt(a.needed) : "—"}</td>
+      <td style="color:${pnlColor}">${pnlStr}</td>
+      <td>
+        <div class="be-bar-wrap">
+          <span style="font-size:11px;color:${barColor};min-width:36px;text-align:right">${a.donePct.toFixed(1)}%</span>
+          <div class="be-bar-bg"><div class="be-bar-fill" style="width:${a.donePct}%;background:${barColor}"></div></div>
+        </div>
+      </td>`;
+    tbody.appendChild(tr);
+  });
+}
+
 function renderBreakeven(potAgents, subAgents) {
   const subMap = {};
   (subAgents || []).forEach(a => { if (a.name) subMap[a.name.toLowerCase()] = a.count; });
-
   const SUB_PRICES = { "miclaw jordan": 23 };
-
-  const tbody = document.getElementById("breakevenBody");
-  tbody.innerHTML = "";
-
-  const fmt = n => "$" + Math.round(n).toLocaleString("en-US");
-
-  potAgents.forEach(a => {
+  _beData = potAgents.map(a => {
     const displayName = a.name.replace("Otto AI - Trade Execution Agent", "Otto AI");
     const normName = a.name.replace(" 🏆","").toLowerCase();
     const subs = subMap[normName] || Object.entries(subMap).find(([k]) => k.includes(normName.split(" ")[0]))?.[1] || 0;
@@ -493,28 +533,23 @@ function renderBreakeven(potAgents, subAgents) {
     const needed = subs * subPrice * 2;
     const pnl = a.finalPnl || 0;
     const donePct = needed > 0 ? Math.max(0, Math.min((pnl / needed) * 100, 100)) : 0;
-    const barColor = donePct >= 100 ? "#5DCAA5" : donePct > 30 ? "#BA7517" : "#888780";
-    const pnlColor = pnl > 0 ? "#5DCAA5" : pnl < 0 ? "#E24B4A" : "var(--muted)";
-    const pnlStr = pnl > 0 ? "+$" + pnl.toFixed(2) : pnl < 0 ? "-$" + Math.abs(pnl).toFixed(2) : "—";
-    const neededStr = needed > 0 ? fmt(needed) : "—";
-
-    const tr = document.createElement("tr");
-    tr.innerHTML = `
-      <td style="font-weight:500;white-space:nowrap">${displayName}</td>
-      <td>${subs}</td>
-      <td>$${subPrice}</td>
-      <td>${fmt(a.pot)}</td>
-      <td style="color:var(--accent2)">${neededStr}</td>
-      <td style="color:${pnlColor}">${pnlStr}</td>
-      <td>
-        <div class="be-bar-wrap">
-          <span style="font-size:11px;color:${barColor};min-width:36px;text-align:right">${donePct.toFixed(1)}%</span>
-          <div class="be-bar-bg"><div class="be-bar-fill" style="width:${donePct}%;background:${barColor}"></div></div>
-        </div>
-      </td>`;
-    tbody.appendChild(tr);
+    return { name: normName, displayName, agentId: a.agentId || null, subs, subPrice, pot: a.pot, needed, pnl, donePct };
   });
-
+  renderBeTable();
+  document.querySelectorAll("#beHead th").forEach(th => {
+    th.addEventListener("click", () => {
+      const col = th.dataset.col;
+      if (_beSortCol === col) { _beSortDir *= -1; }
+      else { _beSortCol = col; _beSortDir = col === "name" ? 1 : -1; }
+      document.querySelectorAll("#beHead th").forEach(t => {
+        t.classList.remove("sort-asc","sort-desc");
+        const si = t.querySelector(".sort-icon"); if (si) si.textContent = "↕";
+      });
+      th.classList.add(_beSortDir === 1 ? "sort-asc" : "sort-desc");
+      const si = th.querySelector(".sort-icon"); if (si) si.textContent = _beSortDir === 1 ? "↑" : "↓";
+      renderBeTable();
+    });
+  });
   document.getElementById("breakevenSection").style.display = "block";
 }
 
@@ -597,6 +632,18 @@ async function loadData() {
 startCountdown();
 loadData();
 loadEquity();
+
+// Auto-refresh every 60 seconds
+setInterval(() => {
+  loadData();
+  loadEquity();
+}, 60000);
+
+// Show live indicator after first load
+setTimeout(() => {
+  const li = document.getElementById("liveIndicator");
+  if (li) li.style.display = "inline-flex";
+}, 2000);
 </script>
 </body>
 </html>
