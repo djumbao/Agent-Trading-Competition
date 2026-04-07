@@ -91,13 +91,14 @@
   .section-label { font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.12em; font-weight: 500; }
   .be-table { width: 100%; border-collapse: collapse; table-layout: fixed; }
   .be-table th { font-size: 10px; font-weight: 500; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; padding: 9px 14px; border-bottom: 0.5px solid var(--border); text-align: left; }
-  .be-table th:nth-child(1) { width: 22%; }
-  .be-table th:nth-child(2) { width: 7%; }
-  .be-table th:nth-child(3) { width: 9%; }
-  .be-table th:nth-child(4) { width: 11%; }
-  .be-table th:nth-child(5) { width: 13%; }
-  .be-table th:nth-child(6) { width: 13%; }
-  .be-table th:nth-child(7) { width: 25%; }
+  .be-table th:nth-child(1) { width: 20%; }
+  .be-table th:nth-child(2) { width: 6%; }
+  .be-table th:nth-child(3) { width: 8%; }
+  .be-table th:nth-child(4) { width: 10%; }
+  .be-table th:nth-child(5) { width: 11%; }
+  .be-table th:nth-child(6) { width: 11%; }
+  .be-table th:nth-child(7) { width: 10%; }
+  .be-table th:nth-child(8) { width: 24%; }
   .be-table td { font-size: 12px; padding: 10px 14px; border-bottom: 0.5px solid var(--border); color: var(--text); font-weight: 500; }
   .be-table tr:last-child td { border-bottom: none; }
   .be-table tr:hover td { background: rgba(29,158,117,0.04); }
@@ -208,22 +209,9 @@
 
   </div><!-- /tab-s2 -->
   <div id="tab-s1" class="tab-panel">
-  <div id="equitySection" style="margin-top:28px;display:none">
-    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
-      <div class="section-label">Pot equity curve — live Season 2 performance</div>
-      <div id="equityLegend" style="display:flex;flex-wrap:wrap;gap:8px;justify-content:flex-end"></div>
-    </div>
-    <div class="table-wrap" style="padding:16px">
-      <div style="position:relative;height:300px">
-        <canvas id="equityChart"></canvas>
-      </div>
-    </div>
-    <div style="font-size:11px;color:var(--muted);margin-top:8px">PnL snapshots every 10 min · Season 2 only</div>
-  </div>
-
   <div id="breakevenSection" style="margin-top:28px;display:none">
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
-      <div class="section-label">Season 1 subscription stats</div>
+      <div class="section-label">Season 1 — топ-10 агентов статистика</div>
       <span class="last-ago" id="pnlLastAgo">Updated just now</span>
     </div>
     <div class="table-wrap">
@@ -244,6 +232,7 @@
               </span>
             </th>
             <th data-col="pnl" data-type="num" style="text-align:right">Current PnL <span class="sort-icon">↕</span></th>
+            <th data-col="payoutPer" data-type="num" style="text-align:right">Payout / sub <span class="sort-icon">↕</span></th>
             <th data-col="donePct" data-type="num" style="text-align:right">Progress <span class="sort-icon">↕</span></th>
           </tr>
         </thead>
@@ -308,11 +297,10 @@ function switchTab(tab, btn) {
   } else {
     s2panels.forEach(p => p && p.classList.remove("active"));
     s1panel && s1panel.classList.add("active");
-    // Load equity when switching to s1
-    if (!_equityLoaded) { loadEquity(); _equityLoaded = true; }
+    // Always fetch fresh PnL from API when switching to S1 tab
+    refreshPnl();
   }
 }
-let _equityLoaded = false;
 
 function startCountdown() {
   function update() {
@@ -428,121 +416,8 @@ function renderMetricsTable() {
   }
 }
 
-const EQUITY_COLORS = [
-  "#1D9E8A","#5DCAA5","#a8f0e0","#f5c842","#E24B4A",
-  "#fc8c4a","#7c5cfc","#fc5c7d","#4ade80","#60a5fa",
-];
 
-let _equityChart = null;
 
-async function loadEquity() {
-  if (!window.Chart) {
-    await new Promise((resolve, reject) => {
-      const s = document.createElement('script');
-      s.src = 'https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js';
-      s.onload = resolve; s.onerror = reject;
-      document.head.appendChild(s);
-    });
-  }
-  try {
-    const r = await fetch("https://raw.githubusercontent.com/djumbao/Agent-Trading-Competition/main/history.json?t=" + Date.now());
-    const history = await r.json();
-    const keys = Object.keys(history);
-    if (keys.length === 0) return;
-
-    const allTs = [...new Set(keys.flatMap(k => history[k].map(p => p.t)))].sort((a,b) => a-b);
-    if (allTs.length < 2) return;
-
-    const labels = allTs.map(t => {
-      const d = new Date(t * 1000);
-      return d.toLocaleString("en-GB", { month: "short", day: "numeric", hour: "2-digit", minute: "2-digit", hour12: false, timeZone: "UTC" }) + " UTC";
-    });
-
-    const datasets = keys.map((name, i) => {
-      const pts = history[name];
-      const ptMap = Object.fromEntries(pts.map(p => [p.t, p.pnl]));
-      let last = 0;
-      const data = allTs.map(t => {
-        if (ptMap[t] !== undefined) last = ptMap[t];
-        return last;
-      });
-      const color = EQUITY_COLORS[i % EQUITY_COLORS.length];
-      return {
-        label: name,
-        data,
-        borderColor: color,
-        backgroundColor: color + "18",
-        borderWidth: 1.5,
-        pointRadius: 0,
-        tension: 0.3,
-        fill: false,
-        hidden: i >= 5,
-      };
-    });
-
-    const ctx = document.getElementById("equityChart").getContext("2d");
-    if (_equityChart) _equityChart.destroy();
-    _equityChart = new Chart(ctx, {
-      type: "line",
-      data: { labels, datasets },
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        interaction: { mode: "index", intersect: false },
-        plugins: {
-          legend: { display: false },
-          tooltip: {
-            backgroundColor: "#0c1a17",
-            borderColor: "rgba(29,158,117,0.3)",
-            borderWidth: 1,
-            titleColor: "#e8faf5",
-            bodyColor: "#5DCAA5",
-            callbacks: {
-              label: ctx => ` ${ctx.dataset.label}: ${ctx.parsed.y >= 0 ? "+" : ""}$${ctx.parsed.y.toFixed(2)}`
-            }
-          }
-        },
-        scales: {
-          x: {
-            ticks: { color: "#4d7a6e", font: { size: 10 }, maxTicksLimit: 8 },
-            grid: { color: "rgba(29,158,117,0.07)" },
-          },
-          y: {
-            ticks: { color: "#4d7a6e", font: { size: 10 }, callback: v => (v >= 0 ? "+" : "") + "$" + v.toFixed(0) },
-            grid: { color: "rgba(29,158,117,0.07)" },
-          }
-        }
-      }
-    });
-
-    // Build legend
-    const legend = document.getElementById("equityLegend");
-    legend.innerHTML = "";
-    datasets.forEach((ds, i) => {
-      const pill = document.createElement("span");
-      pill.style.cssText = `display:inline-flex;align-items:center;gap:5px;font-size:11px;cursor:pointer;padding:3px 8px;border-radius:20px;border:0.5px solid ${ds.borderColor}40;color:${ds.hidden ? "#4d7a6e" : ds.borderColor};background:${ds.hidden ? "transparent" : ds.borderColor + "15"}`;
-      pill.innerHTML = `<span style="width:8px;height:2px;background:${ds.borderColor};border-radius:1px;display:inline-block"></span>${ds.label}`;
-      pill.addEventListener("click", () => {
-        const meta = _equityChart.getDatasetMeta(i);
-        meta.hidden = !meta.hidden;
-        const hidden = meta.hidden;
-        pill.style.color = hidden ? "#4d7a6e" : ds.borderColor;
-        pill.style.background = hidden ? "transparent" : ds.borderColor + "15";
-        _equityChart.update();
-      });
-      legend.appendChild(pill);
-    });
-
-    document.getElementById("equitySection").style.display = "block";
-  } catch(e) {
-    console.error("Failed to load equity history:", e);
-    const sec = document.getElementById("equitySection");
-    if (sec) {
-      sec.style.display = "block";
-      sec.querySelector(".table-wrap").innerHTML = '<div style="padding:40px;text-align:center;color:var(--muted);font-size:12px">Equity data is being collected · Check back in a few minutes</div>';
-    }
-  }
-}
 
 function renderMetrics(leaderboard) {
   if (!leaderboard || leaderboard.length === 0) return;
@@ -588,12 +463,20 @@ function renderBeTable() {
   const tbody = document.getElementById("breakevenBody");
   tbody.innerHTML = "";
   sorted.forEach(a => {
-    const barColor = a.donePct >= 100 ? "#5DCAA5" : a.donePct > 30 ? "#BA7517" : "#888780";
     const pnlColor = a.pnl > 0 ? "#5DCAA5" : a.pnl < 0 ? "#E24B4A" : "var(--muted)";
     const pnlStr = a.pnl > 0 ? "+$" + a.pnl.toFixed(2) : a.pnl < 0 ? "-$" + Math.abs(a.pnl).toFixed(2) : "—";
     const nameHtml = a.agentId
       ? `<a href="https://degen.virtuals.io/agents/${a.agentId}" target="_blank" class="agent-link">${a.displayName}</a>`
       : a.displayName;
+    // Payout per subscriber = 50% of PnL / subs (only if positive)
+    const payoutPer = (a.subs > 0 && a.pnl > 0) ? (a.pnl * 0.5 / a.subs) : 0;
+    const payoutStr = payoutPer > 0.005 ? "+$" + payoutPer.toFixed(2) : "—";
+    const payoutColor = payoutPer > 0.005 ? "#5DCAA5" : "var(--muted)";
+    // Progress - no cap, show actual %
+    const displayPct = a.needed > 0 ? (a.pnl / a.needed * 100) : 0;
+    const barPct = Math.min(displayPct, 100);
+    const barColor = displayPct >= 100 ? "#5DCAA5" : displayPct > 30 ? "#BA7517" : "#888780";
+    const pctColor = displayPct >= 100 ? "#5DCAA5" : displayPct > 30 ? "#BA7517" : "#888780";
     const tr = document.createElement("tr");
     tr.innerHTML = `
       <td style="font-weight:500;white-space:nowrap">${nameHtml}</td>
@@ -602,10 +485,11 @@ function renderBeTable() {
       <td>${fmt(a.pot)}</td>
       <td style="color:var(--accent2)">${a.needed > 0 ? fmt(a.needed) : "—"}</td>
       <td style="color:${pnlColor}">${pnlStr}</td>
+      <td style="color:${payoutColor}">${payoutStr}</td>
       <td>
         <div class="be-bar-wrap">
-          <span style="font-size:11px;color:${barColor};min-width:36px;text-align:right">${a.donePct.toFixed(1)}%</span>
-          <div class="be-bar-bg"><div class="be-bar-fill" style="width:${a.donePct}%;background:${barColor}"></div></div>
+          <span style="font-size:11px;color:${pctColor};min-width:42px;text-align:right">${displayPct.toFixed(1)}%</span>
+          <div class="be-bar-bg"><div class="be-bar-fill" style="width:${barPct}%;background:${barColor}"></div></div>
         </div>
       </td>`;
     tbody.appendChild(tr);
@@ -623,8 +507,9 @@ function renderBreakeven(potAgents, subAgents) {
     const subPrice = SUB_PRICES[normName] || 10;
     const needed = subs * subPrice * 2;
     const pnl = a.finalPnl || 0;
-    const donePct = needed > 0 ? Math.max(0, Math.min((pnl / needed) * 100, 100)) : 0;
-    return { name: normName, displayName, agentId: a.agentId || null, subs, subPrice, pot: a.pot, needed, pnl, donePct };
+    const donePct = needed > 0 ? (pnl / needed * 100) : 0;
+    const payoutPer = (subs > 0 && pnl > 0) ? (pnl * 0.5 / subs) : 0;
+    return { name: normName, displayName, agentId: a.agentId || null, subs, subPrice, pot: a.pot, needed, pnl, donePct, payoutPer };
   });
   renderBeTable();
   document.querySelectorAll("#beHead th").forEach(th => {
@@ -654,7 +539,8 @@ function updatePnlData(potAgents) {
     if (entry) {
       entry.pnl = fresh.finalPnl || 0;
       const needed = entry.needed;
-      entry.donePct = needed > 0 ? Math.max(0, Math.min((entry.pnl / needed) * 100, 100)) : 0;
+      entry.donePct = needed > 0 ? (entry.pnl / entry.needed * 100) : 0;
+      entry.payoutPer = (entry.subs > 0 && entry.pnl > 0) ? (entry.pnl * 0.5 / entry.subs) : 0;
     }
   });
   if (_beData.length > 0) renderBeTable();
@@ -723,6 +609,8 @@ async function loadData() {
     if (data.leaderboard && data.leaderboard.length > 0) {
       renderMetrics(data.leaderboard);
     }
+    // Also fetch fresh PnL immediately after initial data load
+    refreshPnl();
   } catch(e) {
     console.error(e);
     document.getElementById("mainContent").innerHTML = `<div class="table-wrap"><div class="error">
