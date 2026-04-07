@@ -90,16 +90,17 @@
   footer a { color: var(--accent); text-decoration: none; }
   .section-label { font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.12em; font-weight: 500; }
   .be-table { width: 100%; border-collapse: collapse; table-layout: fixed; }
-  .be-table th { font-size: 10px; font-weight: 500; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; padding: 9px 14px; border-bottom: 0.5px solid var(--border); text-align: left; }
-  .be-table th:nth-child(1) { width: 20%; }
-  .be-table th:nth-child(2) { width: 6%; }
-  .be-table th:nth-child(3) { width: 8%; }
-  .be-table th:nth-child(4) { width: 10%; }
-  .be-table th:nth-child(5) { width: 11%; }
-  .be-table th:nth-child(6) { width: 11%; }
-  .be-table th:nth-child(7) { width: 10%; }
-  .be-table th:nth-child(8) { width: 24%; }
-  .be-table td { font-size: 12px; padding: 10px 14px; border-bottom: 0.5px solid var(--border); color: var(--text); font-weight: 500; }
+  .be-table { width: 100%; border-collapse: collapse; table-layout: fixed; }
+  .be-table th { font-size: 10px; font-weight: 500; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; padding: 9px 10px; border-bottom: 0.5px solid var(--border); text-align: left; white-space: nowrap; }
+  .be-table th:nth-child(1) { width: 19%; }
+  .be-table th:nth-child(2) { width: 7%; }
+  .be-table th:nth-child(3) { width: 9%; }
+  .be-table th:nth-child(4) { width: 11%; }
+  .be-table th:nth-child(5) { width: 12%; }
+  .be-table th:nth-child(6) { width: 13%; }
+  .be-table th:nth-child(7) { width: 11%; }
+  .be-table th:nth-child(8) { width: 18%; }
+  .be-table td { font-size: 12px; padding: 10px 10px; border-bottom: 0.5px solid var(--border); color: var(--text); font-weight: 500; white-space: nowrap; }
   .be-table tr:last-child td { border-bottom: none; }
   .be-table tr:hover td { background: rgba(29,158,117,0.04); }
   .be-table td:nth-child(n+2) { text-align: right; }
@@ -137,7 +138,7 @@
   .be-table th.sort-asc, .be-table th.sort-desc { color: #1D9E8A; }
   .tooltip-wrap { position: relative; display: inline-flex; align-items: center; cursor: pointer; }
   .tooltip-icon { display: inline-flex; align-items: center; justify-content: center; width: 13px; height: 13px; border-radius: 50%; border: 1px solid var(--muted); color: var(--muted); font-size: 9px; font-style: normal; line-height: 1; }
-  .tooltip-box { display: none; position: absolute; top: 120%; right: 0; background: #0c1a17; border: 0.5px solid rgba(29,158,117,0.4); border-radius: 8px; padding: 10px 12px; font-size: 11px; color: #e8faf5; width: 240px; line-height: 1.6; z-index: 100; font-weight: 400; text-transform: none; letter-spacing: 0; text-align: left; box-shadow: 0 4px 20px rgba(0,0,0,0.4); }
+  .tooltip-box { display: none; position: absolute; top: 120%; right: 0; background: #0c1a17; border: 0.5px solid rgba(29,158,117,0.4); border-radius: 8px; padding: 10px 12px; font-size: 11px; color: #e8faf5; width: 240px; line-height: 1.6; z-index: 100; font-weight: 400; text-transform: none; letter-spacing: 0; text-align: left; box-shadow: 0 4px 20px rgba(0,0,0,0.4); white-space: normal; }
   .tooltip-wrap:hover .tooltip-box { display: block; }
 
   @keyframes shimmer { 0%{background-position:-600px 0} 100%{background-position:600px 0} }
@@ -211,7 +212,7 @@
   <div id="tab-s1" class="tab-panel">
   <div id="breakevenSection" style="margin-top:28px;display:none">
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
-      <div class="section-label">Season 1 — топ-10 агентов статистика</div>
+      <div class="section-label">Season 1 — Top 10 agents stats</div>
       <span class="last-ago" id="pnlLastAgo">Updated just now</span>
     </div>
     <div class="table-wrap">
@@ -223,13 +224,7 @@
             <th data-col="subPrice" data-type="num" style="text-align:right">Sub price <span class="sort-icon">↕</span></th>
             <th data-col="pot" data-type="num" style="text-align:right">Pot size <span class="sort-icon">↕</span></th>
             <th data-col="needed" data-type="num" style="text-align:right">
-              <span style="display:inline-flex;align-items:center;gap:4px;justify-content:flex-end">
-                Need to earn <span class="sort-icon">↕</span>
-                <span class="tooltip-wrap">
-                  <span class="tooltip-icon">i</span>
-                  <span class="tooltip-box">Amount the pot needs to earn so subscribers break even. Formula: subs × sub price × 2 (because only 50% of profits go to subscribers)</span>
-                </span>
-              </span>
+              <span style="display:inline-flex;align-items:center;gap:4px;justify-content:flex-end;white-space:nowrap">Need to earn <span class="sort-icon">↕</span><span class="tooltip-wrap"><span class="tooltip-icon">i</span><span class="tooltip-box">Amount the pot needs to earn so subscribers break even. Formula: subs × sub price × 2 (because only 50% of profits go to subscribers)</span></span></span>
             </th>
             <th data-col="pnl" data-type="num" style="text-align:right">Current PnL <span class="sort-icon">↕</span></th>
             <th data-col="payoutPer" data-type="num" style="text-align:right">Payout / sub <span class="sort-icon">↕</span></th>
@@ -460,17 +455,18 @@ function renderBeTable() {
     return _beSortDir * ((Number(va) || 0) - (Number(vb) || 0));
   });
   const fmt = n => "$" + Math.round(n).toLocaleString("en-US");
+  const fmtDec = n => "$" + n.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
   const tbody = document.getElementById("breakevenBody");
   tbody.innerHTML = "";
   sorted.forEach(a => {
     const pnlColor = a.pnl > 0 ? "#5DCAA5" : a.pnl < 0 ? "#E24B4A" : "var(--muted)";
-    const pnlStr = a.pnl > 0 ? "+$" + a.pnl.toFixed(2) : a.pnl < 0 ? "-$" + Math.abs(a.pnl).toFixed(2) : "—";
+    const pnlStr = a.pnl > 0 ? "+" + fmtDec(a.pnl) : a.pnl < 0 ? "-" + fmtDec(Math.abs(a.pnl)) : "—";
     const nameHtml = a.agentId
       ? `<a href="https://degen.virtuals.io/agents/${a.agentId}" target="_blank" class="agent-link">${a.displayName}</a>`
       : a.displayName;
     // Payout per subscriber = 50% of PnL / subs (only if positive)
     const payoutPer = (a.subs > 0 && a.pnl > 0) ? (a.pnl * 0.5 / a.subs) : 0;
-    const payoutStr = payoutPer > 0.005 ? "+$" + payoutPer.toFixed(2) : "—";
+    const payoutStr = payoutPer > 0.005 ? "+" + fmtDec(payoutPer) : "—";
     const payoutColor = payoutPer > 0.005 ? "#5DCAA5" : "var(--muted)";
     // Progress - no cap, show actual %
     const displayPct = a.needed > 0 ? (a.pnl / a.needed * 100) : 0;
@@ -481,7 +477,7 @@ function renderBeTable() {
     tr.innerHTML = `
       <td style="font-weight:500;white-space:nowrap">${nameHtml}</td>
       <td>${a.subs}</td>
-      <td>$${a.subPrice}</td>
+      <td>${fmtDec(a.subPrice)}</td>
       <td>${fmt(a.pot)}</td>
       <td style="color:var(--accent2)">${a.needed > 0 ? fmt(a.needed) : "—"}</td>
       <td style="color:${pnlColor}">${pnlStr}</td>
