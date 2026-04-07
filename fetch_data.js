@@ -114,7 +114,7 @@ async function main() {
   try {
     const potData = await fetchJson("https://degen.virtuals.io/api/pot-agents");
     if (potData.success && potData.data) {
-      potAgents = potData.data.map(a => ({
+      potAgents = potData.data.filter(a => (a.currentSeason?.startingCapital || 0) > 0).map(a => ({
         name: a.currentSeason?.copyTradeAgentName || a.name,
         agentId: a.currentSeason?.copyTradeAgentId || null,
         pot: a.currentSeason?.startingCapital || 0,

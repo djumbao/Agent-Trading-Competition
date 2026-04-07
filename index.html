@@ -616,7 +616,7 @@ function renderBreakeven(potAgents, subAgents) {
   const subMap = {};
   (subAgents || []).forEach(a => { if (a.name) subMap[a.name.toLowerCase()] = a.count; });
   const SUB_PRICES = { "miclaw jordan": 23 };
-  _beData = potAgents.map(a => {
+  _beData = potAgents.filter(a => a.pot > 0).map(a => {
     const displayName = a.name.replace("Otto AI - Trade Execution Agent", "Otto AI");
     const normName = a.name.replace(" 🏆","").toLowerCase();
     const subs = subMap[normName] || Object.entries(subMap).find(([k]) => k.includes(normName.split(" ")[0]))?.[1] || 0;
