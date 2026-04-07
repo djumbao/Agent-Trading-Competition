@@ -644,6 +644,22 @@ function renderBreakeven(potAgents, subAgents) {
   document.getElementById("breakevenSection").style.display = "block";
 }
 
+// Only updates PnL values without reinitializing sort listeners
+function updatePnlData(potAgents) {
+  const filtered = potAgents.filter(a => a.pot > 0);
+  filtered.forEach(fresh => {
+    const normName = fresh.name.replace(" 🏆","").toLowerCase();
+    const entry = _beData.find(d => d.name === normName || 
+      d.name.includes(normName.split(" ")[0]));
+    if (entry) {
+      entry.pnl = fresh.finalPnl || 0;
+      const needed = entry.needed;
+      entry.donePct = needed > 0 ? Math.max(0, Math.min((entry.pnl / needed) * 100, 100)) : 0;
+    }
+  });
+  if (_beData.length > 0) renderBeTable();
+}
+
 async function refreshPnl() {
   try {
     const r = await fetch("https://degen.virtuals.io/api/pot-agents");
@@ -733,10 +749,10 @@ function updateAgoText() {
 }
 setInterval(updateAgoText, 5000);
 
-// Auto-poll PnL every 60s silently
+// Auto-poll PnL every 30s — only updates PnL column
 setInterval(async () => {
   try {
-    const r = await fetch("https://degen.virtuals.io/api/pot-agents");
+    const r = await fetch("https://degen.virtuals.io/api/pot-agents?t=" + Date.now());
     const data = await r.json();
     if (data.success && data.data) {
       const potAgents = data.data.map(a => ({
@@ -744,22 +760,33 @@ setInterval(async () => {
         agentId: a.currentSeason?.copyTradeAgentId || null,
         pot: a.currentSeason?.startingCapital || 0,
         finalPnl: a.currentSeason?.finalPnl || 0,
-        realizedPnl: a.currentSeason?.realizedPnl || 0,
-        unrealizedPnl: a.currentSeason?.unrealizedPnl || 0,
-        subPrice: 10,
       }));
-      renderBreakeven(potAgents, window._lastSubAgents || []);
+      if (_beData.length > 0) {
+        updatePnlData(potAgents);
+      } else {
+        // First time - full init
+        const subAgents = window._lastSubAgents || [];
+        if (subAgents.length > 0) {
+          const fullAgents = data.data.map(a => ({
+            name: a.currentSeason?.copyTradeAgentName || a.name,
+            agentId: a.currentSeason?.copyTradeAgentId || null,
+            pot: a.currentSeason?.startingCapital || 0,
+            finalPnl: a.currentSeason?.finalPnl || 0,
+            realizedPnl: a.currentSeason?.realizedPnl || 0,
+            unrealizedPnl: a.currentSeason?.unrealizedPnl || 0,
+            subPrice: 10,
+          }));
+          renderBreakeven(fullAgents, subAgents);
+        }
+      }
       _lastPnlRefresh = Date.now();
       updateAgoText();
     }
-  } catch(e) {}
-}, 60000);
+  } catch(e) { console.error("PnL poll error:", e); }
+}, 30000);
 
-// Auto-refresh every 60 seconds
-setInterval(() => {
-  loadData();
-  loadEquity();
-}, 60000);
+// Auto-refresh data.json every 60 seconds
+setInterval(() => { loadData(); }, 60000);
 
 // Show live indicator immediately
 const li = document.getElementById("liveIndicator");
