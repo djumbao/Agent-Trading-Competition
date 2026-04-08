@@ -883,11 +883,10 @@ function renderBeTable() {
     const pnlColor = a.pnl > 0 ? "#5DCAA5" : a.pnl < 0 ? "#E24B4A" : "var(--muted)";
     const pnlStr = a.pnl > 0 ? "+$" + a.pnl.toFixed(2) : a.pnl < 0 ? "-$" + Math.abs(a.pnl).toFixed(2) : "—";
 
-    // Payout per subscriber: (PnL * 50%) / subs
-    const payoutPerSub = a.subs > 0 ? (a.pnl * 0.5) / a.subs : 0;
-    const payoutColor = payoutPerSub > 0 ? "#5DCAA5" : payoutPerSub < 0 ? "#E24B4A" : "var(--muted)";
-    const payoutStr = payoutPerSub > 0 ? "+$" + payoutPerSub.toFixed(2)
-      : payoutPerSub < 0 ? "-$" + Math.abs(payoutPerSub).toFixed(2) : "—";
+    // Payout per subscriber: (PnL * 50%) / subs — but only if PnL > 0, otherwise no payout
+    const payoutPerSub = (a.subs > 0 && a.pnl > 0) ? (a.pnl * 0.5) / a.subs : 0;
+    const payoutColor = payoutPerSub > 0 ? "#5DCAA5" : "var(--muted)";
+    const payoutStr = payoutPerSub > 0 ? "+$" + payoutPerSub.toFixed(2) : "—";
 
     const nameHtml = a.agentId
       ? `<a href="https://degen.virtuals.io/agents/${esc(a.agentId)}" target="_blank" rel="noopener" class="agent-link">${esc(a.displayName)}</a>`
@@ -939,7 +938,7 @@ function renderBreakeven(potAgents, subAgents) {
     const needed = subs * subPrice * 2;
     const pnl = a.finalPnl || 0;
     const donePct = needed > 0 ? Math.max(0, Math.min((pnl / needed) * 100, 100)) : 0;
-    const payoutPerSub = subs > 0 ? (pnl * 0.5) / subs : 0;
+    const payoutPerSub = (subs > 0 && pnl > 0) ? (pnl * 0.5) / subs : 0;
     return { name: normName, displayName, agentId: a.agentId || null, subs, subPrice, pot: a.pot, needed, pnl, payoutPerSub, donePct };
   });
 
