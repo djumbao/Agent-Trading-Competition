@@ -131,8 +131,8 @@ footer a { color: var(--accent); text-decoration: none; }
 .be-table th.sort-asc, .be-table th.sort-desc { color: #1D9E8A; }
 .tooltip-wrap { position: relative; display: inline-flex; align-items: center; cursor: pointer; }
 .tooltip-icon { display: inline-flex; align-items: center; justify-content: center; width: 13px; height: 13px; border-radius: 50%; border: 1px solid var(--muted); color: var(--muted); font-size: 9px; font-style: normal; line-height: 1; }
-.tooltip-box { display: none; position: absolute; top: 120%; right: 0; background: #0c1a17; border: 0.5px solid rgba(29,158,117,0.4); border-radius: 8px; padding: 10px 12px; font-size: 11px; color: #e8faf5; width: 240px; line-height: 1.6; z-index: 100; font-weight: 400; text-transform: none; letter-spacing: 0; text-align: left; box-shadow: 0 4px 20px rgba(0,0,0,0.4); }
-.tooltip-wrap:hover .tooltip-box { display: block; }
+.tooltip-box { display: none; }
+.floating-tooltip { position: fixed; background: #0c1a17; border: 0.5px solid rgba(29,158,117,0.4); border-radius: 8px; padding: 10px 12px; font-size: 11px; color: #e8faf5; width: 260px; line-height: 1.6; z-index: 9999; font-weight: 400; text-transform: none; letter-spacing: 0; text-align: left; white-space: normal; word-wrap: break-word; box-shadow: 0 4px 20px rgba(0,0,0,0.4); pointer-events: none; font-family: 'DM Sans', sans-serif; }
 @keyframes shimmer { 0%{background-position:-600px 0} 100%{background-position:600px 0} }
 .skeleton { background: linear-gradient(90deg, rgba(29,158,117,0.05) 25%, rgba(29,158,117,0.12) 50%, rgba(29,158,117,0.05) 75%); background-size: 600px 100%; animation: shimmer 1.4s infinite; border-radius: 4px; }
 .sk-val { height: 28px; width: 70%; display: inline-block; border-radius: 4px; }
@@ -745,6 +745,61 @@ setInterval(() => {
 
 const li = document.getElementById("liveIndicator");
 if (li) li.style.display = "inline-flex";
+
+// ========== JS Tooltips (fixed position, no overflow clipping) ==========
+(function() {
+  let floatingTip = null;
+  document.addEventListener("mouseover", function(e) {
+    const icon = e.target.closest(".tooltip-icon");
+    if (!icon) return;
+    const box = icon.parentElement.querySelector(".tooltip-box");
+    if (!box) return;
+    if (floatingTip) floatingTip.remove();
+    floatingTip = document.createElement("div");
+    floatingTip.className = "floating-tooltip";
+    floatingTip.innerHTML = box.innerHTML;
+    document.body.appendChild(floatingTip);
+    const rect = icon.getBoundingClientRect();
+    let top = rect.bottom + 8;
+    let left = rect.right - floatingTip.offsetWidth;
+    if (left < 8) left = 8;
+    if (top + floatingTip.offsetHeight > window.innerHeight - 8) {
+      top = rect.top - floatingTip.offsetHeight - 8;
+    }
+    floatingTip.style.top = top + "px";
+    floatingTip.style.left = left + "px";
+  });
+  document.addEventListener("mouseout", function(e) {
+    const icon = e.target.closest(".tooltip-icon");
+    if (!icon) return;
+    if (floatingTip) { floatingTip.remove(); floatingTip = null; }
+  });
+})();
+
+// ========== Hash-based routing ==========
+function applyHash() {
+  const hash = location.hash.replace("#", "") || "s2";
+  const s2btn = document.querySelector('.tab-btn:first-child');
+  const s1btn = document.querySelector('.tab-btn:last-child');
+  if (hash === "s1" && s1btn) {
+    switchTab("s1", s1btn);
+  } else if (s2btn) {
+    switchTab("s2", s2btn);
+  }
+}
+
+// Override switchTab to also update the hash
+const _origSwitchTab = switchTab;
+switchTab = function(tab, btn) {
+  _origSwitchTab(tab, btn);
+  if (location.hash.replace("#","") !== tab) {
+    history.replaceState(null, "", "#" + tab);
+  }
+};
+
+// Apply hash on load and on hash change
+window.addEventListener("hashchange", applyHash);
+applyHash();
 </script>
 </body>
 </html>
