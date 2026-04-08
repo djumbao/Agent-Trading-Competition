@@ -297,6 +297,7 @@ function renderBeTable() {
 
   sorted.forEach(a => {
     const barColor = a.donePct >= 100 ? "#5DCAA5" : a.donePct > 30 ? "#BA7517" : "#E24B4A";
+    const barWidth = a.donePct > 0 ? Math.max(a.donePct, 3) : 0; // min 3% visible width if non-zero
     const pnlColor = a.pnl > 0 ? "#5DCAA5" : a.pnl < 0 ? "#E24B4A" : "var(--muted)";
     const pnlStr = a.pnl > 0 ? "+$" + a.pnl.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })
                  : a.pnl < 0 ? "-$" + Math.abs(a.pnl).toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })
@@ -325,7 +326,7 @@ function renderBeTable() {
       <td>
         <div class="be-bar-wrap">
           <span style="font-size:11px;color:${barColor};min-width:40px;text-align:right">${a.donePct.toFixed(1)}%</span>
-          <div class="be-bar-bg"><div class="be-bar-fill" style="width:${Math.min(a.donePct, 100)}%;background:${barColor}"></div></div>
+          <div class="be-bar-bg"><div class="be-bar-fill" style="width:${Math.min(barWidth, 100)}%;background:${barColor}"></div></div>
         </div>
       </td>`;
     tbody.appendChild(tr);
