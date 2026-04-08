@@ -8,6 +8,10 @@ on:
 permissions:
   contents: write
 
+concurrency:
+  group: data-update
+  cancel-in-progress: true
+
 jobs:
   update:
     runs-on: ubuntu-latest
@@ -15,7 +19,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0
+          fetch-depth: 1
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -25,12 +29,21 @@ jobs:
       - name: Fetch data
         run: node fetch_data.js
 
+      - name: Validate data
+        run: |
+          node -e "
+            const d = JSON.parse(require('fs').readFileSync('data.json','utf8'));
+            if (!d.total || d.total <= 0) { console.error('Invalid: total=' + d.total); process.exit(1); }
+            if (!d.agents || d.agents.length === 0) { console.error('Invalid: no agents'); process.exit(1); }
+            console.log('Validation OK: ' + d.total + ' subs, ' + d.agents.length + ' agents');
+          "
+
       - name: Commit and push
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git pull --rebase --autostash origin main
-          git add data.json history.json
+          git add data.json
           git diff --cached --quiet && echo "No changes" && exit 0
           git commit -m "Update data $(date -u '+%H:%M UTC')"
           git push origin main || (git pull --rebase origin main && git push origin main)
