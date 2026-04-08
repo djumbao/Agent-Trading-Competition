@@ -542,6 +542,11 @@ function renderBeTable() {
     return _beSortDir * ((Number(va) || 0) - (Number(vb) || 0));
   });
   const fmt = n => "$" + Math.round(n).toLocaleString("en-US");
+  const fmtPnl = n => {
+    const abs = Math.abs(n);
+    const str = abs >= 1000 ? abs.toLocaleString("en-US", {minimumFractionDigits:2, maximumFractionDigits:2}) : abs.toFixed(2);
+    return n > 0 ? "+$" + str : n < 0 ? "-$" + str : "—";
+  };
   const tbody = document.getElementById("breakevenBody");
   tbody.innerHTML = "";
   sorted.forEach(a => {
@@ -550,7 +555,7 @@ function renderBeTable() {
 
     /* FIX: PnL color — green if positive, red if negative */
     const pnlColor = a.pnl > 0 ? "#5DCAA5" : a.pnl < 0 ? "#E24B4A" : "var(--muted)";
-    const pnlStr = a.pnl > 0 ? "+$" + a.pnl.toFixed(2) : a.pnl < 0 ? "-$" + Math.abs(a.pnl).toFixed(2) : "—";
+    const pnlStr = fmtPnl(a.pnl);
 
     const nameHtml = a.agentId
       ? `<a href="https://degen.virtuals.io/agents/${a.agentId}" target="_blank" class="agent-link">${a.displayName}</a>`
@@ -558,8 +563,8 @@ function renderBeTable() {
     const tr = document.createElement("tr");
     tr.innerHTML = `
       <td style="font-weight:500;white-space:nowrap">${nameHtml}</td>
-      <td>${a.subs}</td>
-      <td>$${a.subPrice}</td>
+      <td>${a.subs.toLocaleString("en-US")}</td>
+      <td>$${a.subPrice.toLocaleString("en-US")}</td>
       <td>${fmt(a.pot)}</td>
       <td style="color:var(--accent2)">${a.needed > 0 ? fmt(a.needed) : "—"}</td>
       <td style="color:${pnlColor};font-weight:600">${pnlStr}</td>
@@ -574,13 +579,57 @@ function renderBeTable() {
 }
 
 function renderBreakeven(potAgents, subAgents) {
-  const subMap = {};
-  (subAgents || []).forEach(a => { if (a.name) subMap[a.name.toLowerCase()] = a.count; });
+  // Hardcoded subscriber counts — Season 1 snapshot: Apr 3, 2026 02:00 UTC
+  const SEASON1_SUBS = {
+    "benyorke | starchild": 148, "benyorke": 148,
+    "argonaut ai": 98,
+    "otto ai": 95, "otto ai - trade execution agent": 95,
+    "pokedex": 86,
+    "butlerliquid": 83,
+    "ethy ai": 77,
+    "degeneratetrader": 72,
+    "taxerclaw": 62,
+    "traderbot": 48,
+    "degenx": 46,
+    "miclaw jordan": 41,
+    "profitreaper": 30,
+    "captain dackie": 22,
+    "super saiyan pikachu": 20,
+    "seykota": 20,
+    "alura": 15,
+    "mercury": 14,
+    "monyet": 13,
+    "welles wilder": 12,
+    "nox": 9,
+    "super saiyan raichu": 9,
+    "stanley druckenmiller": 8,
+    "gekkomode": 5,
+    "n3x11": 5,
+    "flo": 4,
+    "mlmtrader": 4,
+    "ggbots.ai": 4,
+    "fat tiger": 3,
+    "coldpotato": 3,
+    "clawstrike": 3,
+    "openfred": 2,
+    "aida": 2,
+    "axiom ai": 2,
+    "dennismind": 2,
+    "agc by virtuals": 2,
+    "allin": 2,
+    "breathe agent": 2,
+    "clio": 2,
+    "ictmaster": 2,
+    "longtradebot": 1,
+  };
   const SUB_PRICES = { "miclaw jordan": 23 };
   _beData = potAgents.map(a => {
     const displayName = a.name.replace("Otto AI - Trade Execution Agent", "Otto AI");
     const normName = a.name.replace(" 🏆","").toLowerCase();
-    const subs = subMap[normName] || Object.entries(subMap).find(([k]) => k.includes(normName.split(" ")[0]))?.[1] || 0;
+    // Use hardcoded subs; fallback: try first word match
+    const subs = SEASON1_SUBS[normName]
+      || Object.entries(SEASON1_SUBS).find(([k]) => k === normName.split(" ")[0])?.[1]
+      || 0;
     const subPrice = SUB_PRICES[normName] || 10;
     const needed = subs * subPrice * 2;
     const pnl = a.finalPnl || 0;
@@ -605,27 +654,7 @@ function renderBreakeven(potAgents, subAgents) {
   document.getElementById("breakevenSection").style.display = "block";
 }
 
-async function refreshPnl() {
-  try {
-    const r = await fetch("https://degen.virtuals.io/api/pot-agents");
-    const data = await r.json();
-    if (data.success && data.data) {
-      const potAgents = data.data.map(a => ({
-        name: a.currentSeason?.copyTradeAgentName || a.name,
-        agentId: a.currentSeason?.copyTradeAgentId || null,
-        pot: a.currentSeason?.startingCapital || 0,
-        finalPnl: a.currentSeason?.finalPnl || 0,
-        realizedPnl: a.currentSeason?.realizedPnl || 0,
-        unrealizedPnl: a.currentSeason?.unrealizedPnl || 0,
-        subPrice: 10,
-      }));
-      const subAgents = window._lastSubAgents || [];
-      renderBreakeven(potAgents, subAgents);
-      _lastPnlRefresh = Date.now();
-      updateAgoText();
-    }
-  } catch(e) { console.error("PnL refresh failed:", e); }
-}
+// refreshPnl removed — Season 1 data is final, loaded from data.json
 
 async function loadData() {
   try {
@@ -653,9 +682,10 @@ async function loadData() {
       const d = new Date(data.updatedAt);
       document.getElementById("lastUpdated").textContent = "Updated " + d.toUTCString().slice(5, 22) + " UTC";
     }
-    if (data.potAgents && data.potAgents.length > 0) {
+    if (data.potAgents && data.potAgents.length > 0 && !window._s1Loaded) {
       window._lastSubAgents = data.agents || [];
       renderBreakeven(data.potAgents, data.agents);
+      window._s1Loaded = true; // Season 1 data is final — don't overwrite
     }
     if (data.leaderboard && data.leaderboard.length > 0) {
       renderMetrics(data.leaderboard);
@@ -686,27 +716,7 @@ function updateAgoText() {
 }
 setInterval(updateAgoText, 5000);
 
-// Auto-poll PnL every 60s silently
-setInterval(async () => {
-  try {
-    const r = await fetch("https://degen.virtuals.io/api/pot-agents");
-    const data = await r.json();
-    if (data.success && data.data) {
-      const potAgents = data.data.map(a => ({
-        name: a.currentSeason?.copyTradeAgentName || a.name,
-        agentId: a.currentSeason?.copyTradeAgentId || null,
-        pot: a.currentSeason?.startingCapital || 0,
-        finalPnl: a.currentSeason?.finalPnl || 0,
-        realizedPnl: a.currentSeason?.realizedPnl || 0,
-        unrealizedPnl: a.currentSeason?.unrealizedPnl || 0,
-        subPrice: 10,
-      }));
-      renderBreakeven(potAgents, window._lastSubAgents || []);
-      _lastPnlRefresh = Date.now();
-      updateAgoText();
-    }
-  } catch(e) {}
-}, 60000);
+// Season 1 data is final — no need to auto-poll pot-agents API
 
 // Auto-refresh every 60 seconds
 setInterval(() => {
