@@ -252,7 +252,7 @@ tr.row-bronze td { background: rgba(205,127,50,0.04); }
                   Payout / sub <span class="sort-icon">↕</span>
                   <span class="tooltip-wrap">
                     <span class="tooltip-icon">i</span>
-                    <span class="tooltip-box">Estimated payout per subscriber if the pot closed now. Formula: (PnL × 50%) / subs. Negative means subscribers are currently at a loss.</span>
+                    <span class="tooltip-box">Estimated payout per subscriber if the pot closed now.<br>Formula: (PnL × 50%) / subs.<br>If PnL is negative, payout is $0.</span>
                   </span>
                 </span>
               </th>
@@ -571,9 +571,11 @@ function renderBeTable() {
       ? `<a href="https://degen.virtuals.io/agents/${a.agentId}" target="_blank" class="agent-link">${a.displayName}</a>`
       : a.displayName;
 
-    /* Payout per subscriber */
-    const payoutColor = a.payoutPerSub > 0 ? "#5DCAA5" : a.payoutPerSub < 0 ? "#E24B4A" : "var(--muted)";
-    const payoutStr = a.subs > 0 ? fmtPnl(a.payoutPerSub) : "—";
+    /* Payout per subscriber — 0 if PnL negative */
+    const payoutColor = a.payoutPerSub > 0 ? "#5DCAA5" : "var(--muted)";
+    const payoutStr = a.subs > 0
+      ? (a.payoutPerSub > 0 ? "+$" + a.payoutPerSub.toFixed(2) : "$0")
+      : "—";
 
     const tr = document.createElement("tr");
     tr.innerHTML = `
@@ -650,7 +652,7 @@ function renderBreakeven(potAgents, subAgents) {
     const needed = subs * subPrice * 2;
     const pnl = a.finalPnl || 0;
     const donePct = needed > 0 ? Math.max(0, Math.min((pnl / needed) * 100, 100)) : 0;
-    const payoutPerSub = subs > 0 ? (pnl * 0.5) / subs : 0;
+    const payoutPerSub = (subs > 0 && pnl > 0) ? (pnl * 0.5) / subs : 0;
     return { name: normName, displayName, agentId: a.agentId || null, subs, subPrice, pot: a.pot, needed, pnl, payoutPerSub, donePct };
   });
   renderBeTable();
