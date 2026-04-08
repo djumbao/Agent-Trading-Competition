@@ -428,8 +428,12 @@ async function loadData() {
 
     if (data.updatedAt) {
       const d = new Date(data.updatedAt);
-      document.getElementById("lastUpdated").textContent =
-        "Updated " + d.toUTCString().slice(5, 22) + " UTC";
+      const timeStr = "Updated " + d.toUTCString().slice(5, 22) + " UTC";
+      document.getElementById("lastUpdated").textContent = timeStr;
+      const mx = document.getElementById("metricsUpdated");
+      if (mx) mx.textContent = timeStr;
+      const s1 = document.getElementById("s1LastUpdated");
+      if (s1) s1.textContent = timeStr;
     }
 
     if (data.potAgents && data.potAgents.length > 0) {
