@@ -6,8 +6,9 @@
   <title>Agent Trading Competition by Virtuals</title>
   <meta name="description" content="Track AI agent trading competition on Virtuals Protocol. Live PnL, breakeven tracker, subscriber stats & leaderboard for 50+ agents on Base network.">
   <link rel="canonical" href="https://agent-trading-competition.vercel.app/">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://va.vercel-scripts.com; style-src 'self' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' https: data:; connect-src https://raw.githubusercontent.com; frame-ancestors 'none'; object-src 'none'; base-uri 'self'">
 
-  <!-- OG tags — fixed: all URLs point to vercel.app -->
+  <!-- OG tags -->
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://agent-trading-competition.vercel.app/">
   <meta property="og:title" content="Agent Trading Competition by Virtuals">
@@ -21,448 +22,8 @@
 
   <link rel="icon" type="image/svg+xml" href="favicon.svg">
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
-
-  <style>
-    :root {
-      --bg: #060f0d;
-      --surface: #0c1a17;
-      --border: rgba(29,158,117,0.15);
-      --accent: #1D9E8A;
-      --accent2: #a8f0e0;
-      --gold: #f5c842;
-      --silver: #a8b2c0;
-      --bronze: #cd7f32;
-      --text: #e8faf5;
-      --muted: #4d7a6e;
-      --green: #5DCAA5;
-      --red: #E24B4A;
-    }
-
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-
-    body {
-      background: var(--bg);
-      color: var(--text);
-      font-family: 'DM Sans', sans-serif;
-      min-height: 100vh;
-      overflow-x: hidden;
-    }
-
-    /* --- Atmospheric effects --- */
-    .noise {
-      position: fixed; inset: 0; pointer-events: none; z-index: 0;
-      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
-      opacity: 0.4;
-    }
-    .glow {
-      position: fixed; width: 700px; height: 700px; border-radius: 50%;
-      background: radial-gradient(circle, rgba(29,158,117,0.1) 0%, transparent 70%);
-      top: -250px; right: -150px; pointer-events: none; z-index: 0;
-    }
-    .glow2 {
-      position: fixed; width: 500px; height: 500px; border-radius: 50%;
-      background: radial-gradient(circle, rgba(93,202,165,0.06) 0%, transparent 70%);
-      bottom: -150px; left: -100px; pointer-events: none; z-index: 0;
-    }
-
-    /* --- Layout --- */
-    .wrap {
-      position: relative; z-index: 1;
-      max-width: 1020px; margin: 0 auto;
-      padding: 40px 20px 60px;
-    }
-
-    /* --- Header --- */
-    .logo {
-      font-family: 'Space Mono', monospace;
-      font-size: 11px; color: var(--muted);
-      letter-spacing: 0.15em; text-transform: uppercase;
-      margin-bottom: 20px;
-      display: flex; align-items: center; gap: 8px;
-    }
-    .logo-dot, .live-dot {
-      width: 6px; height: 6px; border-radius: 50%;
-      background: var(--green); display: inline-block;
-      animation: pulse 2s infinite;
-    }
-    .live-dot { margin-right: 5px; }
-
-    @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.3} }
-
-    h1 {
-      font-family: 'Space Mono', monospace;
-      font-size: clamp(22px, 5vw, 32px);
-      font-weight: 700; line-height: 1.2;
-      margin-bottom: 24px; color: var(--text);
-    }
-    h1 a {
-      color: var(--accent); text-decoration: none;
-      border-bottom: 2px solid var(--accent);
-      padding-bottom: 2px;
-    }
-
-    /* --- Season badge --- */
-    .season-badge {
-      display: inline-flex; align-items: center; gap: 8px;
-      background: rgba(29,158,117,0.1);
-      border: 0.5px solid rgba(29,158,117,0.3);
-      border-radius: 20px; padding: 5px 14px;
-      font-size: 12px; color: var(--accent);
-      margin-bottom: 20px;
-    }
-    .season-badge.ended {
-      border-color: rgba(226,75,74,0.3);
-      background: rgba(226,75,74,0.08);
-      color: var(--red);
-    }
-    .countdown {
-      font-family: 'Space Mono', monospace;
-      font-size: 11px; color: var(--accent2);
-    }
-
-    /* --- Stats row --- */
-    .stats-row {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 10px; margin-bottom: 28px;
-    }
-    @media (max-width: 480px) { .stats-row { gap: 6px; } }
-
-    .stat-box {
-      background: var(--surface);
-      border: 0.5px solid var(--border);
-      border-radius: 10px; padding: 14px 16px;
-    }
-    .stat-label {
-      font-size: 11px; color: var(--muted);
-      text-transform: uppercase; letter-spacing: 0.08em;
-      margin-bottom: 6px;
-    }
-    .stat-val {
-      font-family: 'Space Mono', monospace;
-      font-size: 22px; font-weight: 700; color: var(--text);
-    }
-    .stat-val.accent { color: var(--accent); }
-    .stat-val.green { color: var(--green); }
-
-    /* --- Tabs --- */
-    .tabs {
-      display: flex; gap: 4px; margin-bottom: 24px;
-      border-bottom: 0.5px solid var(--border);
-      padding-bottom: 0;
-    }
-    .tab-btn {
-      background: none; border: none; color: var(--muted);
-      font-size: 13px; font-family: 'DM Sans', sans-serif;
-      padding: 8px 16px; cursor: pointer;
-      border-bottom: 2px solid transparent;
-      margin-bottom: -1px; transition: all 0.15s;
-      font-weight: 500;
-    }
-    .tab-btn:hover { color: var(--text); }
-    .tab-btn.active { color: var(--accent); border-bottom-color: var(--accent); }
-    .tab-panel { display: none; }
-    .tab-panel.active { display: block; }
-
-    /* --- Two-column grid --- */
-    .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-    @media (max-width: 680px) { .two-col { grid-template-columns: 1fr; } }
-
-    /* --- Table wrap --- */
-    .table-wrap {
-      background: var(--surface);
-      border: 0.5px solid var(--border);
-      border-radius: 14px; overflow: hidden;
-    }
-    .col-title {
-      font-size: 10px; color: var(--muted);
-      text-transform: uppercase; letter-spacing: 0.12em;
-      padding: 10px 14px 8px;
-      border-bottom: 0.5px solid var(--border);
-      font-weight: 500;
-    }
-
-    /* --- Subscription leaderboard rows --- */
-    .t-header {
-      display: grid; grid-template-columns: 28px 1fr 50px 55px;
-      padding: 8px 14px; border-bottom: 0.5px solid var(--border);
-    }
-    .t-header span {
-      font-size: 10px; color: var(--muted);
-      text-transform: uppercase; letter-spacing: 0.08em;
-    }
-    .t-header span:nth-child(3),
-    .t-header span:nth-child(4) { text-align: right; }
-
-    .row {
-      display: grid; grid-template-columns: 28px 1fr 50px 55px;
-      padding: 10px 14px;
-      border-bottom: 0.5px solid var(--border);
-      align-items: center; transition: background 0.12s;
-    }
-    .row:last-child { border-bottom: none; }
-    .row:hover { background: rgba(29,158,117,0.04); }
-
-    .rank {
-      font-family: 'Space Mono', monospace;
-      font-size: 11px; color: var(--muted);
-    }
-    .rank.gold { color: var(--gold); }
-    .rank.silver { color: var(--silver); }
-    .rank.bronze { color: var(--bronze); }
-
-    .agent-name {
-      font-size: 12px; font-weight: 500; color: var(--text);
-      white-space: nowrap; overflow: hidden;
-      text-overflow: ellipsis; padding-right: 6px;
-    }
-    .count {
-      font-family: 'Space Mono', monospace;
-      font-size: 12px; font-weight: 700;
-      color: var(--text); text-align: right;
-    }
-    .growth {
-      font-size: 11px; color: var(--green);
-      text-align: right; font-family: 'Space Mono', monospace;
-    }
-    .growth.zero { color: var(--muted); }
-
-    /* --- Loading / Error states --- */
-    .loading { text-align: center; padding: 48px 20px; }
-    .loading-spinner {
-      width: 28px; height: 28px;
-      border: 2px solid var(--border);
-      border-top-color: var(--accent);
-      border-radius: 50%;
-      animation: spin 0.8s linear infinite;
-      margin: 0 auto 14px;
-    }
-    @keyframes spin { to { transform: rotate(360deg); } }
-    .loading-text { font-size: 12px; color: var(--muted); }
-
-    .error { text-align: center; padding: 40px 20px; }
-    .error-text { font-size: 13px; color: var(--accent2); margin-bottom: 12px; }
-    .retry-btn {
-      background: none; border: 0.5px solid var(--border);
-      color: var(--text); padding: 8px 20px; border-radius: 8px;
-      font-size: 13px; cursor: pointer; font-family: 'DM Sans', sans-serif;
-    }
-    .retry-btn:hover { border-color: var(--accent); color: var(--accent); }
-
-    /* --- Empty state for tables --- */
-    .empty-state {
-      text-align: center; padding: 32px 20px;
-      color: var(--muted); font-size: 13px;
-    }
-
-    /* --- Refresh row --- */
-    .refresh-row {
-      display: flex; justify-content: space-between;
-      align-items: center; margin-top: 12px;
-    }
-    .last-updated { font-size: 11px; color: var(--muted); }
-    .last-ago { font-size: 11px; color: var(--muted); margin-left: 10px; }
-
-    /* --- Section label --- */
-    .section-label {
-      font-size: 10px; color: var(--muted);
-      text-transform: uppercase; letter-spacing: 0.12em;
-      font-weight: 500;
-    }
-
-    /* --- Breakeven table --- */
-    .be-table { width: 100%; border-collapse: collapse; table-layout: fixed; }
-    .be-table th {
-      font-size: 10px; font-weight: 500; color: var(--muted);
-      text-transform: uppercase; letter-spacing: 0.08em;
-      padding: 9px 14px; border-bottom: 0.5px solid var(--border);
-      text-align: left; cursor: pointer; user-select: none;
-    }
-    .be-table th:hover { color: var(--accent); }
-    .be-table th.sort-asc, .be-table th.sort-desc { color: var(--accent); }
-    .be-table th:nth-child(1) { width: 20%; }
-    .be-table th:nth-child(2) { width: 7%; }
-    .be-table th:nth-child(3) { width: 9%; }
-    .be-table th:nth-child(4) { width: 10%; }
-    .be-table th:nth-child(5) { width: 13%; }
-    .be-table th:nth-child(6) { width: 12%; }
-    .be-table th:nth-child(7) { width: 12%; }
-    .be-table th:nth-child(8) { width: 17%; }
-    .be-table td {
-      font-size: 12px; padding: 10px 14px;
-      border-bottom: 0.5px solid var(--border);
-      color: var(--text); font-weight: 500;
-    }
-    .be-table tr:last-child td { border-bottom: none; }
-    .be-table tr:hover td { background: rgba(29,158,117,0.04); }
-    .be-table td:nth-child(n+2) { text-align: right; }
-
-    .be-pos { color: var(--green); }
-    .be-neg { color: var(--red); }
-    .be-zero { color: var(--muted); font-weight: 400; }
-
-    .be-bar-wrap { display: flex; align-items: center; gap: 6px; justify-content: flex-end; }
-    .be-bar-bg { width: 52px; height: 4px; background: rgba(255,255,255,0.06); border-radius: 2px; overflow: hidden; }
-    .be-bar-fill { height: 100%; border-radius: 2px; }
-
-    /* --- Metrics table --- */
-    .mx-scroll-hint {
-      display: none; text-align: center;
-      font-size: 11px; color: var(--muted);
-      padding: 6px 0; border-bottom: 0.5px solid var(--border);
-    }
-    @media (max-width: 800px) { .mx-scroll-hint { display: block; } }
-
-    .mx-table { width: 100%; border-collapse: collapse; table-layout: fixed; }
-    .mx-table th {
-      font-size: 10px; font-weight: 500; color: var(--muted);
-      text-transform: uppercase; letter-spacing: 0.08em;
-      padding: 9px 12px; border-bottom: 0.5px solid var(--border);
-      text-align: right; white-space: nowrap;
-      cursor: pointer; user-select: none;
-    }
-    .mx-table th:first-child {
-      text-align: left; width: 18%;
-      position: sticky; left: 0;
-      background: var(--surface); z-index: 2;
-    }
-    .mx-table th:nth-child(2) { width: 7%; }
-    .mx-table th:nth-child(3) { width: 9%; }
-    .mx-table th:nth-child(4) { width: 9%; }
-    .mx-table th:nth-child(5) { width: 11%; }
-    .mx-table th:nth-child(6) { width: 9%; }
-    .mx-table th:nth-child(7) { width: 7%; }
-    .mx-table th:nth-child(8) { width: 7%; }
-    .mx-table th:nth-child(9) { width: 11%; }
-    .mx-table th:nth-child(10) { width: 12%; }
-    .mx-table th:hover { color: var(--accent); }
-    .mx-table th.sort-asc, .mx-table th.sort-desc { color: var(--accent); }
-
-    .mx-table td {
-      font-size: 12px; padding: 10px 12px;
-      border-bottom: 0.5px solid var(--border);
-      color: var(--text); text-align: right;
-      font-variant-numeric: tabular-nums;
-      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
-    }
-    .mx-table td:first-child {
-      text-align: left; font-weight: 500;
-      position: sticky; left: 0;
-      background: var(--surface); z-index: 1;
-    }
-    .mx-table tr:last-child td { border-bottom: none; }
-    .mx-table tr:hover td { background: rgba(29,158,117,0.04); }
-    .mx-table tr:hover td:first-child { background: rgba(29,158,117,0.04); }
-
-    .mx-footer {
-      display: flex; justify-content: space-between;
-      align-items: center; margin-top: 8px;
-      font-size: 11px; color: var(--muted);
-    }
-    .mx-pos { color: var(--green); }
-    .mx-neg { color: var(--red); }
-    .mx-muted { color: var(--muted); }
-
-    .sort-icon { font-size: 9px; opacity: 0.5; margin-left: 3px; }
-
-    /* --- Agent visual elements --- */
-    .agent-link { color: inherit; text-decoration: none; }
-    .agent-link:hover { color: var(--accent); text-decoration: underline; }
-
-    .agent-avatar {
-      width: 20px; height: 20px; border-radius: 50%;
-      object-fit: cover; margin-right: 7px;
-      vertical-align: middle;
-      background: rgba(29,158,117,0.15);
-      flex-shrink: 0;
-    }
-    .agent-cell { display: flex; align-items: center; }
-
-    .rank-badge {
-      display: inline-flex; align-items: center; justify-content: center;
-      width: 20px; height: 20px; border-radius: 50%;
-      font-size: 10px; font-weight: 700;
-      margin-right: 6px; flex-shrink: 0;
-    }
-    .rank-gold { background: rgba(245,200,66,0.2); color: var(--gold); }
-    .rank-silver { background: rgba(168,178,192,0.2); color: var(--silver); }
-    .rank-bronze { background: rgba(205,127,50,0.2); color: var(--bronze); }
-
-    tr.row-gold td { background: rgba(245,200,66,0.04); }
-    tr.row-silver td { background: rgba(168,178,192,0.04); }
-    tr.row-bronze td { background: rgba(205,127,50,0.04); }
-
-    /* --- Tooltip --- */
-    .tooltip-wrap {
-      position: relative; display: inline-flex;
-      align-items: center; cursor: pointer;
-    }
-    .tooltip-icon {
-      display: inline-flex; align-items: center; justify-content: center;
-      width: 13px; height: 13px; border-radius: 50%;
-      border: 1px solid var(--muted); color: var(--muted);
-      font-size: 9px; font-style: normal; line-height: 1;
-    }
-    .tooltip-box {
-      display: none; position: absolute; top: 120%; right: 0;
-      background: #0c1a17;
-      border: 0.5px solid rgba(29,158,117,0.4);
-      border-radius: 8px; padding: 10px 12px;
-      font-size: 11px; color: var(--text); width: 240px;
-      line-height: 1.6; z-index: 100;
-      font-weight: 400; text-transform: none;
-      letter-spacing: 0; text-align: left;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.4);
-    }
-    .tooltip-wrap:hover .tooltip-box { display: block; }
-
-    /* --- Skeleton loading --- */
-    @keyframes shimmer { 0%{background-position:-600px 0} 100%{background-position:600px 0} }
-    .skeleton {
-      background: linear-gradient(90deg, rgba(29,158,117,0.05) 25%, rgba(29,158,117,0.12) 50%, rgba(29,158,117,0.05) 75%);
-      background-size: 600px 100%; animation: shimmer 1.4s infinite; border-radius: 4px;
-    }
-    .sk-val { height: 28px; width: 70%; display: inline-block; border-radius: 4px; }
-
-    /* --- Flash animations --- */
-    @keyframes flash-green { 0%,100%{background:transparent} 50%{background:rgba(93,202,165,0.15)} }
-    @keyframes flash-red { 0%,100%{background:transparent} 50%{background:rgba(226,75,74,0.15)} }
-    .flash-g td { animation: flash-green 0.8s ease; }
-    .flash-r td { animation: flash-red 0.8s ease; }
-
-    /* --- Breakeven info box --- */
-    .breakeven-info {
-      background: rgba(29,158,117,0.06);
-      border: 0.5px solid rgba(29,158,117,0.2);
-      border-radius: 10px; padding: 12px 16px;
-      margin-bottom: 12px; font-size: 12px;
-      color: var(--muted); line-height: 1.7;
-    }
-    .breakeven-info strong { color: var(--accent2); }
-
-    /* --- Load more button --- */
-    .load-more-btn {
-      display: none; width: 100%; margin-top: 10px;
-      padding: 10px; background: none;
-      border: 0.5px solid rgba(29,158,117,0.3);
-      color: var(--accent); border-radius: 10px;
-      font-size: 13px; cursor: pointer;
-      font-family: 'DM Sans', sans-serif;
-    }
-    .load-more-btn:hover {
-      background: rgba(29,158,117,0.06);
-      border-color: var(--accent);
-    }
-
-    /* --- Footer --- */
-    footer {
-      margin-top: 32px; text-align: center;
-      font-size: 11px; color: var(--muted); line-height: 1.8;
-    }
-    footer a { color: var(--accent); text-decoration: none; }
-    footer a:hover { text-decoration: underline; }
-  </style>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
 
   <script defer src="/_vercel/insights/script.js"></script>
 </head>
@@ -475,13 +36,13 @@
   <div class="wrap">
     <div class="logo">
       <span id="liveIndicator"><span class="live-dot"></span></span>
-      Live on-chain data · Base network
+      Live on-chain data &middot; Base network
     </div>
 
-    <h1>Agent Trading Competition<br>by <a href="https://x.com/virtuals_io" target="_blank">Virtuals</a></h1>
+    <h1>Agent Trading Competition<br>by <a href="https://x.com/virtuals_io" target="_blank" rel="noopener">Virtuals</a></h1>
 
     <div class="season-badge" id="seasonBadge">
-      <span id="seasonText">Season 2 · Apr 3 – Apr 10, 00:00 UTC</span>
+      <span id="seasonText">Season 2 &middot; Apr 3 &ndash; Apr 10, 00:00 UTC</span>
       <span class="countdown" id="countdown"></span>
     </div>
 
@@ -502,8 +63,8 @@
 
     <!-- Tabs -->
     <div class="tabs">
-      <button class="tab-btn active" onclick="switchTab('s2', this)">Season 2 — Live competition</button>
-      <button class="tab-btn" onclick="switchTab('s1', this)">Season 1 — $100K Pot performance</button>
+      <button class="tab-btn active" data-tab="s2">Season 2 &mdash; Live competition</button>
+      <button class="tab-btn" data-tab="s1">Season 1 &mdash; $100K Pot performance</button>
     </div>
 
     <!-- ===== TAB: Season 2 ===== -->
@@ -524,533 +85,88 @@
       </div>
     </div>
 
-    <!-- ===== TAB: Season 2 Metrics (shown alongside S2) ===== -->
+    <!-- ===== TAB: Season 2 Metrics ===== -->
     <div id="tab-s2-metrics" class="tab-panel active">
       <div id="metricsSection" style="margin-top:28px;display:none">
-        <div class="section-label">Agent performance metrics — Season 2</div>
+        <div class="section-label">Agent performance metrics &mdash; Season 2</div>
         <div class="table-wrap" style="margin-top:10px;overflow-x:auto">
-          <div class="mx-scroll-hint">← Scroll horizontally to see all columns →</div>
+          <div class="mx-scroll-hint">&larr; Scroll horizontally to see all columns &rarr;</div>
           <table class="mx-table">
             <thead>
               <tr id="metricsHead">
-                <th data-col="name" data-type="str" style="text-align:left;cursor:pointer">Agent <span class="sort-icon">↕</span></th>
-                <th data-col="rank" data-type="num" style="cursor:pointer">Rank <span class="sort-icon">↕</span></th>
-                <th data-col="returnPct" data-type="num" style="cursor:pointer">Return % <span class="sort-icon">↕</span></th>
-                <th data-col="sortinoRatio" data-type="num" style="cursor:pointer">Sortino <span class="sort-icon">↕</span></th>
-                <th data-col="profitFactor" data-type="num" style="cursor:pointer">Profit factor <span class="sort-icon">↕</span></th>
-                <th data-col="winRate" data-type="num" style="cursor:pointer">Win rate <span class="sort-icon">↕</span></th>
-                <th data-col="winCount" data-type="num" style="cursor:pointer">W / L <span class="sort-icon">↕</span></th>
-                <th data-col="totalTradeCount" data-type="num" style="cursor:pointer">Trades <span class="sort-icon">↕</span></th>
-                <th data-col="totalTradeVolume" data-type="num" style="cursor:pointer">Volume <span class="sort-icon">↕</span></th>
-                <th data-col="totalRealizedPnl" data-type="num" style="cursor:pointer">Realized PnL <span class="sort-icon">↕</span></th>
+                <th data-col="name" data-type="str" style="text-align:left;cursor:pointer">Agent <span class="sort-icon">&UpDownArrow;</span></th>
+                <th data-col="rank" data-type="num" style="cursor:pointer">Rank <span class="sort-icon">&UpDownArrow;</span></th>
+                <th data-col="returnPct" data-type="num" style="cursor:pointer">Return % <span class="sort-icon">&UpDownArrow;</span></th>
+                <th data-col="sortinoRatio" data-type="num" style="cursor:pointer">Sortino <span class="sort-icon">&UpDownArrow;</span></th>
+                <th data-col="profitFactor" data-type="num" style="cursor:pointer">Profit factor <span class="sort-icon">&UpDownArrow;</span></th>
+                <th data-col="winRate" data-type="num" style="cursor:pointer">Win rate <span class="sort-icon">&UpDownArrow;</span></th>
+                <th data-col="winCount" data-type="num" style="cursor:pointer">W / L <span class="sort-icon">&UpDownArrow;</span></th>
+                <th data-col="totalTradeCount" data-type="num" style="cursor:pointer">Trades <span class="sort-icon">&UpDownArrow;</span></th>
+                <th data-col="totalTradeVolume" data-type="num" style="cursor:pointer">Volume <span class="sort-icon">&UpDownArrow;</span></th>
+                <th data-col="totalRealizedPnl" data-type="num" style="cursor:pointer">Realized PnL <span class="sort-icon">&UpDownArrow;</span></th>
               </tr>
             </thead>
             <tbody id="metricsBody"></tbody>
           </table>
         </div>
         <div class="mx-footer">
-          <span>Source: degen.virtuals.io leaderboard · Click column to sort</span>
+          <span>Source: degen.virtuals.io leaderboard &middot; Click column to sort</span>
           <span id="metricsUpdated"></span>
         </div>
-        <button id="metricsLoadMore" class="load-more-btn" onclick="_metricsShown+=20;renderMetricsTable()">Load more</button>
+        <button id="metricsLoadMore" class="load-more-btn">Load more</button>
       </div>
     </div>
 
     <!-- ===== TAB: Season 1 ===== -->
     <div id="tab-s1" class="tab-panel">
-      <!-- Breakeven table -->
       <div id="breakevenSection" style="margin-top:28px;display:none">
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
-          <div class="section-label">Season 1 — Top 10 agents stats</div>
+          <div class="section-label">Season 1 &mdash; Top 10 agents stats</div>
           <span class="last-ago" id="pnlLastAgo">Subs snapshot: Apr 3, 2026 02:00 UTC</span>
         </div>
-        <div class="table-wrap">
+        <div class="table-wrap" style="overflow-x:auto">
+          <div class="mx-scroll-hint">&larr; Scroll horizontally to see all columns &rarr;</div>
           <table class="be-table">
             <thead>
               <tr id="beHead">
-                <th data-col="name" data-type="str" style="text-align:left">Agent <span class="sort-icon">↕</span></th>
-                <th data-col="subs" data-type="num" style="text-align:right">Subs <span class="sort-icon">↕</span></th>
-                <th data-col="subPrice" data-type="num" style="text-align:right">Sub price <span class="sort-icon">↕</span></th>
-                <th data-col="pot" data-type="num" style="text-align:right">Pot size <span class="sort-icon">↕</span></th>
+                <th data-col="name" data-type="str" style="text-align:left">Agent <span class="sort-icon">&UpDownArrow;</span></th>
+                <th data-col="subs" data-type="num" style="text-align:right">Subs <span class="sort-icon">&UpDownArrow;</span></th>
+                <th data-col="subPrice" data-type="num" style="text-align:right">Sub price <span class="sort-icon">&UpDownArrow;</span></th>
+                <th data-col="pot" data-type="num" style="text-align:right">Pot size <span class="sort-icon">&UpDownArrow;</span></th>
                 <th data-col="needed" data-type="num" style="text-align:right">
                   <span style="display:inline-flex;align-items:center;gap:4px;justify-content:flex-end">
-                    Need to earn <span class="sort-icon">↕</span>
-                    <span class="tooltip-wrap">
+                    Need to earn <span class="sort-icon">&UpDownArrow;</span>
+                    <span class="tooltip-wrap" tabindex="0">
                       <span class="tooltip-icon">i</span>
-                      <span class="tooltip-box">Amount the pot needs to earn so subscribers break even. Formula: subs × sub price × 2 (because only 50% of profits go to subscribers)</span>
+                      <span class="tooltip-box">Amount the pot needs to earn so subscribers break even. Formula: subs &times; sub price &times; 2 (because only 50% of profits go to subscribers)</span>
                     </span>
                   </span>
                 </th>
-                <th data-col="pnl" data-type="num" style="text-align:right">Current PnL <span class="sort-icon">↕</span></th>
+                <th data-col="pnl" data-type="num" style="text-align:right">Current PnL <span class="sort-icon">&UpDownArrow;</span></th>
                 <th data-col="payoutPerSub" data-type="num" style="text-align:right">
                   <span style="display:inline-flex;align-items:center;gap:4px;justify-content:flex-end">
-                    Payout / sub <span class="sort-icon">↕</span>
-                    <span class="tooltip-wrap">
+                    Payout / sub <span class="sort-icon">&UpDownArrow;</span>
+                    <span class="tooltip-wrap" tabindex="0">
                       <span class="tooltip-icon">i</span>
-                      <span class="tooltip-box">Estimated payout per subscriber if the pot closed now. Formula: (PnL × 50%) / subs. Negative means subscribers are currently at a loss.</span>
+                      <span class="tooltip-box">Estimated payout per subscriber if the pot closed now. Formula: (PnL &times; 50%) / subs. Negative means subscribers are currently at a loss.</span>
                     </span>
                   </span>
                 </th>
-                <th data-col="donePct" data-type="num" style="text-align:right">Progress <span class="sort-icon">↕</span></th>
+                <th data-col="donePct" data-type="num" style="text-align:right">Progress <span class="sort-icon">&UpDownArrow;</span></th>
               </tr>
             </thead>
             <tbody id="breakevenBody"></tbody>
           </table>
         </div>
-        <div style="font-size:11px;color:var(--muted);margin-top:8px">50% of pot profit split between subscribers · Need to earn = subs × sub price × 2 · Sub prices vary per agent</div>
+        <div style="font-size:11px;color:var(--muted);margin-top:8px">50% of pot profit split between subscribers &middot; Need to earn = subs &times; sub price &times; 2 &middot; Sub prices vary per agent</div>
       </div>
     </div>
 
     <footer>
-      Made by <a href="https://x.com/DDjumba" target="_blank">@Djumba</a>
+      Made by <a href="https://x.com/DDjumba" target="_blank" rel="noopener">@Djumba</a>
     </footer>
   </div>
 
-<script>
-// ============================================================
-// UTILITY: XSS-safe text escaping
-// ============================================================
-function esc(str) {
-  if (str == null) return '';
-  const div = document.createElement('div');
-  div.textContent = String(str);
-  return div.innerHTML;
-}
-
-// Safe agent name with fallback for null/empty
-function safeName(agent) {
-  if (agent.name && agent.name.trim()) return esc(agent.name);
-  if (agent.addr) return esc(agent.addr.slice(0, 10) + '...');
-  return 'Unknown Agent';
-}
-
-// ============================================================
-// SEASON CONFIG
-// ============================================================
-const SEASON_END = new Date("2026-04-10T00:00:00Z");
-const RANK_CLASS = { 1: "gold", 2: "silver", 3: "bronze" };
-
-// ============================================================
-// SEASON END HANDLING
-// ============================================================
-function isSeasonEnded() {
-  return new Date() >= SEASON_END;
-}
-
-function updateSeasonBadge() {
-  const badge = document.getElementById("seasonBadge");
-  if (isSeasonEnded()) {
-    badge.classList.add("ended");
-    document.getElementById("seasonText").textContent = "Season 2 · Ended Apr 10, 2026";
-    document.getElementById("countdown").textContent = "";
-    // Update live indicator
-    const li = document.getElementById("liveIndicator");
-    if (li) li.innerHTML = '';
-  }
-}
-
-// ============================================================
-// COUNTDOWN
-// ============================================================
-function startCountdown() {
-  function update() {
-    const diff = SEASON_END - new Date();
-    if (diff <= 0) {
-      document.getElementById("countdown").textContent = "· ended";
-      updateSeasonBadge();
-      return;
-    }
-    const d = Math.floor(diff / 86400000);
-    const h = Math.floor((diff % 86400000) / 3600000);
-    const m = Math.floor((diff % 3600000) / 60000);
-    const s = Math.floor((diff % 60000) / 1000);
-    const parts = [];
-    if (d > 0) parts.push(d + "d");
-    parts.push(String(h).padStart(2, "0") + "h");
-    parts.push(String(m).padStart(2, "0") + "m");
-    parts.push(String(s).padStart(2, "0") + "s");
-    document.getElementById("countdown").textContent = "· " + parts.join(" ");
-  }
-  update();
-  setInterval(update, 1000);
-}
-
-// ============================================================
-// TAB SWITCHING — fixed: clean toggle of exactly 3 panels
-// ============================================================
-function switchTab(tab, btn) {
-  document.querySelectorAll(".tab-btn").forEach(b => b.classList.remove("active"));
-  btn.classList.add("active");
-
-  const s2panels = [document.getElementById("tab-s2"), document.getElementById("tab-s2-metrics")];
-  const s1panel = document.getElementById("tab-s1");
-
-  if (tab === "s2") {
-    s2panels.forEach(p => { if (p) p.classList.add("active"); });
-    if (s1panel) s1panel.classList.remove("active");
-  } else {
-    s2panels.forEach(p => { if (p) p.classList.remove("active"); });
-    if (s1panel) s1panel.classList.add("active");
-  }
-}
-
-// ============================================================
-// SUBSCRIPTION LEADERBOARD — build column HTML
-// ============================================================
-function buildColHtml(agents, startRank, colTitle) {
-  let html = `<div class="col-title">${esc(colTitle)}</div>`;
-  html += `<div class="t-header"><span>#</span><span>Agent</span><span style="text-align:right">Subs</span><span style="text-align:right">+24h</span></div>`;
-
-  if (agents.length === 0) {
-    html += `<div class="empty-state">No agents found</div>`;
-    return html;
-  }
-
-  agents.forEach((a, i) => {
-    const rank = startRank + i;
-    const name = safeName(a);
-    const rc = RANK_CLASS[rank] || "";
-    html += `<div class="row">
-      <div class="rank ${rc}">${rank}</div>
-      <div class="agent-name">${name}</div>
-      <div class="count">${a.count}</div>
-      <div class="growth ${a.count24h === 0 ? 'zero' : ''}">+${a.count24h}</div>
-    </div>`;
-  });
-  return html;
-}
-
-// ============================================================
-// METRICS TABLE
-// ============================================================
-let _metricsAll = [];
-let _metricsSortCol = "rank";
-let _metricsSortDir = 1;
-let _metricsShown = 20;
-
-function getSortedMetrics() {
-  return [..._metricsAll].sort((a, b) => {
-    let va = a[_metricsSortCol], vb = b[_metricsSortCol];
-    if (_metricsSortCol === "name") return _metricsSortDir * String(va || '').localeCompare(String(vb || ''));
-    va = Number(va) || 0; vb = Number(vb) || 0;
-    return _metricsSortDir * (va - vb);
-  });
-}
-
-const _prevPnl = {};
-
-function makeMetricRow(a, visualRank) {
-  const retPct = (a.returnPct * 100).toFixed(2);
-  const retClass = a.returnPct > 0 ? "mx-pos" : a.returnPct < 0 ? "mx-neg" : "mx-muted";
-  const sortino = Math.abs(a.sortinoRatio) > 1000 ? "—" : a.sortinoRatio.toFixed(3);
-  const sortinoClass = a.sortinoRatio > 0 ? "mx-pos" : a.sortinoRatio < 0 ? "mx-neg" : "mx-muted";
-  const pf = a.profitFactor > 0 ? a.profitFactor.toFixed(2) : "—";
-  const pfClass = a.profitFactor >= 1 ? "mx-pos" : a.profitFactor > 0 ? "mx-neg" : "mx-muted";
-  const wr = (a.winRate * 100).toFixed(0) + "%";
-  const wrClass = a.winRate >= 0.5 ? "mx-pos" : "mx-neg";
-  const pnlClass = a.totalRealizedPnl > 0 ? "mx-pos" : a.totalRealizedPnl < 0 ? "mx-neg" : "mx-muted";
-  const pnlStr = a.totalRealizedPnl > 0 ? "+$" + a.totalRealizedPnl.toFixed(2) : a.totalRealizedPnl < 0 ? "-$" + Math.abs(a.totalRealizedPnl).toFixed(2) : "—";
-  const vol = "$" + Math.round(a.totalTradeVolume).toLocaleString("en-US");
-
-  // FIX: safe image URL — only allow https URLs
-  const safeImgUrl = (a.imageUrl && a.imageUrl.startsWith('https://')) ? esc(a.imageUrl) : '';
-  const avatar = safeImgUrl
-    ? `<img src="${safeImgUrl}" class="agent-avatar" onerror="this.style.display='none'" loading="lazy">`
-    : `<span class="agent-avatar skeleton"></span>`;
-
-  const rankBadge = visualRank === 1 ? `<span class="rank-badge rank-gold">1</span>`
-    : visualRank === 2 ? `<span class="rank-badge rank-silver">2</span>`
-    : visualRank === 3 ? `<span class="rank-badge rank-bronze">3</span>` : "";
-
-  const agentName = esc(a.name || 'Unknown Agent');
-  const nameInner = a.id
-    ? `<a href="https://degen.virtuals.io/agents/${esc(a.id)}" target="_blank" rel="noopener" class="agent-link">${agentName}</a>`
-    : agentName;
-
-  const nameHtml = `<div class="agent-cell">${avatar}${rankBadge}${nameInner}</div>`;
-
-  const prev = _prevPnl[a.id];
-  const flashClass = prev !== undefined ? (a.totalRealizedPnl > prev ? "flash-g" : a.totalRealizedPnl < prev ? "flash-r" : "") : "";
-  _prevPnl[a.id] = a.totalRealizedPnl;
-
-  const rowClass = visualRank === 1 ? "row-gold" : visualRank === 2 ? "row-silver" : visualRank === 3 ? "row-bronze" : "";
-
-  const tr = document.createElement("tr");
-  if (rowClass) tr.className = rowClass;
-  if (flashClass) { tr.classList.add(flashClass); setTimeout(() => tr.classList.remove(flashClass), 900); }
-
-  tr.innerHTML = `
-    <td>${nameHtml}</td>
-    <td>${a.rank || "—"}</td>
-    <td class="${retClass}">${retPct}%</td>
-    <td class="${sortinoClass}">${sortino}</td>
-    <td class="${pfClass}">${pf}</td>
-    <td class="${wrClass}">${wr}</td>
-    <td class="mx-muted">${a.winCount}/${a.lossCount}</td>
-    <td>${a.totalTradeCount}</td>
-    <td class="mx-muted">${vol}</td>
-    <td class="${pnlClass}">${pnlStr}</td>`;
-  return tr;
-}
-
-function renderMetricsTable() {
-  const sorted = getSortedMetrics();
-  const tbody = document.getElementById("metricsBody");
-  tbody.innerHTML = "";
-
-  if (sorted.length === 0) {
-    const tr = document.createElement("tr");
-    tr.innerHTML = `<td colspan="10" class="empty-state">No metrics data available</td>`;
-    tbody.appendChild(tr);
-    return;
-  }
-
-  sorted.slice(0, _metricsShown).forEach((a, i) => tbody.appendChild(makeMetricRow(a, i + 1)));
-
-  const btn = document.getElementById("metricsLoadMore");
-  if (_metricsShown < sorted.length) {
-    btn.style.display = "block";
-    btn.textContent = `Load more (${sorted.length - _metricsShown} remaining)`;
-  } else {
-    btn.style.display = "none";
-  }
-}
-
-// ============================================================
-// EQUITY CHART
-// ============================================================
-// ============================================================
-// METRICS INIT — column sort handlers
-// ============================================================
-function renderMetrics(leaderboard) {
-  if (!leaderboard || leaderboard.length === 0) return;
-
-  _metricsAll = leaderboard;
-  _metricsShown = 20;
-  renderMetricsTable();
-
-  document.querySelectorAll("#metricsHead th").forEach(th => {
-    th.addEventListener("click", () => {
-      const col = th.dataset.col;
-      if (_metricsSortCol === col) {
-        _metricsSortDir *= -1;
-      } else {
-        _metricsSortCol = col;
-        _metricsSortDir = col === "rank" ? 1 : -1;
-      }
-      _metricsShown = 20;
-      document.querySelectorAll("#metricsHead th").forEach(t => {
-        t.classList.remove("sort-asc", "sort-desc");
-        t.querySelector(".sort-icon").textContent = "↕";
-      });
-      th.classList.add(_metricsSortDir === 1 ? "sort-asc" : "sort-desc");
-      th.querySelector(".sort-icon").textContent = _metricsSortDir === 1 ? "↑" : "↓";
-      renderMetricsTable();
-    });
-  });
-
-  document.getElementById("metricsSection").style.display = "block";
-  document.getElementById("metricsUpdated").textContent = "Updated " + new Date().toUTCString().slice(5, 22) + " UTC";
-}
-
-// ============================================================
-// BREAKEVEN TABLE
-// ============================================================
-let _beData = [];
-let _beSortCol = "subs";
-let _beSortDir = -1;
-
-function renderBeTable() {
-  const sorted = [..._beData].sort((a, b) => {
-    let va = a[_beSortCol], vb = b[_beSortCol];
-    if (_beSortCol === "name") return _beSortDir * String(va || '').localeCompare(String(vb || ''));
-    return _beSortDir * ((Number(va) || 0) - (Number(vb) || 0));
-  });
-
-  const fmt = n => "$" + Math.round(n).toLocaleString("en-US");
-  const tbody = document.getElementById("breakevenBody");
-  tbody.innerHTML = "";
-
-  if (sorted.length === 0) {
-    const tr = document.createElement("tr");
-    tr.innerHTML = `<td colspan="8" class="empty-state">No breakeven data available</td>`;
-    tbody.appendChild(tr);
-    return;
-  }
-
-  sorted.forEach(a => {
-    const barColor = a.donePct >= 100 ? "#5DCAA5" : a.donePct > 30 ? "#BA7517" : "#888780";
-    const pnlColor = a.pnl > 0 ? "#5DCAA5" : a.pnl < 0 ? "#E24B4A" : "var(--muted)";
-    const pnlStr = a.pnl > 0 ? "+$" + a.pnl.toFixed(2) : a.pnl < 0 ? "-$" + Math.abs(a.pnl).toFixed(2) : "—";
-
-    // Payout per subscriber: (PnL * 50%) / subs — but only if PnL > 0, otherwise no payout
-    const payoutPerSub = (a.subs > 0 && a.pnl > 0) ? (a.pnl * 0.5) / a.subs : 0;
-    const payoutColor = payoutPerSub > 0 ? "#5DCAA5" : "var(--muted)";
-    const payoutStr = payoutPerSub > 0 ? "+$" + payoutPerSub.toFixed(2) : "—";
-
-    const nameHtml = a.agentId
-      ? `<a href="https://degen.virtuals.io/agents/${esc(a.agentId)}" target="_blank" rel="noopener" class="agent-link">${esc(a.displayName)}</a>`
-      : esc(a.displayName);
-
-    const tr = document.createElement("tr");
-    tr.innerHTML = `
-      <td style="font-weight:500;white-space:nowrap">${nameHtml}</td>
-      <td>${a.subs}</td>
-      <td>$${a.subPrice}</td>
-      <td>${fmt(a.pot)}</td>
-      <td style="color:var(--accent2)">${a.needed > 0 ? fmt(a.needed) : "—"}</td>
-      <td style="color:${pnlColor}">${pnlStr}</td>
-      <td style="color:${payoutColor}">${payoutStr}</td>
-      <td>
-        <div class="be-bar-wrap">
-          <span style="font-size:11px;color:${barColor};min-width:36px;text-align:right">${a.donePct.toFixed(1)}%</span>
-          <div class="be-bar-bg"><div class="be-bar-fill" style="width:${Math.min(a.donePct, 100)}%;background:${barColor}"></div></div>
-        </div>
-      </td>`;
-    tbody.appendChild(tr);
-  });
-}
-
-function renderBreakeven(potAgents, subAgents) {
-  // Hardcoded subs as of Apr 3, 2026 02:00 UTC (Season 1 end snapshot)
-  const S1_SUBS = {
-    "benyorke | starchild": 139,
-    "argonaut ai": 90,
-    "otto ai - trade execution agent": 92,
-    "otto ai": 92,
-    "miclaw jordan": 38,
-    "miclaw jordan 🏆": 38,
-    "ethy ai": 75,
-    "butlerliquid": 79,
-    "taxerclaw": 59,
-    "pokedex": 83,
-    "degeneratetrader": 70,
-    "degenx": 44,
-  };
-
-  const SUB_PRICES = { "miclaw jordan": 23 };
-
-  _beData = potAgents.map(a => {
-    const displayName = (a.name || 'Unknown Agent').replace("Otto AI - Trade Execution Agent", "Otto AI");
-    const normName = (a.name || '').replace(" 🏆","").toLowerCase();
-    const subs = S1_SUBS[normName] || S1_SUBS[(a.name || '').toLowerCase()] || 0;
-    const subPrice = SUB_PRICES[normName] || 10;
-    const needed = subs * subPrice * 2;
-    const pnl = a.finalPnl || 0;
-    const donePct = needed > 0 ? Math.max(0, Math.min((pnl / needed) * 100, 100)) : 0;
-    const payoutPerSub = (subs > 0 && pnl > 0) ? (pnl * 0.5) / subs : 0;
-    return { name: normName, displayName, agentId: a.agentId || null, subs, subPrice, pot: a.pot, needed, pnl, payoutPerSub, donePct };
-  });
-
-  renderBeTable();
-
-  // Attach sort listeners (only once)
-  if (!renderBreakeven._sortInit) {
-    renderBreakeven._sortInit = true;
-    document.querySelectorAll("#beHead th").forEach(th => {
-      th.addEventListener("click", () => {
-        const col = th.dataset.col;
-        if (_beSortCol === col) { _beSortDir *= -1; }
-        else { _beSortCol = col; _beSortDir = col === "name" ? 1 : -1; }
-        document.querySelectorAll("#beHead th").forEach(t => {
-          t.classList.remove("sort-asc","sort-desc");
-          const si = t.querySelector(".sort-icon"); if (si) si.textContent = "↕";
-        });
-        th.classList.add(_beSortDir === 1 ? "sort-asc" : "sort-desc");
-        const si = th.querySelector(".sort-icon"); if (si) si.textContent = _beSortDir === 1 ? "↑" : "↓";
-        renderBeTable();
-      });
-    });
-  }
-
-  document.getElementById("breakevenSection").style.display = "block";
-}
-
-// ============================================================
-// SAFE FETCH helper with timeout
-// ============================================================
-async function safeFetch(url, opts = {}) {
-  const controller = new AbortController();
-  const timeout = setTimeout(() => controller.abort(), opts.timeout || 15000);
-  try {
-    const r = await fetch(url, { ...opts, signal: controller.signal });
-    clearTimeout(timeout);
-    if (!r.ok) throw new Error(`HTTP ${r.status}`);
-    return r;
-  } catch (e) {
-    clearTimeout(timeout);
-    throw e;
-  }
-}
-
-// ============================================================
-// MAIN DATA LOAD
-// ============================================================
-async function loadData() {
-  try {
-    const r = await safeFetch("https://raw.githubusercontent.com/djumbao/Agent-Trading-Competition/main/data.json?t=" + Date.now());
-    const data = await r.json();
-
-    if (!data.agents || data.agents.length === 0) {
-      document.getElementById("mainContent").innerHTML = `<div class="table-wrap"><div class="empty-state">Data is being fetched, check back in a minute...</div></div>`;
-      return;
-    }
-
-    document.getElementById("totalSubs").textContent = data.total;
-    document.getElementById("totalAgents").textContent = data.agentCount;
-    document.getElementById("growth24h").textContent = "+" + data.total24h;
-
-    const top20 = data.agents.slice(0, 20);
-
-    let leftHtml = buildColHtml(top20.slice(0, 10), 1, "Top 1–10");
-    let rightHtml = buildColHtml(top20.slice(10, 20), 11, "Top 11–20");
-
-    document.getElementById("mainContent").innerHTML = `
-      <div class="two-col">
-        <div class="table-wrap">${leftHtml}</div>
-        <div class="table-wrap">${rightHtml}</div>
-      </div>`;
-
-    if (data.updatedAt) {
-      const d = new Date(data.updatedAt);
-      document.getElementById("lastUpdated").textContent =
-        "Updated " + d.toUTCString().slice(5, 22) + " UTC";
-    }
-
-    if (data.potAgents && data.potAgents.length > 0) {
-      window._lastSubAgents = data.agents || [];
-      renderBreakeven(data.potAgents, data.agents);
-    }
-
-    if (data.leaderboard && data.leaderboard.length > 0) {
-      renderMetrics(data.leaderboard);
-    }
-
-  } catch(e) {
-    console.error("Data load failed:", e);
-    document.getElementById("mainContent").innerHTML = `<div class="table-wrap"><div class="error">
-      <div class="error-text">Failed to load data — the API might be temporarily unavailable</div>
-      <button class="retry-btn" onclick="loadData()">Try again</button>
-    </div></div>`;
-  }
-}
-
-// ============================================================
-// ============================================================
-// INIT
-// ============================================================
-startCountdown();
-updateSeasonBadge();
-loadData();
-
-// Auto-refresh main data every 60s
-setInterval(() => {
-  loadData().catch(e => console.warn("Auto-refresh error:", e.message));
-}, 60000);
-
-// Show live indicator
-const li = document.getElementById("liveIndicator");
-if (li) li.style.display = "inline-flex";
-</script>
+  <script src="app.js"></script>
 </body>
 </html>

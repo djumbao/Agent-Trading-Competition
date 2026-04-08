@@ -1,0 +1,12 @@
+{
+  "name": "agent-trading-competition",
+  "version": "1.0.0",
+  "description": "Dashboard for AI agent trading competition on Virtuals Protocol (Base network)",
+  "private": true,
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "fetch": "node fetch_data.js"
+  }
+}

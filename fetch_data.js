@@ -2,6 +2,17 @@ const https = require("https");
 const fs = require("fs");
 
 const CONTRACT = "0x37dcb399316a53d3e8d453c5fe50ba7f5e57f1de";
+
+// Function selector for the "subscribe" method on the competition contract.
+// Calldata layout: 0xdf563f4b (4 bytes selector) + param1 (32 bytes) + param2/address (32 bytes)
+// Minimum hex length: "0x" + 4*2 + 32*2 + 32*2 = 2 + 8 + 64 + 64 = 138 chars
+const SUBSCRIBE_SELECTOR = "0xdf563f4b";
+const MIN_CALLDATA_LENGTH = 138;
+
+// Safety limits to prevent infinite loops on unexpected API responses
+const MAX_TX_PAGES = 200;
+const MAX_LB_PAGES = 50;
+
 const KNOWN = {
   "0xd1a9ab741e5b95f040bd8f134865a93f3bf04dc7": "BenYorke | Starchild",
   "0xdb27ba8cf502f7298a2ec910ebb9e520d41f5ff6": "TraderBot",
@@ -51,16 +62,34 @@ const KNOWN = {
   "0xbc27675e1eb971cbb8332d0b5e2225082b149405": "Jim Simons",
 };
 
-function fetchJson(url) {
+function fetchJson(url, retries = 3) {
   return new Promise((resolve, reject) => {
     https.get(url, { headers: { "User-Agent": "Mozilla/5.0" } }, (res) => {
+      if (res.statusCode < 200 || res.statusCode >= 300) {
+        res.resume();
+        const err = new Error(`HTTP ${res.statusCode} from ${url}`);
+        if (retries > 0 && (res.statusCode === 429 || res.statusCode >= 500)) {
+          const delay = Math.pow(2, 3 - retries) * 1000;
+          console.warn(`HTTP ${res.statusCode}, retrying in ${delay}ms... (${retries} left)`);
+          return setTimeout(() => fetchJson(url, retries - 1).then(resolve, reject), delay);
+        }
+        return reject(err);
+      }
+
       let data = "";
       res.on("data", chunk => data += chunk);
       res.on("end", () => {
         try { resolve(JSON.parse(data)); }
         catch (e) { reject(new Error("JSON parse error: " + data.slice(0, 200))); }
       });
-    }).on("error", reject);
+    }).on("error", (err) => {
+      if (retries > 0) {
+        const delay = Math.pow(2, 3 - retries) * 1000;
+        console.warn(`Network error, retrying in ${delay}ms... (${retries} left)`);
+        return setTimeout(() => fetchJson(url, retries - 1).then(resolve, reject), delay);
+      }
+      reject(err);
+    });
   });
 }
 
@@ -71,17 +100,27 @@ async function main() {
   let total = 0, total24h = 0, txLoaded = 0;
 
   let nextUrl = `https://base.blockscout.com/api/v2/addresses/${CONTRACT}/transactions?filter=to`;
+  let pageCount = 0;
 
   while (nextUrl) {
-    console.log(`Fetching... ${txLoaded} txns so far`);
-    const r = await fetchJson(nextUrl);
-    if (!r.items || r.items.length === 0) break;
+    if (++pageCount > MAX_TX_PAGES) {
+      console.warn(`Reached max page limit (${MAX_TX_PAGES}), stopping transaction fetch`);
+      break;
+    }
 
-    r.items.forEach(tx => {
+    console.log(`Fetching... ${txLoaded} txns so far (page ${pageCount})`);
+    const response = await fetchJson(nextUrl);
+    if (!response.items || response.items.length === 0) break;
+
+    response.items.forEach(tx => {
       const inp = tx.raw_input || tx.input || "";
-      if (!inp || !inp.toLowerCase().startsWith("0xdf563f4b")) return;
+      if (!inp || !inp.toLowerCase().startsWith(SUBSCRIBE_SELECTOR)) return;
       if (tx.status !== "ok" && tx.status !== 1 && tx.status !== "1") return;
-      if (inp.length < 138) return;
+      if (inp.length < MIN_CALLDATA_LENGTH) return;
+
+      // Extract agent address from ABI-encoded calldata:
+      // Skip "0x" (2 chars) + selector (8 chars) + first param (64 chars) = 74 chars offset
+      // Then take 64 chars of second param and extract last 40 chars (20-byte address)
       const token = "0x" + inp.slice(2).substring(72, 136).slice(-40).toLowerCase();
       counts[token] = (counts[token] || 0) + 1;
       total++;
@@ -92,12 +131,12 @@ async function main() {
       }
     });
 
-    txLoaded += r.items.length;
-    nextUrl = r.next_page_params
-      ? `https://base.blockscout.com/api/v2/addresses/${CONTRACT}/transactions?filter=to&block_number=${r.next_page_params.block_number}&index=${r.next_page_params.index}&items_count=${r.next_page_params.items_count}`
+    txLoaded += response.items.length;
+    nextUrl = response.next_page_params
+      ? `https://base.blockscout.com/api/v2/addresses/${CONTRACT}/transactions?filter=to&block_number=${response.next_page_params.block_number}&index=${response.next_page_params.index}&items_count=${response.next_page_params.items_count}`
       : null;
 
-    await new Promise(r => setTimeout(r, 200));
+    await new Promise(resolve => setTimeout(resolve, 200));
   }
 
   const sorted = Object.entries(counts)
@@ -122,7 +161,7 @@ async function main() {
         realizedPnl: a.currentSeason?.realizedPnl || 0,
         unrealizedPnl: a.currentSeason?.unrealizedPnl || 0,
         currentValue: a.currentSeason?.currentValue || 0,
-        subPrice: 10,
+        subPrice: a.subscriptionPrice || 10,
       }));
       console.log(`Fetched ${potAgents.length} pot agents`);
     }
@@ -135,7 +174,12 @@ async function main() {
   try {
     let offset = 0;
     const limit = 100;
+    let lbPageCount = 0;
     while (true) {
+      if (++lbPageCount > MAX_LB_PAGES) {
+        console.warn(`Reached max leaderboard page limit (${MAX_LB_PAGES}), stopping`);
+        break;
+      }
       const lbData = await fetchJson(`https://degen.virtuals.io/api/leaderboard?limit=${limit}&offset=${offset}`);
       if (!lbData.success || !lbData.data || lbData.data.length === 0) break;
       lbData.data.forEach(a => {
@@ -160,7 +204,7 @@ async function main() {
       });
       if (!lbData.pagination?.hasMore) break;
       offset += limit;
-      await new Promise(r => setTimeout(r, 200));
+      await new Promise(resolve => setTimeout(resolve, 200));
     }
     console.log(`Fetched ${leaderboard.length} leaderboard entries`);
   } catch(e) {
@@ -177,33 +221,14 @@ async function main() {
     leaderboard,
   };
 
+  // Validate data before writing — don't overwrite good data with empty/broken results
+  if (total === 0 || sorted.length === 0) {
+    console.error(`Data validation failed: total=${total}, agents=${sorted.length}. Aborting write.`);
+    process.exit(1);
+  }
+
   fs.writeFileSync("data.json", JSON.stringify(result, null, 2));
   console.log(`Done! ${total} subs, ${sorted.length} agents. Saved to data.json`);
-
-  // Update history.json with PnL snapshot
-  console.log("Updating history.json...");
-  try {
-    let history = {};
-    if (fs.existsSync("history.json")) {
-      history = JSON.parse(fs.readFileSync("history.json", "utf8"));
-    }
-    const ts = Math.floor(Date.now() / 1000);
-    const KEEP_DAYS = 8; // keep 8 days of history
-    const cutoff = ts - KEEP_DAYS * 24 * 60 * 60;
-
-    potAgents.forEach(a => {
-      const key = a.name;
-      if (!history[key]) history[key] = [];
-      history[key].push({ t: ts, pnl: a.finalPnl });
-      // prune old entries
-      history[key] = history[key].filter(p => p.t > cutoff);
-    });
-
-    fs.writeFileSync("history.json", JSON.stringify(history));
-    console.log(`History updated for ${potAgents.length} agents`);
-  } catch(e) {
-    console.error("Failed to update history:", e.message);
-  }
 }
 
 main().catch(e => { console.error(e); process.exit(1); });
