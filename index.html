@@ -85,15 +85,16 @@ footer { margin-top: 32px; text-align: center; font-size: 11px; color: var(--mut
 footer a { color: var(--accent); text-decoration: none; }
 .section-label { font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.12em; font-weight: 500; }
 .be-table { width: 100%; border-collapse: collapse; table-layout: fixed; }
-.be-table th { font-size: 10px; font-weight: 500; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; padding: 9px 14px; border-bottom: 0.5px solid var(--border); text-align: left; }
-.be-table th:nth-child(1) { width: 22%; }
+.be-table th { font-size: 10px; font-weight: 500; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; padding: 9px 14px; border-bottom: 0.5px solid var(--border); text-align: right; white-space: nowrap; }
+.be-table th:nth-child(1) { width: 20%; }
 .be-table th:nth-child(2) { width: 7%; }
 .be-table th:nth-child(3) { width: 9%; }
-.be-table th:nth-child(4) { width: 11%; }
-.be-table th:nth-child(5) { width: 13%; }
-.be-table th:nth-child(6) { width: 13%; }
-.be-table th:nth-child(7) { width: 25%; }
-.be-table td { font-size: 12px; padding: 10px 14px; border-bottom: 0.5px solid var(--border); color: var(--text); font-weight: 500; }
+.be-table th:nth-child(4) { width: 10%; }
+.be-table th:nth-child(5) { width: 12%; }
+.be-table th:nth-child(6) { width: 11%; }
+.be-table th:nth-child(7) { width: 11%; }
+.be-table th:nth-child(8) { width: 20%; }
+.be-table td { font-size: 12px; padding: 10px 14px; border-bottom: 0.5px solid var(--border); color: var(--text); font-weight: 500; font-variant-numeric: tabular-nums; white-space: nowrap; }
 .be-table tr:last-child td { border-bottom: none; }
 .be-table tr:hover td { background: rgba(29,158,117,0.04); }
 .be-table td:nth-child(n+2) { text-align: right; }
@@ -246,6 +247,15 @@ tr.row-bronze td { background: rgba(205,127,50,0.04); }
                 </span>
               </th>
               <th data-col="pnl" data-type="num" style="text-align:right">Current PnL <span class="sort-icon">↕</span></th>
+              <th data-col="payoutPerSub" data-type="num" style="text-align:right">
+                <span style="display:inline-flex;align-items:center;gap:4px;justify-content:flex-end">
+                  Payout / sub <span class="sort-icon">↕</span>
+                  <span class="tooltip-wrap">
+                    <span class="tooltip-icon">i</span>
+                    <span class="tooltip-box">Estimated payout per subscriber if the pot closed now. Formula: (PnL × 50%) / subs. Negative means subscribers are currently at a loss.</span>
+                  </span>
+                </span>
+              </th>
               <th data-col="donePct" data-type="num" style="text-align:right">Progress <span class="sort-icon">↕</span></th>
             </tr>
           </thead>
@@ -560,6 +570,11 @@ function renderBeTable() {
     const nameHtml = a.agentId
       ? `<a href="https://degen.virtuals.io/agents/${a.agentId}" target="_blank" class="agent-link">${a.displayName}</a>`
       : a.displayName;
+
+    /* Payout per subscriber */
+    const payoutColor = a.payoutPerSub > 0 ? "#5DCAA5" : a.payoutPerSub < 0 ? "#E24B4A" : "var(--muted)";
+    const payoutStr = a.subs > 0 ? fmtPnl(a.payoutPerSub) : "—";
+
     const tr = document.createElement("tr");
     tr.innerHTML = `
       <td style="font-weight:500;white-space:nowrap">${nameHtml}</td>
@@ -568,6 +583,7 @@ function renderBeTable() {
       <td>${fmt(a.pot)}</td>
       <td style="color:var(--accent2)">${a.needed > 0 ? fmt(a.needed) : "—"}</td>
       <td style="color:${pnlColor};font-weight:600">${pnlStr}</td>
+      <td style="color:${payoutColor};font-weight:500">${payoutStr}</td>
       <td>
         <div class="be-bar-wrap">
           <span style="font-size:11px;color:${barColor};min-width:36px;text-align:right">${a.donePct.toFixed(1)}%</span>
@@ -634,7 +650,8 @@ function renderBreakeven(potAgents, subAgents) {
     const needed = subs * subPrice * 2;
     const pnl = a.finalPnl || 0;
     const donePct = needed > 0 ? Math.max(0, Math.min((pnl / needed) * 100, 100)) : 0;
-    return { name: normName, displayName, agentId: a.agentId || null, subs, subPrice, pot: a.pot, needed, pnl, donePct };
+    const payoutPerSub = subs > 0 ? (pnl * 0.5) / subs : 0;
+    return { name: normName, displayName, agentId: a.agentId || null, subs, subPrice, pot: a.pot, needed, pnl, payoutPerSub, donePct };
   });
   renderBeTable();
   document.querySelectorAll("#beHead th").forEach(th => {
