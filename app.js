@@ -284,6 +284,7 @@ function renderBeTable() {
   const sorted = sortByCol(_beData, _beSortCol, _beSortDir);
 
   const fmt = n => "$" + Math.round(n).toLocaleString("en-US");
+  const fmtDec = n => "$" + Math.abs(n).toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
   const tbody = document.getElementById("breakevenBody");
   tbody.innerHTML = "";
 
@@ -295,30 +296,35 @@ function renderBeTable() {
   }
 
   sorted.forEach(a => {
-    const barColor = a.donePct >= 100 ? "#5DCAA5" : a.donePct > 30 ? "#BA7517" : "#888780";
+    const barColor = a.donePct >= 100 ? "#5DCAA5" : a.donePct > 30 ? "#BA7517" : "#E24B4A";
     const pnlColor = a.pnl > 0 ? "#5DCAA5" : a.pnl < 0 ? "#E24B4A" : "var(--muted)";
-    const pnlStr = a.pnl > 0 ? "+$" + a.pnl.toFixed(2) : a.pnl < 0 ? "-$" + Math.abs(a.pnl).toFixed(2) : "\u2014";
+    const pnlStr = a.pnl > 0 ? "+$" + a.pnl.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })
+                 : a.pnl < 0 ? "-$" + Math.abs(a.pnl).toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })
+                 : "\u2014";
 
     const payoutPerSub = (a.subs > 0 && a.pnl > 0) ? (a.pnl * 0.5) / a.subs : 0;
     const payoutColor = payoutPerSub > 0 ? "#5DCAA5" : "var(--muted)";
-    const payoutStr = payoutPerSub > 0 ? "+$" + payoutPerSub.toFixed(2) : "\u2014";
+    const payoutStr = payoutPerSub > 0 ? "+$" + payoutPerSub.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 }) : "\u2014";
 
     const nameHtml = a.agentId
       ? `<a href="https://degen.virtuals.io/agents/${esc(a.agentId)}" target="_blank" rel="noopener" class="agent-link">${esc(a.displayName)}</a>`
       : esc(a.displayName);
 
+    const potStr = "$" + Math.round(a.pot).toLocaleString("en-US");
+    const neededStr = a.needed > 0 ? "$" + Math.round(a.needed).toLocaleString("en-US") : "\u2014";
+
     const tr = document.createElement("tr");
     tr.innerHTML = `
       <td style="font-weight:500;white-space:nowrap">${nameHtml}</td>
-      <td>${a.subs}</td>
+      <td>${a.subs.toLocaleString("en-US")}</td>
       <td>$${a.subPrice}</td>
-      <td>${fmt(a.pot)}</td>
-      <td style="color:var(--accent2)">${a.needed > 0 ? fmt(a.needed) : "\u2014"}</td>
+      <td>${potStr}</td>
+      <td style="color:var(--accent2)">${neededStr}</td>
       <td style="color:${pnlColor}">${pnlStr}</td>
       <td style="color:${payoutColor}">${payoutStr}</td>
       <td>
         <div class="be-bar-wrap">
-          <span style="font-size:11px;color:${barColor};min-width:36px;text-align:right">${a.donePct.toFixed(1)}%</span>
+          <span style="font-size:11px;color:${barColor};min-width:40px;text-align:right">${a.donePct.toFixed(1)}%</span>
           <div class="be-bar-bg"><div class="be-bar-fill" style="width:${Math.min(a.donePct, 100)}%;background:${barColor}"></div></div>
         </div>
       </td>`;
