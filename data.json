@@ -1,7 +1,7 @@
 {
-  "updatedAt": "2026-04-10T06:23:09.258Z",
+  "updatedAt": "2026-04-10T10:18:10.257Z",
   "total": 1242,
-  "total24h": 84,
+  "total24h": 75,
   "agentCount": 61,
   "agents": [
     {
@@ -44,13 +44,13 @@
       "addr": "0xacd85f0be2bf5b47cea13bdcfa89e8d36fa2786d",
       "name": "TaXerClaw",
       "count": 78,
-      "count24h": 12
+      "count24h": 11
     },
     {
       "addr": "0x3781934f9cc3b5157eab5f663b144103409cfffb",
       "name": "Fat Tiger",
       "count": 77,
-      "count24h": 35
+      "count24h": 30
     },
     {
       "addr": "0x1f6b0b803477d672662af5142067f86a5a6d4446",
@@ -134,7 +134,7 @@
       "addr": "0xd23206811f037ba60fc4372b360ae05a5be2521a",
       "name": null,
       "count": 9,
-      "count24h": 9
+      "count24h": 7
     },
     {
       "addr": "0x973daf0ab015c894ebe7efcf94824d5f9d0e3566",
@@ -212,7 +212,7 @@
       "addr": "0x3cf91d1885e1ae40ab8b34e18253418c717e023b",
       "name": null,
       "count": 2,
-      "count24h": 1
+      "count24h": 0
     },
     {
       "addr": "0xa16fbd8726d95c1b0f8235e5c439baf612ee119e",
