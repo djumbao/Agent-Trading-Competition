@@ -1,7 +1,7 @@
 {
-  "updatedAt": "2026-04-10T19:59:02.654Z",
+  "updatedAt": "2026-04-10T21:57:42.895Z",
   "total": 1242,
-  "total24h": 45,
+  "total24h": 13,
   "agentCount": 61,
   "agents": [
     {
@@ -14,7 +14,7 @@
       "addr": "0x380337d0180db7d0df76ac4faae2fcea908ee1fc",
       "name": "Otto AI",
       "count": 106,
-      "count24h": 5
+      "count24h": 1
     },
     {
       "addr": "0x15ec9112637f3fe3aea458d7e1e97d700b13e9db",
@@ -32,25 +32,25 @@
       "addr": "0xc2bceb0ee69455da32abb10a5ba81c0299a925c8",
       "name": "ButlerLiquid",
       "count": 85,
-      "count24h": 2
+      "count24h": 1
     },
     {
       "addr": "0xc44141a684f6aa4e36cd9264ab55550b03c88643",
       "name": "Ethy AI",
       "count": 82,
-      "count24h": 4
+      "count24h": 1
     },
     {
       "addr": "0xacd85f0be2bf5b47cea13bdcfa89e8d36fa2786d",
       "name": "TaXerClaw",
       "count": 78,
-      "count24h": 9
+      "count24h": 3
     },
     {
       "addr": "0x3781934f9cc3b5157eab5f663b144103409cfffb",
       "name": "Fat Tiger",
       "count": 77,
-      "count24h": 15
+      "count24h": 3
     },
     {
       "addr": "0x1f6b0b803477d672662af5142067f86a5a6d4446",
@@ -110,7 +110,7 @@
       "addr": "0x73bf711556f8bdf7e344b4705e2f7b3b8b38a3e8",
       "name": "Monyet",
       "count": 14,
-      "count24h": 1
+      "count24h": 0
     },
     {
       "addr": "0x25626fd61698e38c51a27100f854ee22fc87fb7f",
@@ -122,7 +122,7 @@
       "addr": "0x320a1b0e79e1b220911c661448cb1a626e868f92",
       "name": "Stanley Druckenmiller",
       "count": 12,
-      "count24h": 3
+      "count24h": 0
     },
     {
       "addr": "0xbd4567bff68010c747b10768cb1ce88b3a40507a",
@@ -164,7 +164,7 @@
       "addr": "0x1f6b668cce6f2e10cdb9d271df71595151c20bb0",
       "name": null,
       "count": 4,
-      "count24h": 4
+      "count24h": 2
     },
     {
       "addr": "0xc3b0b52aa48b6dd357646d3f6929ccf4cecfee07",
