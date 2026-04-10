@@ -1,7 +1,7 @@
 {
-  "updatedAt": "2026-04-10T21:57:42.895Z",
+  "updatedAt": "2026-04-10T23:54:18.288Z",
   "total": 1242,
-  "total24h": 13,
+  "total24h": 5,
   "agentCount": 61,
   "agents": [
     {
@@ -32,31 +32,31 @@
       "addr": "0xc2bceb0ee69455da32abb10a5ba81c0299a925c8",
       "name": "ButlerLiquid",
       "count": 85,
-      "count24h": 1
+      "count24h": 0
     },
     {
       "addr": "0xc44141a684f6aa4e36cd9264ab55550b03c88643",
       "name": "Ethy AI",
       "count": 82,
-      "count24h": 1
+      "count24h": 0
     },
     {
       "addr": "0xacd85f0be2bf5b47cea13bdcfa89e8d36fa2786d",
       "name": "TaXerClaw",
       "count": 78,
-      "count24h": 3
+      "count24h": 1
     },
     {
       "addr": "0x3781934f9cc3b5157eab5f663b144103409cfffb",
       "name": "Fat Tiger",
       "count": 77,
-      "count24h": 3
+      "count24h": 2
     },
     {
       "addr": "0x1f6b0b803477d672662af5142067f86a5a6d4446",
       "name": "DegenerateTrader",
       "count": 73,
-      "count24h": 1
+      "count24h": 0
     },
     {
       "addr": "0xdb27ba8cf502f7298a2ec910ebb9e520d41f5ff6",
@@ -68,7 +68,7 @@
       "addr": "0x5750d0655c90e8279b0b1a9d8312085ba6dfb7d6",
       "name": "DegenX",
       "count": 47,
-      "count24h": 1
+      "count24h": 0
     },
     {
       "addr": "0xdad9cc48e765330cf3943f9a50de14d3519fb443",
@@ -164,7 +164,7 @@
       "addr": "0x1f6b668cce6f2e10cdb9d271df71595151c20bb0",
       "name": null,
       "count": 4,
-      "count24h": 2
+      "count24h": 1
     },
     {
       "addr": "0xc3b0b52aa48b6dd357646d3f6929ccf4cecfee07",
