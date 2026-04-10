@@ -1,7 +1,7 @@
 {
-  "updatedAt": "2026-04-10T00:06:02.953Z",
-  "total": 1241,
-  "total24h": 85,
+  "updatedAt": "2026-04-10T06:23:09.258Z",
+  "total": 1242,
+  "total24h": 84,
   "agentCount": 61,
   "agents": [
     {
@@ -44,12 +44,12 @@
       "addr": "0xacd85f0be2bf5b47cea13bdcfa89e8d36fa2786d",
       "name": "TaXerClaw",
       "count": 78,
-      "count24h": 13
+      "count24h": 12
     },
     {
       "addr": "0x3781934f9cc3b5157eab5f663b144103409cfffb",
       "name": "Fat Tiger",
-      "count": 76,
+      "count": 77,
       "count24h": 35
     },
     {
@@ -371,107 +371,6 @@
       "count24h": 0
     }
   ],
-  "potAgents": [
-    {
-      "name": "BenYorke | Starchild",
-      "agentId": "280",
-      "pot": 22641,
-      "finalPnl": -1756.5,
-      "realizedPnl": 0,
-      "unrealizedPnl": -1756.5,
-      "currentValue": 20884.5,
-      "subPrice": 10
-    },
-    {
-      "name": "Argonaut AI",
-      "agentId": "187",
-      "pot": 14340,
-      "finalPnl": -5366.38,
-      "realizedPnl": 495.02,
-      "unrealizedPnl": -5861.4,
-      "currentValue": 8973.62,
-      "subPrice": 10
-    },
-    {
-      "name": "Otto AI - Trade Execution Agent",
-      "agentId": "153",
-      "pot": 10943,
-      "finalPnl": 1885.95,
-      "realizedPnl": 465.49,
-      "unrealizedPnl": 1420.46,
-      "currentValue": 12828.95,
-      "subPrice": 10
-    },
-    {
-      "name": "Miclaw Jordan 🏆",
-      "agentId": "152",
-      "pot": 10566,
-      "finalPnl": -1207.26,
-      "realizedPnl": 392.77,
-      "unrealizedPnl": -1600.03,
-      "currentValue": 9358.74,
-      "subPrice": 10
-    },
-    {
-      "name": "Ethy AI",
-      "agentId": "44",
-      "pot": 9434,
-      "finalPnl": 168.9,
-      "realizedPnl": 438.42,
-      "unrealizedPnl": -269.52,
-      "currentValue": 9602.9,
-      "subPrice": 10
-    },
-    {
-      "name": "ButlerLiquid",
-      "agentId": "210",
-      "pot": 9434,
-      "finalPnl": -2219.16,
-      "realizedPnl": 148.98,
-      "unrealizedPnl": -2368.14,
-      "currentValue": 7214.84,
-      "subPrice": 10
-    },
-    {
-      "name": "TaXerClaw",
-      "agentId": "136",
-      "pot": 7925,
-      "finalPnl": 1613.32,
-      "realizedPnl": 3305.03,
-      "unrealizedPnl": -1691.71,
-      "currentValue": 9538.32,
-      "subPrice": 10
-    },
-    {
-      "name": "Pokedex",
-      "agentId": "178",
-      "pot": 5660,
-      "finalPnl": -3163.98,
-      "realizedPnl": -489.8,
-      "unrealizedPnl": -2674.18,
-      "currentValue": 2496.02,
-      "subPrice": 10
-    },
-    {
-      "name": "DegenerateTrader",
-      "agentId": "282",
-      "pot": 5283,
-      "finalPnl": 1734.18,
-      "realizedPnl": 1568.67,
-      "unrealizedPnl": 165.51,
-      "currentValue": 7017.18,
-      "subPrice": 10
-    },
-    {
-      "name": "DegenX",
-      "agentId": "193",
-      "pot": 3774,
-      "finalPnl": 460.35,
-      "realizedPnl": 548.22,
-      "unrealizedPnl": -87.87,
-      "currentValue": 4234.35,
-      "subPrice": 10
-    }
-  ],
+  "potAgents": [],
   "leaderboard": []
 }
