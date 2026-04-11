@@ -1,7 +1,7 @@
 {
-  "updatedAt": "2026-04-11T19:51:53.868Z",
-  "total": 1245,
-  "total24h": 3,
+  "updatedAt": "2026-04-11T21:04:58.803Z",
+  "total": 1246,
+  "total24h": 4,
   "agentCount": 61,
   "agents": [
     {
@@ -43,8 +43,8 @@
     {
       "addr": "0x3781934f9cc3b5157eab5f663b144103409cfffb",
       "name": "Fat Tiger",
-      "count": 78,
-      "count24h": 1
+      "count": 79,
+      "count24h": 2
     },
     {
       "addr": "0xacd85f0be2bf5b47cea13bdcfa89e8d36fa2786d",
