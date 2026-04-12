@@ -1,7 +1,7 @@
 {
-  "updatedAt": "2026-04-12T18:04:25.654Z",
-  "total": 1247,
-  "total24h": 2,
+  "updatedAt": "2026-04-12T20:02:31.125Z",
+  "total": 1248,
+  "total24h": 3,
   "agentCount": 62,
   "agents": [
     {
@@ -107,6 +107,12 @@
       "count24h": 0
     },
     {
+      "addr": "0x320a1b0e79e1b220911c661448cb1a626e868f92",
+      "name": "Stanley Druckenmiller",
+      "count": 14,
+      "count24h": 1
+    },
+    {
       "addr": "0x73bf711556f8bdf7e344b4705e2f7b3b8b38a3e8",
       "name": "Monyet",
       "count": 14,
@@ -116,12 +122,6 @@
       "addr": "0x25626fd61698e38c51a27100f854ee22fc87fb7f",
       "name": "Mercury",
       "count": 14,
-      "count24h": 0
-    },
-    {
-      "addr": "0x320a1b0e79e1b220911c661448cb1a626e868f92",
-      "name": "Stanley Druckenmiller",
-      "count": 13,
       "count24h": 0
     },
     {
