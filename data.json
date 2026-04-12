@@ -1,7 +1,7 @@
 {
-  "updatedAt": "2026-04-12T14:06:33.252Z",
+  "updatedAt": "2026-04-12T16:03:44.870Z",
   "total": 1247,
-  "total24h": 5,
+  "total24h": 2,
   "agentCount": 62,
   "agents": [
     {
@@ -14,7 +14,7 @@
       "addr": "0x380337d0180db7d0df76ac4faae2fcea908ee1fc",
       "name": "Otto AI",
       "count": 107,
-      "count24h": 1
+      "count24h": 0
     },
     {
       "addr": "0x15ec9112637f3fe3aea458d7e1e97d700b13e9db",
@@ -44,7 +44,7 @@
       "addr": "0x3781934f9cc3b5157eab5f663b144103409cfffb",
       "name": "Fat Tiger",
       "count": 79,
-      "count24h": 2
+      "count24h": 1
     },
     {
       "addr": "0xacd85f0be2bf5b47cea13bdcfa89e8d36fa2786d",
@@ -122,7 +122,7 @@
       "addr": "0x320a1b0e79e1b220911c661448cb1a626e868f92",
       "name": "Stanley Druckenmiller",
       "count": 13,
-      "count24h": 1
+      "count24h": 0
     },
     {
       "addr": "0xbd4567bff68010c747b10768cb1ce88b3a40507a",
