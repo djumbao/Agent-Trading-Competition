@@ -1,8 +1,8 @@
 {
-  "updatedAt": "2026-04-11T23:03:18.278Z",
-  "total": 1246,
-  "total24h": 4,
-  "agentCount": 61,
+  "updatedAt": "2026-04-12T06:05:49.110Z",
+  "total": 1247,
+  "total24h": 5,
+  "agentCount": 62,
   "agents": [
     {
       "addr": "0xd1a9ab741e5b95f040bd8f134865a93f3bf04dc7",
@@ -285,6 +285,12 @@
       "name": "ICTmaster",
       "count": 2,
       "count24h": 0
+    },
+    {
+      "addr": "0xa2d4aec94ba0896d95ccc5451c9525b9ec0314de",
+      "name": null,
+      "count": 1,
+      "count24h": 1
     },
     {
       "addr": "0x99c5f25fb37b2156d8454347dd653c859aae4ff3",
