@@ -1,7 +1,7 @@
 {
-  "updatedAt": "2026-04-12T23:55:36.608Z",
+  "updatedAt": "2026-04-13T07:27:25.300Z",
   "total": 1248,
-  "total24h": 2,
+  "total24h": 1,
   "agentCount": 62,
   "agents": [
     {
@@ -290,7 +290,7 @@
       "addr": "0xa2d4aec94ba0896d95ccc5451c9525b9ec0314de",
       "name": null,
       "count": 1,
-      "count24h": 1
+      "count24h": 0
     },
     {
       "addr": "0x99c5f25fb37b2156d8454347dd653c859aae4ff3",
