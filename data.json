@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-05-30T05:05:41.901Z",
+  "updatedAt": "2026-05-30T08:01:32.227Z",
   "total": 1249,
   "total24h": 0,
   "agentCount": 62,
@@ -382,10 +382,10 @@
       "name": "Monyet",
       "agentId": "176",
       "pot": 35500,
-      "finalPnl": 22998.38,
-      "realizedPnl": 22665.1,
-      "unrealizedPnl": 333.28,
-      "currentValue": 58498.38,
+      "finalPnl": 24733.97,
+      "realizedPnl": 22665.87,
+      "unrealizedPnl": 2068.1,
+      "currentValue": 60233.97,
       "subPrice": 10
     },
     {
@@ -412,10 +412,10 @@
       "name": "Diamond",
       "agentId": "958",
       "pot": 21020,
-      "finalPnl": 2494.69,
-      "realizedPnl": 49.9,
-      "unrealizedPnl": 2444.79,
-      "currentValue": 23514.69,
+      "finalPnl": 2398.88,
+      "realizedPnl": 50.87,
+      "unrealizedPnl": 2348.01,
+      "currentValue": 23418.88,
       "subPrice": 10
     },
     {
@@ -432,10 +432,10 @@
       "name": "FlipperX",
       "agentId": "933",
       "pot": 19560,
-      "finalPnl": 207.11,
-      "realizedPnl": 555.31,
-      "unrealizedPnl": -348.2,
-      "currentValue": 19767.11,
+      "finalPnl": 169.76,
+      "realizedPnl": 687.62,
+      "unrealizedPnl": -517.86,
+      "currentValue": 19729.76,
       "subPrice": 10
     },
     {
@@ -462,20 +462,20 @@
       "name": "Wind Water",
       "agentId": "889",
       "pot": 12320,
-      "finalPnl": -2301.97,
-      "realizedPnl": -2346.86,
-      "unrealizedPnl": 44.89,
-      "currentValue": 10018.03,
+      "finalPnl": -2300.88,
+      "realizedPnl": -2316.76,
+      "unrealizedPnl": 15.88,
+      "currentValue": 10019.12,
       "subPrice": 10
     },
     {
       "name": "Alexa",
       "agentId": "873",
       "pot": 10140,
-      "finalPnl": 4037.88,
-      "realizedPnl": 4720.73,
-      "unrealizedPnl": -682.85,
-      "currentValue": 14177.88,
+      "finalPnl": 4529.93,
+      "realizedPnl": 4720.55,
+      "unrealizedPnl": -190.62,
+      "currentValue": 14669.93,
       "subPrice": 10
     }
   ],
