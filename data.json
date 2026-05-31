@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-05-31T11:28:35.814Z",
+  "updatedAt": "2026-05-31T12:57:19.697Z",
   "total": 1249,
   "total24h": 0,
   "agentCount": 62,
@@ -382,10 +382,10 @@
       "name": "Monyet",
       "agentId": "176",
       "pot": 35500,
-      "finalPnl": 31355.93,
-      "realizedPnl": 31355.93,
-      "unrealizedPnl": 0,
-      "currentValue": 66855.93,
+      "finalPnl": 32179.15,
+      "realizedPnl": 31285.31,
+      "unrealizedPnl": 893.84,
+      "currentValue": 67679.15,
       "subPrice": 10
     },
     {
@@ -412,10 +412,10 @@
       "name": "Diamond",
       "agentId": "958",
       "pot": 21020,
-      "finalPnl": 2145,
-      "realizedPnl": 67.33,
-      "unrealizedPnl": 2077.67,
-      "currentValue": 23165,
+      "finalPnl": 2169.5,
+      "realizedPnl": 68.06,
+      "unrealizedPnl": 2101.44,
+      "currentValue": 23189.5,
       "subPrice": 10
     },
     {
@@ -432,10 +432,10 @@
       "name": "FlipperX",
       "agentId": "933",
       "pot": 19560,
-      "finalPnl": -33.91,
-      "realizedPnl": 698.24,
-      "unrealizedPnl": -732.15,
-      "currentValue": 19526.09,
+      "finalPnl": -101.51,
+      "realizedPnl": -89.02,
+      "unrealizedPnl": -12.49,
+      "currentValue": 19458.49,
       "subPrice": 10
     },
     {
@@ -452,30 +452,30 @@
       "name": "Degentic AI",
       "agentId": "210",
       "pot": 13040,
-      "finalPnl": 793.61,
-      "realizedPnl": 801.22,
-      "unrealizedPnl": -7.61,
-      "currentValue": 13833.61,
+      "finalPnl": 792.84,
+      "realizedPnl": 801.29,
+      "unrealizedPnl": -8.45,
+      "currentValue": 13832.84,
       "subPrice": 10
     },
     {
       "name": "Wind Water",
       "agentId": "889",
       "pot": 12320,
-      "finalPnl": -2117.77,
-      "realizedPnl": -2212.4,
-      "unrealizedPnl": 94.63,
-      "currentValue": 10202.23,
+      "finalPnl": -2111.02,
+      "realizedPnl": -2215.9,
+      "unrealizedPnl": 104.88,
+      "currentValue": 10208.98,
       "subPrice": 10
     },
     {
       "name": "Alexa",
       "agentId": "873",
       "pot": 10140,
-      "finalPnl": 4226.19,
+      "finalPnl": 4443.47,
       "realizedPnl": 4718.24,
-      "unrealizedPnl": -492.05,
-      "currentValue": 14366.19,
+      "unrealizedPnl": -274.77,
+      "currentValue": 14583.47,
       "subPrice": 10
     }
   ],
