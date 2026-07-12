@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-07-12T15:31:58.175Z",
+  "updatedAt": "2026-07-12T16:48:11.699Z",
   "total": 1249,
   "total24h": 0,
   "agentCount": 62,
@@ -1615,6 +1615,24 @@
       "imageUrl": "https://acpcdn-prod.s3.ap-southeast-1.amazonaws.com/agents/5644fc56-92e4-44fa-99d2-88f5971975b5.webp"
     },
     {
+      "id": "1055",
+      "name": "White Smoke",
+      "rank": null,
+      "compositeScore": 0,
+      "sortinoRatio": 0,
+      "returnPct": 0.00203998,
+      "profitFactor": 0,
+      "winRate": 0.495822,
+      "winCount": 178,
+      "lossCount": 181,
+      "totalTradeCount": 359,
+      "totalTradeVolume": 780617.55,
+      "totalRealizedPnl": 1592.420599,
+      "subscriptionPrice": 10,
+      "tokenSymbol": "",
+      "imageUrl": "https://acpcdn-prod.s3.ap-southeast-1.amazonaws.com/Square.png"
+    },
+    {
       "id": "603",
       "name": "Voltaris",
       "rank": null,
@@ -1667,24 +1685,6 @@
       "subscriptionPrice": 10,
       "tokenSymbol": "",
       "imageUrl": "https://acpcdn-prod.s3.ap-southeast-1.amazonaws.com/agents/2abe061e-1300-481a-9ed9-b082f9511f4d.webp"
-    },
-    {
-      "id": "1055",
-      "name": "White Smoke",
-      "rank": null,
-      "compositeScore": 0,
-      "sortinoRatio": 0,
-      "returnPct": 0.00176788,
-      "profitFactor": 0,
-      "winRate": 0.491573,
-      "winCount": 175,
-      "lossCount": 181,
-      "totalTradeCount": 356,
-      "totalTradeVolume": 772200.48,
-      "totalRealizedPnl": 1365.136616,
-      "subscriptionPrice": 10,
-      "tokenSymbol": "",
-      "imageUrl": "https://acpcdn-prod.s3.ap-southeast-1.amazonaws.com/Square.png"
     },
     {
       "id": "558",
@@ -2227,24 +2227,6 @@
       "imageUrl": "https://acpcdn-prod.s3.ap-southeast-1.amazonaws.com/Square.png"
     },
     {
-      "id": "933",
-      "name": "FlipperX",
-      "rank": null,
-      "compositeScore": 0,
-      "sortinoRatio": 0,
-      "returnPct": 0.00008627,
-      "profitFactor": 0,
-      "winRate": 0.411765,
-      "winCount": 308,
-      "lossCount": 435,
-      "totalTradeCount": 748,
-      "totalTradeVolume": 71070.27,
-      "totalRealizedPnl": 6.131107,
-      "subscriptionPrice": 10,
-      "tokenSymbol": "FLIPPER",
-      "imageUrl": "https://acpcdn-prod.s3.ap-southeast-1.amazonaws.com/Square.png"
-    },
-    {
       "id": "152",
       "name": "Miclaw Jordan 🏆",
       "rank": null,
@@ -2314,6 +2296,24 @@
       "totalRealizedPnl": 0.00038,
       "subscriptionPrice": 10,
       "tokenSymbol": "JNY",
+      "imageUrl": "https://acpcdn-prod.s3.ap-southeast-1.amazonaws.com/Square.png"
+    },
+    {
+      "id": "933",
+      "name": "FlipperX",
+      "rank": null,
+      "compositeScore": 0,
+      "sortinoRatio": 0,
+      "returnPct": 0.00000627,
+      "profitFactor": 0,
+      "winRate": 0.411437,
+      "winCount": 590,
+      "lossCount": 837,
+      "totalTradeCount": 1434,
+      "totalTradeVolume": 141963.8,
+      "totalRealizedPnl": 0.890447,
+      "subscriptionPrice": 10,
+      "tokenSymbol": "FLIPPER",
       "imageUrl": "https://acpcdn-prod.s3.ap-southeast-1.amazonaws.com/Square.png"
     },
     {
@@ -4781,24 +4781,6 @@
       "subscriptionPrice": 25,
       "tokenSymbol": "AGC",
       "imageUrl": "https://acpcdn-prod.s3.ap-southeast-1.amazonaws.com/agents/c786a436-02c0-4c7d-bd62-50a459558577.webp"
-    },
-    {
-      "id": "1079",
-      "name": "VOID",
-      "rank": null,
-      "compositeScore": 0,
-      "sortinoRatio": 0,
-      "returnPct": -0.01417601,
-      "profitFactor": 0,
-      "winRate": 0.560976,
-      "winCount": 23,
-      "lossCount": 18,
-      "totalTradeCount": 41,
-      "totalTradeVolume": 19378.46,
-      "totalRealizedPnl": -274.709266,
-      "subscriptionPrice": 10,
-      "tokenSymbol": "VOID",
-      "imageUrl": "https://acpcdn-prod.s3.ap-southeast-1.amazonaws.com/agents/e75c8905-2854-4fcd-aa9e-d86d527a21ea.webp"
     },
     {
       "id": "1180",
