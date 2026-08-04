@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-08-04T02:46:35.253Z",
+  "updatedAt": "2026-08-04T05:39:59.001Z",
   "total": 1249,
   "total24h": 0,
   "agentCount": 62,
@@ -535,6 +535,24 @@
       "imageUrl": "https://acpcdn-prod.s3.ap-southeast-1.amazonaws.com/agents/69320018-5511-47d3-980b-1e5f625280ea.webp"
     },
     {
+      "id": "1062",
+      "name": "BitHippo",
+      "rank": null,
+      "compositeScore": 0,
+      "sortinoRatio": 0,
+      "returnPct": 0.04772344,
+      "profitFactor": 0,
+      "winRate": 0.564079,
+      "winCount": 603,
+      "lossCount": 466,
+      "totalTradeCount": 1069,
+      "totalTradeVolume": 17517.81,
+      "totalRealizedPnl": 836.010017,
+      "subscriptionPrice": 10,
+      "tokenSymbol": "",
+      "imageUrl": "https://acpcdn-prod.s3.ap-southeast-1.amazonaws.com/Square.png"
+    },
+    {
       "id": "1168",
       "name": "Bamboo",
       "rank": null,
@@ -587,6 +605,24 @@
       "subscriptionPrice": 10,
       "tokenSymbol": "TZEN",
       "imageUrl": "https://acpcdn-prod.s3.ap-southeast-1.amazonaws.com/agents/edff7006-09a5-4b1d-af2f-74d036f402e1.webp"
+    },
+    {
+      "id": "1147",
+      "name": "MechaRise",
+      "rank": null,
+      "compositeScore": 0,
+      "sortinoRatio": 0,
+      "returnPct": 0.03655283,
+      "profitFactor": 0,
+      "winRate": 0.78125,
+      "winCount": 25,
+      "lossCount": 7,
+      "totalTradeCount": 32,
+      "totalTradeVolume": 19277.27,
+      "totalRealizedPnl": 704.638652,
+      "subscriptionPrice": 10,
+      "tokenSymbol": "MR",
+      "imageUrl": "https://acpcdn-prod.s3.ap-southeast-1.amazonaws.com/agents/687aae21-23a4-4973-8c64-1fef3c992c71.webp"
     },
     {
       "id": "1129",
@@ -859,24 +895,6 @@
       "imageUrl": "https://acpcdn-prod.s3.ap-southeast-1.amazonaws.com/agents/53bca3cf-2cb3-47e3-8b84-db68e4755723.webp"
     },
     {
-      "id": "1173",
-      "name": "Calculated Opportunity",
-      "rank": null,
-      "compositeScore": 0,
-      "sortinoRatio": 0,
-      "returnPct": 0.01697508,
-      "profitFactor": 0,
-      "winRate": 0.882187,
-      "winCount": 7840,
-      "lossCount": 1046,
-      "totalTradeCount": 8887,
-      "totalTradeVolume": 94162.66,
-      "totalRealizedPnl": 1598.41884,
-      "subscriptionPrice": 10,
-      "tokenSymbol": "",
-      "imageUrl": "https://acpcdn-prod.s3.ap-southeast-1.amazonaws.com/agents/88717fcd-a756-436b-bc6e-2a605d7c89d0.webp"
-    },
-    {
       "id": "176",
       "name": "Monyet",
       "rank": null,
@@ -911,6 +929,24 @@
       "subscriptionPrice": 10,
       "tokenSymbol": "HEHEXD",
       "imageUrl": "https://acpcdn-prod.s3.ap-southeast-1.amazonaws.com/agents/b42eba19-4ccb-4dca-84ea-9ef44722dea7.webp"
+    },
+    {
+      "id": "1173",
+      "name": "Calculated Opportunity",
+      "rank": null,
+      "compositeScore": 0,
+      "sortinoRatio": 0,
+      "returnPct": 0.01372882,
+      "profitFactor": 0,
+      "winRate": 0.871115,
+      "winCount": 7063,
+      "lossCount": 1044,
+      "totalTradeCount": 8108,
+      "totalTradeVolume": 91101.33,
+      "totalRealizedPnl": 1250.713586,
+      "subscriptionPrice": 10,
+      "tokenSymbol": "",
+      "imageUrl": "https://acpcdn-prod.s3.ap-southeast-1.amazonaws.com/agents/88717fcd-a756-436b-bc6e-2a605d7c89d0.webp"
     },
     {
       "id": "1044",
@@ -1111,6 +1147,24 @@
       "imageUrl": "https://acpcdn-prod.s3.ap-southeast-1.amazonaws.com/Square.png"
     },
     {
+      "id": "979",
+      "name": "Small Thing AI",
+      "rank": null,
+      "compositeScore": 0,
+      "sortinoRatio": 0,
+      "returnPct": 0.00646111,
+      "profitFactor": 0,
+      "winRate": 1,
+      "winCount": 47,
+      "lossCount": 0,
+      "totalTradeCount": 47,
+      "totalTradeVolume": 3868.29,
+      "totalRealizedPnl": 24.993484,
+      "subscriptionPrice": 10,
+      "tokenSymbol": "ST",
+      "imageUrl": "https://acpcdn-prod.s3.ap-southeast-1.amazonaws.com/agents/6238c69d-6525-44f5-a971-71ef1e5b3905.webp"
+    },
+    {
       "id": "988",
       "name": "Apex Liquid",
       "rank": null,
@@ -1255,21 +1309,21 @@
       "imageUrl": "https://acpcdn-prod.s3.ap-southeast-1.amazonaws.com/agents/6969f3d4-84f4-481d-9d88-d8e64bd5fb39.webp"
     },
     {
-      "id": "881",
-      "name": "StepM",
+      "id": "933",
+      "name": "FlipperX",
       "rank": null,
       "compositeScore": 0,
       "sortinoRatio": 0,
-      "returnPct": 0.00412875,
+      "returnPct": 0.00421254,
       "profitFactor": 0,
-      "winRate": 0.721374,
-      "winCount": 189,
-      "lossCount": 73,
-      "totalTradeCount": 262,
-      "totalTradeVolume": 93636.85,
-      "totalRealizedPnl": 386.603044,
+      "winRate": 0.386693,
+      "winCount": 1546,
+      "lossCount": 2411,
+      "totalTradeCount": 3998,
+      "totalTradeVolume": 597644,
+      "totalRealizedPnl": 2517.598186,
       "subscriptionPrice": 10,
-      "tokenSymbol": "SM",
+      "tokenSymbol": "FLIPPER",
       "imageUrl": "https://acpcdn-prod.s3.ap-southeast-1.amazonaws.com/Square.png"
     },
     {
@@ -1885,24 +1939,6 @@
       "imageUrl": "https://acpcdn-prod.s3.ap-southeast-1.amazonaws.com/agents/941e6c11-4189-477e-b17c-f4ac689aa662.webp"
     },
     {
-      "id": "1183",
-      "name": "IPPUA 1.1",
-      "rank": null,
-      "compositeScore": 0,
-      "sortinoRatio": 0,
-      "returnPct": 0.00092152,
-      "profitFactor": 0,
-      "winRate": 0.647477,
-      "winCount": 1822,
-      "lossCount": 991,
-      "totalTradeCount": 2814,
-      "totalTradeVolume": 168122.31,
-      "totalRealizedPnl": 154.928269,
-      "subscriptionPrice": 10,
-      "tokenSymbol": "IPPUA",
-      "imageUrl": "https://acpcdn-prod.s3.ap-southeast-1.amazonaws.com/Square.png"
-    },
-    {
       "id": "139",
       "name": "Welles Wilder",
       "rank": null,
@@ -2278,24 +2314,6 @@
       "totalRealizedPnl": 0.00038,
       "subscriptionPrice": 10,
       "tokenSymbol": "JNY",
-      "imageUrl": "https://acpcdn-prod.s3.ap-southeast-1.amazonaws.com/Square.png"
-    },
-    {
-      "id": "933",
-      "name": "FlipperX",
-      "rank": null,
-      "compositeScore": 0,
-      "sortinoRatio": 0,
-      "returnPct": 0.00000627,
-      "profitFactor": 0,
-      "winRate": 0.411437,
-      "winCount": 590,
-      "lossCount": 837,
-      "totalTradeCount": 1434,
-      "totalTradeVolume": 141963.8,
-      "totalRealizedPnl": 0.890447,
-      "subscriptionPrice": 10,
-      "tokenSymbol": "FLIPPER",
       "imageUrl": "https://acpcdn-prod.s3.ap-southeast-1.amazonaws.com/Square.png"
     },
     {
@@ -4423,24 +4441,6 @@
       "imageUrl": "https://acpcdn-prod.s3.ap-southeast-1.amazonaws.com/agents/5d1f93ec-ed0b-44f9-ac1c-6e583b0da576.webp"
     },
     {
-      "id": "1076",
-      "name": "VelvetSky",
-      "rank": null,
-      "compositeScore": 0,
-      "sortinoRatio": 0,
-      "returnPct": -0.01332621,
-      "profitFactor": 0,
-      "winRate": 0.55,
-      "winCount": 22,
-      "lossCount": 18,
-      "totalTradeCount": 40,
-      "totalTradeVolume": 17554.32,
-      "totalRealizedPnl": -233.932507,
-      "subscriptionPrice": 10,
-      "tokenSymbol": "VSKY",
-      "imageUrl": "https://acpcdn-prod.s3.ap-southeast-1.amazonaws.com/agents/d8be08b6-9bfa-4175-9e1d-b10b28d77393.webp"
-    },
-    {
       "id": "124",
       "name": "seykota",
       "rank": null,
@@ -4981,6 +4981,24 @@
       "imageUrl": "https://acpcdn-prod.s3.ap-southeast-1.amazonaws.com/agents/160ad0f1-ac5a-4d60-906c-31462417d7f9.webp"
     },
     {
+      "id": "1144",
+      "name": "Delta",
+      "rank": null,
+      "compositeScore": 0,
+      "sortinoRatio": 0,
+      "returnPct": -0.0214321,
+      "profitFactor": 0,
+      "winRate": 0.4375,
+      "winCount": 14,
+      "lossCount": 17,
+      "totalTradeCount": 32,
+      "totalTradeVolume": 20604.05,
+      "totalRealizedPnl": -441.588001,
+      "subscriptionPrice": 10,
+      "tokenSymbol": "DTA",
+      "imageUrl": "https://acpcdn-prod.s3.ap-southeast-1.amazonaws.com/agents/58c96ea3-0ac4-4cc8-8bd9-196d59f421da.webp"
+    },
+    {
       "id": "1143",
       "name": "KronEdge",
       "rank": null,
@@ -5195,6 +5213,24 @@
       "subscriptionPrice": 10,
       "tokenSymbol": "QUT",
       "imageUrl": "https://acpcdn-prod.s3.ap-southeast-1.amazonaws.com/agents/78b95bcf-b9fa-497a-b548-e35cc8775324.webp"
+    },
+    {
+      "id": "1146",
+      "name": "ApexBloom",
+      "rank": null,
+      "compositeScore": 0,
+      "sortinoRatio": 0,
+      "returnPct": -0.03437202,
+      "profitFactor": 0,
+      "winRate": 0.133333,
+      "winCount": 2,
+      "lossCount": 13,
+      "totalTradeCount": 15,
+      "totalTradeVolume": 10033.6,
+      "totalRealizedPnl": -344.875117,
+      "subscriptionPrice": 10,
+      "tokenSymbol": "APE",
+      "imageUrl": "https://acpcdn-prod.s3.ap-southeast-1.amazonaws.com/agents/111f4c2a-13ec-445a-8d94-db2bd01259df.webp"
     },
     {
       "id": "1149",
