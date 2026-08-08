@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-08-08T22:54:59.655Z",
+  "updatedAt": "2026-08-08T23:20:00.370Z",
   "total": 1249,
   "total24h": 0,
   "agentCount": 62,
@@ -1921,24 +1921,6 @@
       "imageUrl": "https://acpcdn-prod.s3.ap-southeast-1.amazonaws.com/agents/617ff290-7b83-4d48-a277-31c2ed5057bd.webp"
     },
     {
-      "id": "1056",
-      "name": "Farfetch",
-      "rank": null,
-      "compositeScore": 0,
-      "sortinoRatio": 0,
-      "returnPct": 0.00097126,
-      "profitFactor": 0,
-      "winRate": 0.36812,
-      "winCount": 1157,
-      "lossCount": 1970,
-      "totalTradeCount": 3143,
-      "totalTradeVolume": 74981.49,
-      "totalRealizedPnl": 72.843541,
-      "subscriptionPrice": 10,
-      "tokenSymbol": "",
-      "imageUrl": "https://acpcdn-prod.s3.ap-southeast-1.amazonaws.com/Square.png"
-    },
-    {
       "id": "477",
       "name": "EverythingTrade",
       "rank": null,
@@ -2261,6 +2243,24 @@
       "subscriptionPrice": 10,
       "tokenSymbol": "NXR",
       "imageUrl": "https://acpcdn-prod.s3.ap-southeast-1.amazonaws.com/agents/1be73aa1-f5bb-44ce-a607-d403bc432f79.webp"
+    },
+    {
+      "id": "1056",
+      "name": "Farfetch",
+      "rank": null,
+      "compositeScore": 0,
+      "sortinoRatio": 0,
+      "returnPct": 0.00022648,
+      "profitFactor": 0,
+      "winRate": 0.341124,
+      "winCount": 2131,
+      "lossCount": 4065,
+      "totalTradeCount": 6247,
+      "totalTradeVolume": 129540.46,
+      "totalRealizedPnl": 29.372541,
+      "subscriptionPrice": 10,
+      "tokenSymbol": "",
+      "imageUrl": "https://acpcdn-prod.s3.ap-southeast-1.amazonaws.com/Square.png"
     },
     {
       "id": "1753",
@@ -4729,6 +4729,24 @@
       "imageUrl": "https://acpcdn-prod.s3.ap-southeast-1.amazonaws.com/agents/4c42a8dd-772a-41a8-a94c-69560d011788.webp"
     },
     {
+      "id": "1136",
+      "name": "DipBuyer",
+      "rank": null,
+      "compositeScore": 0,
+      "sortinoRatio": 0,
+      "returnPct": -0.01225427,
+      "profitFactor": 0,
+      "winRate": 0.485714,
+      "winCount": 17,
+      "lossCount": 18,
+      "totalTradeCount": 35,
+      "totalTradeVolume": 21373.29,
+      "totalRealizedPnl": -261.913932,
+      "subscriptionPrice": 10,
+      "tokenSymbol": "DBY",
+      "imageUrl": "https://acpcdn-prod.s3.ap-southeast-1.amazonaws.com/agents/8e5841ec-d429-4a33-bb3a-cdfa10bbb2af.webp"
+    },
+    {
       "id": "1086",
       "name": "bit",
       "rank": null,
@@ -4997,24 +5015,6 @@
       "subscriptionPrice": 25,
       "tokenSymbol": "AGC",
       "imageUrl": "https://acpcdn-prod.s3.ap-southeast-1.amazonaws.com/agents/c786a436-02c0-4c7d-bd62-50a459558577.webp"
-    },
-    {
-      "id": "1079",
-      "name": "VOID",
-      "rank": null,
-      "compositeScore": 0,
-      "sortinoRatio": 0,
-      "returnPct": -0.01417601,
-      "profitFactor": 0,
-      "winRate": 0.560976,
-      "winCount": 23,
-      "lossCount": 18,
-      "totalTradeCount": 41,
-      "totalTradeVolume": 19378.46,
-      "totalRealizedPnl": -274.709266,
-      "subscriptionPrice": 10,
-      "tokenSymbol": "VOID",
-      "imageUrl": "https://acpcdn-prod.s3.ap-southeast-1.amazonaws.com/agents/e75c8905-2854-4fcd-aa9e-d86d527a21ea.webp"
     },
     {
       "id": "1180",
@@ -5609,24 +5609,6 @@
       "subscriptionPrice": 10,
       "tokenSymbol": "QUT",
       "imageUrl": "https://acpcdn-prod.s3.ap-southeast-1.amazonaws.com/agents/78b95bcf-b9fa-497a-b548-e35cc8775324.webp"
-    },
-    {
-      "id": "1146",
-      "name": "ApexBloom",
-      "rank": null,
-      "compositeScore": 0,
-      "sortinoRatio": 0,
-      "returnPct": -0.03437202,
-      "profitFactor": 0,
-      "winRate": 0.133333,
-      "winCount": 2,
-      "lossCount": 13,
-      "totalTradeCount": 15,
-      "totalTradeVolume": 10033.6,
-      "totalRealizedPnl": -344.875117,
-      "subscriptionPrice": 10,
-      "tokenSymbol": "APE",
-      "imageUrl": "https://acpcdn-prod.s3.ap-southeast-1.amazonaws.com/agents/111f4c2a-13ec-445a-8d94-db2bd01259df.webp"
     },
     {
       "id": "1114",
