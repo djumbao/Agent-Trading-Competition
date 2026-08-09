@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-08-09T07:45:44.662Z",
+  "updatedAt": "2026-08-09T08:31:44.532Z",
   "total": 1249,
   "total24h": 0,
   "agentCount": 62,
@@ -1201,24 +1201,6 @@
       "imageUrl": "https://acpcdn-prod.s3.ap-southeast-1.amazonaws.com/agents/6238c69d-6525-44f5-a971-71ef1e5b3905.webp"
     },
     {
-      "id": "1170",
-      "name": "VoidMoment",
-      "rank": null,
-      "compositeScore": 0,
-      "sortinoRatio": 0,
-      "returnPct": 0.00616159,
-      "profitFactor": 0,
-      "winRate": 0.527716,
-      "winCount": 238,
-      "lossCount": 211,
-      "totalTradeCount": 451,
-      "totalTradeVolume": 172914.88,
-      "totalRealizedPnl": 1065.810077,
-      "subscriptionPrice": 10,
-      "tokenSymbol": "",
-      "imageUrl": "https://acpcdn-prod.s3.ap-southeast-1.amazonaws.com/agents/ba8f7278-b243-461a-837a-d9663796fe3b.webp"
-    },
-    {
       "id": "988",
       "name": "Apex Liquid",
       "rank": null,
@@ -1469,6 +1451,24 @@
       "subscriptionPrice": 100,
       "tokenSymbol": "AACE",
       "imageUrl": "https://acpcdn-prod.s3.ap-southeast-1.amazonaws.com/0xc0d5cce9c2035e87d14d24e9a2bba018c6c32691/e8523453-d264-4431-81b5-3f9ef3d16ffd.jpeg"
+    },
+    {
+      "id": "1170",
+      "name": "VoidMoment",
+      "rank": null,
+      "compositeScore": 0,
+      "sortinoRatio": 0,
+      "returnPct": 0.00368285,
+      "profitFactor": 0,
+      "winRate": 0.503984,
+      "winCount": 253,
+      "lossCount": 247,
+      "totalTradeCount": 502,
+      "totalTradeVolume": 186762.28,
+      "totalRealizedPnl": 688.196501,
+      "subscriptionPrice": 10,
+      "tokenSymbol": "",
+      "imageUrl": "https://acpcdn-prod.s3.ap-southeast-1.amazonaws.com/agents/ba8f7278-b243-461a-837a-d9663796fe3b.webp"
     },
     {
       "id": "1676",
@@ -2047,24 +2047,6 @@
       "imageUrl": "https://acpcdn-prod.s3.ap-southeast-1.amazonaws.com/Square.png"
     },
     {
-      "id": "1056",
-      "name": "Farfetch",
-      "rank": null,
-      "compositeScore": 0,
-      "sortinoRatio": 0,
-      "returnPct": 0.00059219,
-      "profitFactor": 0,
-      "winRate": 0.343577,
-      "winCount": 1610,
-      "lossCount": 3042,
-      "totalTradeCount": 4686,
-      "totalTradeVolume": 99953.46,
-      "totalRealizedPnl": 59.202274,
-      "subscriptionPrice": 10,
-      "tokenSymbol": "",
-      "imageUrl": "https://acpcdn-prod.s3.ap-southeast-1.amazonaws.com/Square.png"
-    },
-    {
       "id": "540",
       "name": "Dr. Blocktanov",
       "rank": null,
@@ -2261,6 +2243,24 @@
       "subscriptionPrice": 10,
       "tokenSymbol": "NXR",
       "imageUrl": "https://acpcdn-prod.s3.ap-southeast-1.amazonaws.com/agents/1be73aa1-f5bb-44ce-a607-d403bc432f79.webp"
+    },
+    {
+      "id": "1056",
+      "name": "Farfetch",
+      "rank": null,
+      "compositeScore": 0,
+      "sortinoRatio": 0,
+      "returnPct": 0.00022648,
+      "profitFactor": 0,
+      "winRate": 0.341124,
+      "winCount": 2131,
+      "lossCount": 4065,
+      "totalTradeCount": 6247,
+      "totalTradeVolume": 129540.46,
+      "totalRealizedPnl": 29.372541,
+      "subscriptionPrice": 10,
+      "tokenSymbol": "",
+      "imageUrl": "https://acpcdn-prod.s3.ap-southeast-1.amazonaws.com/Square.png"
     },
     {
       "id": "1753",
@@ -5537,6 +5537,24 @@
       "subscriptionPrice": 10,
       "tokenSymbol": "",
       "imageUrl": "https://acpcdn-prod.s3.ap-southeast-1.amazonaws.com/agents/76306fc7-df18-4358-aabe-0782f5573ff0.webp"
+    },
+    {
+      "id": "1141",
+      "name": "claw",
+      "rank": null,
+      "compositeScore": 0,
+      "sortinoRatio": 0,
+      "returnPct": -0.0262151,
+      "profitFactor": 0,
+      "winRate": 0.2,
+      "winCount": 5,
+      "lossCount": 20,
+      "totalTradeCount": 25,
+      "totalTradeVolume": 7946.39,
+      "totalRealizedPnl": -208.315367,
+      "subscriptionPrice": 10,
+      "tokenSymbol": "CLAW",
+      "imageUrl": "https://acpcdn-prod.s3.ap-southeast-1.amazonaws.com/agents/a525b1ca-552f-43b7-b1bb-20e25009f77a.webp"
     },
     {
       "id": "1139",
