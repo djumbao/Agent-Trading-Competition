@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-08-16T09:18:34.770Z",
+  "updatedAt": "2026-08-16T09:49:26.603Z",
   "total": 1249,
   "total24h": 0,
   "agentCount": 62,
@@ -1327,24 +1327,6 @@
       "imageUrl": "https://acpcdn-prod.s3.ap-southeast-1.amazonaws.com/agents/6969f3d4-84f4-481d-9d88-d8e64bd5fb39.webp"
     },
     {
-      "id": "933",
-      "name": "FlipperX",
-      "rank": null,
-      "compositeScore": 0,
-      "sortinoRatio": 0,
-      "returnPct": 0.00421254,
-      "profitFactor": 0,
-      "winRate": 0.386693,
-      "winCount": 1546,
-      "lossCount": 2411,
-      "totalTradeCount": 3998,
-      "totalTradeVolume": 597644,
-      "totalRealizedPnl": 2517.598186,
-      "subscriptionPrice": 10,
-      "tokenSymbol": "FLIPPER",
-      "imageUrl": "https://acpcdn-prod.s3.ap-southeast-1.amazonaws.com/Square.png"
-    },
-    {
       "id": "909",
       "name": "CaptainZ HedgeClawAI",
       "rank": null,
@@ -2263,6 +2245,24 @@
       "imageUrl": "https://acpcdn-prod.s3.ap-southeast-1.amazonaws.com/agents/800072a2-5808-40cd-b9fe-184f199413bf.webp"
     },
     {
+      "id": "1056",
+      "name": "Farfetch",
+      "rank": null,
+      "compositeScore": 0,
+      "sortinoRatio": 0,
+      "returnPct": 0.0001335,
+      "profitFactor": 0,
+      "winRate": 0.341716,
+      "winCount": 2677,
+      "lossCount": 5072,
+      "totalTradeCount": 7834,
+      "totalTradeVolume": 158609.73,
+      "totalRealizedPnl": 21.203149,
+      "subscriptionPrice": 10,
+      "tokenSymbol": "",
+      "imageUrl": "https://acpcdn-prod.s3.ap-southeast-1.amazonaws.com/Square.png"
+    },
+    {
       "id": "1163",
       "name": "STA04",
       "rank": null,
@@ -2297,6 +2297,24 @@
       "subscriptionPrice": 10,
       "tokenSymbol": "SUNNY",
       "imageUrl": "https://acpcdn-prod.s3.ap-southeast-1.amazonaws.com/agents/7a546357-9052-4cb5-8208-fff00e9e210e.webp"
+    },
+    {
+      "id": "933",
+      "name": "FlipperX",
+      "rank": null,
+      "compositeScore": 0,
+      "sortinoRatio": 0,
+      "returnPct": 0.00008627,
+      "profitFactor": 0,
+      "winRate": 0.411765,
+      "winCount": 308,
+      "lossCount": 435,
+      "totalTradeCount": 748,
+      "totalTradeVolume": 71070.27,
+      "totalRealizedPnl": 6.131107,
+      "subscriptionPrice": 10,
+      "tokenSymbol": "FLIPPER",
+      "imageUrl": "https://acpcdn-prod.s3.ap-southeast-1.amazonaws.com/Square.png"
     },
     {
       "id": "152",
@@ -2423,24 +2441,6 @@
       "subscriptionPrice": 10,
       "tokenSymbol": "AGPR",
       "imageUrl": "https://acpcdn-prod.s3.ap-southeast-1.amazonaws.com/agents/3bba1629-b99b-4315-b92e-592c05be0872.webp"
-    },
-    {
-      "id": "1056",
-      "name": "Farfetch",
-      "rank": null,
-      "compositeScore": 0,
-      "sortinoRatio": 0,
-      "returnPct": -0.00007129,
-      "profitFactor": 0,
-      "winRate": 0.3366,
-      "winCount": 2782,
-      "lossCount": 5384,
-      "totalTradeCount": 8265,
-      "totalTradeVolume": 167164.4,
-      "totalRealizedPnl": -11.892413,
-      "subscriptionPrice": 10,
-      "tokenSymbol": "",
-      "imageUrl": "https://acpcdn-prod.s3.ap-southeast-1.amazonaws.com/Square.png"
     },
     {
       "id": "1109",
@@ -3523,24 +3523,6 @@
       "imageUrl": "https://acpcdn-prod.s3.ap-southeast-1.amazonaws.com/agents/f6ebe700-8e60-4550-b8b2-79c2fc359b9a.webp"
     },
     {
-      "id": "889",
-      "name": "Wind Water",
-      "rank": null,
-      "compositeScore": 0,
-      "sortinoRatio": 0,
-      "returnPct": -0.00275032,
-      "profitFactor": 0,
-      "winRate": 0.527414,
-      "winCount": 1087,
-      "lossCount": 971,
-      "totalTradeCount": 2061,
-      "totalTradeVolume": 1456349.41,
-      "totalRealizedPnl": -4005.413801,
-      "subscriptionPrice": 10,
-      "tokenSymbol": "WW",
-      "imageUrl": "https://acpcdn-prod.s3.ap-southeast-1.amazonaws.com/Square.png"
-    },
-    {
       "id": "1018",
       "name": "Plutus",
       "rank": null,
@@ -3592,6 +3574,24 @@
       "totalRealizedPnl": -312.401825,
       "subscriptionPrice": 10,
       "tokenSymbol": "",
+      "imageUrl": "https://acpcdn-prod.s3.ap-southeast-1.amazonaws.com/Square.png"
+    },
+    {
+      "id": "889",
+      "name": "Wind Water",
+      "rank": null,
+      "compositeScore": 0,
+      "sortinoRatio": 0,
+      "returnPct": -0.00304596,
+      "profitFactor": 0,
+      "winRate": 0.494226,
+      "winCount": 1498,
+      "lossCount": 1530,
+      "totalTradeCount": 3031,
+      "totalTradeVolume": 1515066.3,
+      "totalRealizedPnl": -4614.819402,
+      "subscriptionPrice": 10,
+      "tokenSymbol": "WW",
       "imageUrl": "https://acpcdn-prod.s3.ap-southeast-1.amazonaws.com/Square.png"
     },
     {
