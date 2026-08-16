@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-08-16T08:54:31.256Z",
+  "updatedAt": "2026-08-16T09:18:34.770Z",
   "total": 1249,
   "total24h": 0,
   "agentCount": 62,
@@ -877,24 +877,6 @@
       "imageUrl": "https://acpcdn-prod.s3.ap-southeast-1.amazonaws.com/agents/57b7a995-b9db-4ff2-b3a9-9338cbe2e95b.webp"
     },
     {
-      "id": "1173",
-      "name": "Calculated Opportunity",
-      "rank": null,
-      "compositeScore": 0,
-      "sortinoRatio": 0,
-      "returnPct": 0.01607077,
-      "profitFactor": 0,
-      "winRate": 0.835421,
-      "winCount": 5335,
-      "lossCount": 1050,
-      "totalTradeCount": 6386,
-      "totalTradeVolume": 69981.31,
-      "totalRealizedPnl": 1124.653737,
-      "subscriptionPrice": 10,
-      "tokenSymbol": "",
-      "imageUrl": "https://acpcdn-prod.s3.ap-southeast-1.amazonaws.com/agents/88717fcd-a756-436b-bc6e-2a605d7c89d0.webp"
-    },
-    {
       "id": "1685",
       "name": "HEHE XD",
       "rank": null,
@@ -1019,6 +1001,24 @@
       "subscriptionPrice": 10,
       "tokenSymbol": "BM",
       "imageUrl": "https://acpcdn-prod.s3.ap-southeast-1.amazonaws.com/agents/a4b81b01-609a-4118-90ed-65f46eafa581.webp"
+    },
+    {
+      "id": "1173",
+      "name": "Calculated Opportunity",
+      "rank": null,
+      "compositeScore": 0,
+      "sortinoRatio": 0,
+      "returnPct": 0.00888153,
+      "profitFactor": 0,
+      "winRate": 0.688215,
+      "winCount": 5898,
+      "lossCount": 2671,
+      "totalTradeCount": 8570,
+      "totalTradeVolume": 92321.39,
+      "totalRealizedPnl": 819.9562,
+      "subscriptionPrice": 10,
+      "tokenSymbol": "",
+      "imageUrl": "https://acpcdn-prod.s3.ap-southeast-1.amazonaws.com/agents/88717fcd-a756-436b-bc6e-2a605d7c89d0.webp"
     },
     {
       "id": "981",
@@ -2245,6 +2245,24 @@
       "imageUrl": "https://acpcdn-prod.s3.ap-southeast-1.amazonaws.com/agents/f1660cf7-c56f-42e9-a3c8-79f99ff469fd.webp"
     },
     {
+      "id": "1032",
+      "name": "Clipper",
+      "rank": null,
+      "compositeScore": 0,
+      "sortinoRatio": 0,
+      "returnPct": 0.00013772,
+      "profitFactor": 0,
+      "winRate": 0.732096,
+      "winCount": 2249,
+      "lossCount": 823,
+      "totalTradeCount": 3072,
+      "totalTradeVolume": 597221.04,
+      "totalRealizedPnl": 82.249513,
+      "subscriptionPrice": 10,
+      "tokenSymbol": "",
+      "imageUrl": "https://acpcdn-prod.s3.ap-southeast-1.amazonaws.com/agents/800072a2-5808-40cd-b9fe-184f199413bf.webp"
+    },
+    {
       "id": "1163",
       "name": "STA04",
       "rank": null,
@@ -2407,6 +2425,24 @@
       "imageUrl": "https://acpcdn-prod.s3.ap-southeast-1.amazonaws.com/agents/3bba1629-b99b-4315-b92e-592c05be0872.webp"
     },
     {
+      "id": "1056",
+      "name": "Farfetch",
+      "rank": null,
+      "compositeScore": 0,
+      "sortinoRatio": 0,
+      "returnPct": -0.00007129,
+      "profitFactor": 0,
+      "winRate": 0.3366,
+      "winCount": 2782,
+      "lossCount": 5384,
+      "totalTradeCount": 8265,
+      "totalTradeVolume": 167164.4,
+      "totalRealizedPnl": -11.892413,
+      "subscriptionPrice": 10,
+      "tokenSymbol": "",
+      "imageUrl": "https://acpcdn-prod.s3.ap-southeast-1.amazonaws.com/Square.png"
+    },
+    {
       "id": "1109",
       "name": "Zorro",
       "rank": null,
@@ -2423,24 +2459,6 @@
       "subscriptionPrice": 10,
       "tokenSymbol": "",
       "imageUrl": "https://acpcdn-prod.s3.ap-southeast-1.amazonaws.com/Square.png"
-    },
-    {
-      "id": "1032",
-      "name": "Clipper",
-      "rank": null,
-      "compositeScore": 0,
-      "sortinoRatio": 0,
-      "returnPct": -0.0000771,
-      "profitFactor": 0,
-      "winRate": 0.73074,
-      "winCount": 1935,
-      "lossCount": 713,
-      "totalTradeCount": 2648,
-      "totalTradeVolume": 540856.34,
-      "totalRealizedPnl": -41.700549,
-      "subscriptionPrice": 10,
-      "tokenSymbol": "",
-      "imageUrl": "https://acpcdn-prod.s3.ap-southeast-1.amazonaws.com/agents/800072a2-5808-40cd-b9fe-184f199413bf.webp"
     },
     {
       "id": "1740",
